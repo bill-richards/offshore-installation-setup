@@ -1,0 +1,57 @@
+﻿<Window x:Class="offshore.installation.setup.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:offshore.installation.setup"
+        mc:Ignorable="d"
+        Title="SQLite Example" Height="450" Width="800">
+    <Grid>
+        <StackPanel Orientation="Vertical" VerticalAlignment="Top">
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0 10 10 0">
+                <StackPanel Orientation="Horizontal">
+                    <Button Padding="5 5" Width="110" Command="{Binding CreateBooksDatabaseButtonClick}">Set Books Data</Button>
+                    <Button Padding="5 5" Width="120" Command="{Binding GetBooksDataButtonClick}">Retrieve Books Data</Button>
+                    <Button Padding="5 5" Width="110" Command="{Binding ClearBooksDataButtonClick}">Clear Books Data</Button>
+                    <Button Padding="5 5" Width="110" Command="{Binding DeleteBooksDataButtonClick}">Delete Books Data</Button>
+                </StackPanel>
+            </StackPanel>
+            <ListView Name="PublishersView" Margin="10,10" ItemsSource="{Binding Publishers}" HorizontalAlignment="Left"  >
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="ID" 
+                          DisplayMemberBinding="{Binding Id}" Width="40"/>
+                        <GridViewColumn Header="Publisher" 
+                          DisplayMemberBinding="{Binding Name}" Width="150" />
+                    </GridView>
+                </ListView.View>
+            </ListView>
+            <ListView Name="BooksView" Margin="10,10" ItemsSource="{Binding Books}" HorizontalAlignment="Left"  >
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="ISBN" 
+                          DisplayMemberBinding="{Binding ISBN}" Width="105"/>
+                        <GridViewColumn Header="Title" 
+                          DisplayMemberBinding="{Binding Title}"  Width="150" />
+                        <GridViewColumn Header="Author" 
+                          DisplayMemberBinding="{Binding Author}" Width="140" />
+                        <GridViewColumn Header="Language" 
+                          DisplayMemberBinding="{Binding Language}" Width="80" />
+                        <GridViewColumn Header="Publisher" 
+                          DisplayMemberBinding="{Binding Publisher.Name}" Width="150" />
+                    </GridView>
+                </ListView.View>
+            </ListView>
+
+            <StackPanel Orientation="Vertical" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0 10 10 0">
+                <StackPanel Orientation="Horizontal">
+                    <Button Padding="5 5" Width="110" Command="{Binding CreateOsOpDatabaseButtonClick}">Set OSOP Data</Button>
+                    <Button Padding="5 5" Width="120" Command="{Binding GetOsOpDataButtonClick}">Retrieve OSOP Data</Button>
+                    <Button Padding="5 5" Width="110" Command="{Binding ClearOsOpDataButtonClick}">Clear OSOP Data</Button>
+                    <Button Padding="5 5" Width="110" Command="{Binding DeleteOsOpDataButtonClick}">Delete OSOP Data</Button>
+                </StackPanel>
+
+            </StackPanel>
+        </StackPanel>
+    </Grid>
+</Window>
