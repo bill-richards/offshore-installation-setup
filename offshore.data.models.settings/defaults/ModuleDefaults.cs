@@ -1,5 +1,6 @@
 ﻿namespace offshore.data.models.settings.defaults;
 
+
 public static class ModuleDefaults
 {
     public static void PopulateDatabase(IOffshoreDbContext context)

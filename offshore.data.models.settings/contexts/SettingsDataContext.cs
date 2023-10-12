@@ -6,8 +6,8 @@ namespace offshore.data.sqlite;
 
 public class SettingsDataContext : OffshoreDbContext, ISettingsDataContext
 {
-    public SettingsDataContext(IOffshoreDbConfiguration databaseConfiguration, string path = "", bool create = true)
-        : base(databaseConfiguration, path, create) { }
+    public SettingsDataContext(IOffshoreDbConfiguration databaseConfiguration, string path, string databaseType = "SqlExpress", bool create = true)
+        : base(databaseConfiguration, databaseType, path, create) { }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) 
         => DatabaseConfiguration.OnConfiguring(optionsBuilder, FilePath);

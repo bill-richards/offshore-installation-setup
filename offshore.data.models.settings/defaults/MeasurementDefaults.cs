@@ -54,13 +54,13 @@ public static class MeasurementDefaults
         measurementDataUnit = new MeasurementDataUnit { Measurement = measurement, MeasurementUnit = unit };
         context.AddToDbSet(measurementDataUnit);
 
-        unit = new MeasurementUnit { Description = "Degree Celsius", Label = "\xB0C", Factor = 1 };
+        unit = new MeasurementUnit { Description = "Degree Celsius", Label = "\xB0 C", Factor = 1 };
         measurement = new Measurement { Name = "Temperature", DefaultUnit = unit };
         context.AddToDbSet(unit);
         measurementDataUnit = new MeasurementDataUnit { Measurement = measurement, MeasurementUnit = unit };
         context.AddToDbSet(measurementDataUnit);
 
-        unit = new MeasurementUnit { Description = "Degree Fahrenheit", Label = "\xB0F", Factor = 1.8 };
+        unit = new MeasurementUnit { Description = "Degree Fahrenheit", Label = "\xB0 F", Factor = 1.8 };
         context.AddToDbSet(unit);
         measurementDataUnit = new MeasurementDataUnit { Measurement = measurement, MeasurementUnit = unit };
         context.AddToDbSet(measurementDataUnit);

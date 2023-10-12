@@ -3,51 +3,51 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace offshore.data.models.settings;
 
-[Table("tblConfig")]
+//[Table("tblConfig")]
 public class SiteConfiguration : OffshoreDataModel
 {
-    [Column("ConfigId")]
+    //    [Column("ConfigId")]
     public uint Id { get; set; }
 
     public uint ReceiverType { get; set; }
 
-    [Column("CommPort")]
+    //[Column("CommPort")]
     public uint PortNumber { get; set; }
 
-    [Column("CommBaud")]
+    //[Column("CommBaud")]
     public uint BaudRate { get; set; }
 
-    [Column("TCPPort")]
+    //[Column("TCPPort")]
     public uint TcpPort { get; set; }
 
-    [Column("LogDataMonths")]
+    //[Column("LogDataMonths")]
     public uint LogData { get; set; }
 
     public Site? Site { get; set; }
 
-    [Column("SyncSQL")]
+    //[Column("SyncSQL")]
     public string SqlConnection { get; set; } = VALUE_NOT_SET;
 
-    [Column("SyncLicense")]
+    //[Column("SyncLicense")]
     public string SynchronisationLicence { get; set; } = VALUE_NOT_SET;
 
-    [Column("SyncUsername")]
+    //[Column("SyncUsername")]
     public string SynchronisationUser { get; set; } = "sa";
 
-    [Column("SyncPassword")]
+    //    [Column("SyncPassword")]
     public string SynchronisationPassword { get; set; } = VALUE_NOT_SET;
 
     public uint TimeZone { get; set; }
 
     public bool AudibleAlarm { get; set; } = false;
 
-    [Column("SMSAlarm")]
+    //[Column("SMSAlarm")]
     public bool SmsAlarm { get; set; } = false;
 
-    [Column("SMSFrom")]
+    //[Column("SMSFrom")]
     public string SmsSender { get; set; } = "TELEMETRY";
 
-    [Column("SMSInterval")]
+    //[Column("SMSInterval")]
     public uint SmsInterval { get; set; }
 
     public bool EmailAlarm { get; set; } = false;

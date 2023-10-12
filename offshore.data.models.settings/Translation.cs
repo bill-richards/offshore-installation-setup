@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace offshore.data.models.settings;
 
-[Table("tblTranslations")]
+//[Table("tblTranslations")]
 public class Translation : OffshoreDataModel
 {
     public uint Id { get; set; }
@@ -18,7 +18,6 @@ public class Translation : OffshoreDataModel
     {
         modelBuilder.Entity<Translation>(e =>
         {
-            e.HasIndex(p => p.Id);
             e.HasOne(p => p.Language).WithMany(e => e.Translations);
             e.HasOne(p => p.TranslatableString).WithMany(e => e.Translations);  
         });

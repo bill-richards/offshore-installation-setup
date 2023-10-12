@@ -1,5 +1,4 @@
-﻿using example.data;
-using offshore.data.models.settings;
+﻿using offshore.data.models.settings;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows.Input;
@@ -8,14 +7,6 @@ namespace offshore.installation.setup.ViewModels;
 
 public interface IMainWindowModel : INotifyPropertyChanged
 {
-    ObservableCollection<Book> Books { get; }
-    ObservableCollection<Publisher> Publishers { get; }
-
-    ICommand CreateBooksDatabaseButtonClick { get; }
-    ICommand DeleteBooksDataButtonClick { get; }
-    ICommand GetBooksDataButtonClick { get; }
-    ICommand ClearBooksDataButtonClick { get; }
-
     ObservableCollection<Alarm> Alarms { get; }
     ObservableCollection<Calibration> Calibrations { get; }
     ObservableCollection<ChangeLog> ChangeLogs { get; }

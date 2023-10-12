@@ -4,5 +4,6 @@ namespace offshore.data;
 
 public interface IOffshoreDbConfiguration
 {
+    string DatabaseType { get; }
     void OnConfiguring(DbContextOptionsBuilder optionsBuilder, string filePath = "");
 }

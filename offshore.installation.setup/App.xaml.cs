@@ -8,6 +8,8 @@ using offshore.data.sqlite.contexts;
 using offshore.services;
 using System;
 using System.Windows;
+using System.Linq;
+using offshore.data.sqlexpress;
 
 namespace offshore.installation.setup;
 
@@ -17,31 +19,46 @@ public partial class App : Application
 
     public App()
     {
+        var configurationFile = new DataConfigurationFile();
+        var siteConfiguration = configurationFile!.SiteConfiguration;
+        var store = siteConfiguration.Store;
+
         AppHost = Host.CreateDefaultBuilder()
             .ConfigureServices((hostContext, services) =>
             {
                 services.AddSingleton<MainWindow>();
-                services.AddSingleton<DataConfigurationFile>();
-
                 services.AddTransient<IMainWindowModel, MainWindowModel>();
-                services.AddTransient<IOffshoreDbConfiguration, OffshoreSqliteDbConfiguration>();
-                
-                services.AddFactory<ILibraryContext, LibraryContext>(factory: provider =>
-                {
-                    var dataConfiguration = (provider.GetService(typeof(DataConfigurationFile)) as DataConfigurationFile)!.Configuration;
-                    var databaseConfiguration = provider.GetService(typeof(IOffshoreDbConfiguration)) as IOffshoreDbConfiguration;
-                    var path = $"{dataConfiguration.DataFolder}/Books_{DateTime.Now.Year}{DateTime.Now.Month}.sqlite";
-                    return new LibraryContext(databaseConfiguration!, path);
-                });
-                services.AddFactory<ISettingsDataContext, SettingsDataContext>(factory: provider =>
-                {
-                    var dataConfiguration = (provider.GetService(typeof(DataConfigurationFile)) as DataConfigurationFile)!.Configuration;
-                    var databaseConfiguration = provider.GetService(typeof(IOffshoreDbConfiguration)) as IOffshoreDbConfiguration;
-                    var path = $"{dataConfiguration.DataFolder}/{dataConfiguration.Licence}OPSTELSET.sqlite";
-                    return new SettingsDataContext(databaseConfiguration!, path);
-                });
+
+                if(store!.Equals("express"))
+                    ConfigureSqlExpressStore(services, configurationFile.ExpressConfiguration);
+                else
+                    ConfigureSqliteStore(services, configurationFile.LiteConfiguration, siteConfiguration!.Licence);
 
             }).Build();
+    }
+
+    private static void ConfigureSqlExpressStore(IServiceCollection services, DataConfigurationFile configuration)
+    {
+        services.AddTransient<IOffshoreDbConfiguration, OffshoreSqlExpressDbConfiguration>();
+        services.AddFactory<ISettingsDataContext, SettingsDataContext>(factory: provider =>
+        {
+            var connectionString = $"server={configuration.Server};database={configuration.Database};trusted_connection=true;TrustServerCertificate=True";
+
+            var databaseConfiguration = provider.GetService<IOffshoreDbConfiguration>(); //.First(s => s.DatabaseType == "SqlExpress");
+            return new SettingsDataContext(databaseConfiguration!, connectionString);
+        });
+    }
+
+    private static void ConfigureSqliteStore(IServiceCollection services, DataConfigurationFile configuration, uint? licence)
+    {
+        services.AddTransient<IOffshoreDbConfiguration, OffshoreSqliteDbConfiguration>();
+        services.AddFactory<ISettingsDataContext, SettingsDataContext>(factory: provider =>
+        {
+            var path = $"{configuration.DataFolder}/{licence}OPSTELSET.sqlite";
+
+            var databaseConfiguration = provider.GetService<IOffshoreDbConfiguration>(); //.First(s => s.DatabaseType == "Sqlite");
+            return new SettingsDataContext(databaseConfiguration!, path, "Sqlite");
+        });
     }
 
     protected override async void OnStartup(StartupEventArgs e)

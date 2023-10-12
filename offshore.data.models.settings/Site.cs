@@ -4,10 +4,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace offshore.data.models.settings;
 
-[Table("tblSite")]
+//[Table("tblSite")]
 public class Site : OffshoreDataModel
 {
-    [Column("SiteId"), Required]
+    //    [Column("SiteId"), Required]
     public uint Id { get; set; }
 
     public string Name { get; set; } = VALUE_NOT_SET;

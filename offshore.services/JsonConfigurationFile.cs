@@ -4,19 +4,14 @@ namespace offshore.services;
 
 public abstract class JsonConfigurationFile<TConfigurationType>
 {
-    private static TConfigurationType? _theConfiguration;
-
-    public static TConfigurationType GetConfiguration(string fileName, string topmostSectionName)
+    public TConfigurationType GetConfiguration(string fileName, string sectionName)
     {
-        if (_theConfiguration != null) return _theConfiguration;
-
         var config = new ConfigurationBuilder()
             .SetBasePath(AppDomain.CurrentDomain.BaseDirectory)
             .AddJsonFile(fileName).Build();
 
-        var section = config.GetSection(topmostSectionName);
-        _theConfiguration = section.Get<TConfigurationType>();
+        var section = config.GetSection(sectionName);
 
-        return _theConfiguration!;
+        return section.Get<TConfigurationType>()!;
     }
 }

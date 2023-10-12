@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace offshore.data.models.settings;
 
-[Table("tblTranslatableStrings")]
+//[Table("tblTranslatableStrings")]
 public class TranslatableString : OffshoreDataModel
 {
     public uint Id { get; set; }

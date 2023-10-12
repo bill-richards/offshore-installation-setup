@@ -5,22 +5,22 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace offshore.data.models.settings;
 
-[Table("tblLiveData")]
+//[Table("tblLiveData")]
 public class LiveDatum : OffshoreDataModel
 {
-    [Column("LiveDataID")]
+    //    [Column("LiveDataID")]
     public uint Id { get; set; }
 
-    [Column("LiveDataDate")]
+    //[Column("LiveDataDate")]
     public DateTime Date { get; set; }
 
-    [Column("LiveDataSPMID"), Required]
+    //[Column("LiveDataSPMID"), Required]
     public SinglePointMooring? Spm { get; set; }
 
-    [Column("LiveDataRef"), Required]
+    //[Column("LiveDataRef"), Required]
     public Telemetry? TelemetryData { get; set; }
 
-    [Column("LiveDataProc"), MaxLength(300)]
+    //[Column("LiveDataProc"), MaxLength(300)]
     public string Processed { get; set; } = VALUE_NOT_SET;
 
     public override void OnModelCreating(ModelBuilder modelBuilder)

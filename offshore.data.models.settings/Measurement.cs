@@ -4,16 +4,16 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace offshore.data.models.settings;
 
-[Table("tblMeasure")]
+//[Table("tblMeasure")]
 public class Measurement : OffshoreDataModel
 {
-    [Column("MeasureId"), Required]
+    //    [Column("MeasureId"), Required]
     public uint Id { get; set; }
 
-    [Column("Measure")]
+    //[Column("Measure")]
     public string Name { get; set; } = VALUE_NOT_SET;
 
-    [Column("MUnitIdDefault")]
+    //[Column("MUnitIdDefault")]
     public MeasurementUnit? DefaultUnit { get; set; }
 
     public override void OnModelCreating(ModelBuilder modelBuilder)

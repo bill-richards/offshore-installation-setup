@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace offshore.data.models.settings;
 
-[Table("tblSpmModules")]
+//[Table("tblSpmModules")]
 public class SinglePointMooringModule : OffshoreDataModel
 {
     public uint Id { get; set; }

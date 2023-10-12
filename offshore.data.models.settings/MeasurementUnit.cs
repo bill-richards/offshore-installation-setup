@@ -3,20 +3,20 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace offshore.data.models.settings;
 
-[Table("tblMUnit")]
+//[Table("tblMUnit")]
 public class MeasurementUnit : OffshoreDataModel
 {
-    [Column("MUnitId")]
+    //    [Column("MUnitId")]
     public uint Id { get; set; }
 
-    [Column("MUnitDesc")]
+    //[Column("MUnitDesc")]
     public string Description { get; set; } = VALUE_NOT_SET;
 
-    [Column("MUnitLabel")]
+    //[Column("MUnitLabel")]
     public string Label { get; set; } = VALUE_NOT_SET;
 
 
-    [Column("MUnitFactor")]
+    //[Column("MUnitFactor")]
     public double Factor { get; set; }
 
     public override void OnModelCreating(ModelBuilder modelBuilder)

@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace offshore.data.models.settings;
 
-[Table("tblSiteMeasurementDataUnits")]
+//[Table("tblSiteMeasurementDataUnits")]
 public class SiteMeasurementDataUnit : OffshoreDataModel
 {
     public uint Id { get; set; }

@@ -4,25 +4,49 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace offshore.data.models.settings;
 
-[Table("tblSPM")]
+//[Table("tblSPM")]
 public class SinglePointMooring : OffshoreDataModel
 {
-    [Column("SPMID")]
+    //    [Column("SPMID")]
     public uint Id { get; set; }
 
     public Site? Site { get; set; }
 
-    [Column("Active"), Required]
+    //[Column("Active"), Required]
     public bool IsActive { get; set; } = true;
 
-    [Column("SPMNo"), Required]
+    //[Column("SPMNo"), Required]
     public uint Index { get; set; }
 
-    [Column("SPMReference"), Required]
+    //[Column("SPMReference"), Required]
     public string Name { get; set; } = VALUE_NOT_SET;
 
-    public virtual ICollection<Module>? Modules { get; set; }
-    public virtual ICollection<Sensor>? Sensors { get; set; }
+    //[Column("CompassAdj")]
+    public int? CompassAdjustment { get; set; }
+
+    //[Column("WindAdj")]
+    public int? WindAdjustment { get; set; }
+
+    //[Column("AWCPos")]
+    public int? AwacPosition { get; set; }
+
+    //[Column("GPSPlumLat")]
+    public double? GpsPlumLattitude { get; set; }
+
+    //[Column("GPSPlumLong")]
+    public double? GpsPlumLongitude { get; set; }
+
+    public int? GpsToUse { get; set; }
+
+    //[Column("GPSDistAdj")]
+    public int? GpsDistanceAdjustment { get; set; }
+
+    //[Column("GPSBearAdj")]
+    public int? GpsBearingAdjustment { get; set; }
+
+    //[Column("SPMFrequency"), MaxLength(50)]
+    public string? Frequency { get; set; }
+
 
     public override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -30,7 +54,6 @@ public class SinglePointMooring : OffshoreDataModel
         {
             e.HasKey(e => e.Id);
             e.HasOne(e => e.Site).WithMany(r => r.SinglePointMoorings);
-            e.HasMany(e => e.Modules); //.WithOne(r => r.SinglePointMooring);
         });
     }
 }

@@ -4,9 +4,10 @@ namespace offshore.data;
 
 public abstract class OffshoreDbContext : DbContext, IOffshoreDbContext
 {
-    public OffshoreDbContext(IOffshoreDbConfiguration databaseConfiguration, string path = "", bool create = true)
+    public OffshoreDbContext(IOffshoreDbConfiguration databaseConfiguration, string databaseType, string path = "", bool create = true)
     {
         FilePath = path;
+        DatabaseType = databaseType;
         DatabaseConfiguration = databaseConfiguration;
         if (create)
         {
@@ -49,4 +50,5 @@ public abstract class OffshoreDbContext : DbContext, IOffshoreDbContext
     protected IOffshoreDbConfiguration DatabaseConfiguration { get; }
     public bool FreshDatabaseCreated { get; }
 
+    public string DatabaseType { get; }
 }

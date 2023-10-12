@@ -6,10 +6,10 @@ namespace example.data.models.contexts;
 
 public class LibraryContext : OffshoreDbContext, ILibraryContext
 {
-    public LibraryContext(IOffshoreDbConfiguration databaseConfiguration, string path = "", bool create = true)
-        : base(databaseConfiguration, path, create) { }
+    public LibraryContext(IOffshoreDbConfiguration databaseConfiguration, string path, string databaseType = "SqlExpress", bool create = true)
+        : base(databaseConfiguration, databaseType, path, create) { }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     => DatabaseConfiguration.OnConfiguring(optionsBuilder, FilePath);
     
     public override int SaveChanges() => base.SaveChanges();

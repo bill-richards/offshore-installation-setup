@@ -4,48 +4,44 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace offshore.data.models.settings;
 
-[Table("tblSensor")]
+//[Table("tblSensor")]
 public class Sensor : OffshoreDataModel
 {
     public uint Id { get; set; }
 
-    public Module? Module { get; set; }
 
-    [Column("TelDataRef")]
+    //    [Column("TelDataRef")]
     public Telemetry? Telemetry { get; set; }
 
 
-    [Column("SPMNo")]
-    public SinglePointMooring? Spm { get; set; }
-
-    [Column("TelRefArrayPos")]
+    //    [Column("TelRefArrayPos")]
     public uint DataArrayPosition { get; set; }
 
-    [Column("Sensor"), MaxLength(150)]
+    //[Column("Sensor"), MaxLength(150)]
     public string Name { get; set; } = VALUE_NOT_SET;
 
-    [Column("SensorSerialNo"), MaxLength(50)]
+    //[Column("SensorSerialNo"), MaxLength(50)]
     public string SerialNumber { get; set; } = VALUE_NOT_SET;
 
-    [Column("SensorMin"), MaxLength(18)]
+    //[Column("SensorMin"), MaxLength(18)]
     public double MinimumValue { get; set; }
 
-    [Column("SensorMax"), MaxLength(18)]
+    //[Column("SensorMax"), MaxLength(18)]
     public double MaximumValue { get; set; }
 
-    [Column("SensorValDecPlace")]
-    public uint DecimalPlaces { get; set; }
+    //[Column("SensorValDecPlace")]
+    public uint DecimalPlaces { get; set; } = 0;
 
-    [Column("MeasureId")]
+    //[Column("MeasureId")]
     public Measurement? Measurement { get; set; }
 
-    [Column("SensorDefaultMUnitId")]
+    //[Column("SensorDefaultMUnitId")]
     public MeasurementUnit? DefaultMeasurementUnit { get; set; }
 
-    [Column("SensorAlarmInterval")]
+    //[Column("SensorAlarmInterval")]
     public uint AlarmInterval { get; set; }
 
-    [Column("SensorActive")]
+    //[Column("SensorActive")]
     public bool IsActive { get; set; } = false;
 
     public override void OnModelCreating(ModelBuilder modelBuilder)
@@ -53,7 +49,6 @@ public class Sensor : OffshoreDataModel
         modelBuilder.Entity<Sensor>(e =>
         {
             e.HasKey(e => e.Id);
-            e.HasOne(e => e.Spm).WithMany(r => r.Sensors);
         });
     }
 }

@@ -4,10 +4,10 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace offshore.data.models.settings;
 
-[Table("tblConsignment")]
+//[Table("tblConsignment")]
 public class Consignment : OffshoreDataModel
 {
-    [Column("ConsignmentId"), Required]
+    //    [Column("ConsignmentId"), Required]
     public uint Id { get; set; }
 
     public SinglePointMooring? Spm { get; set; }
@@ -20,11 +20,11 @@ public class Consignment : OffshoreDataModel
 
     public uint TankerBeam {  get; set; }
 
-    [Column("ConStartDate")]
-    public DateOnly StartDate { get; set; }
+    //    [Column("ConStartDate")]
+    public DateTime StartDate { get; set; }
 
-    [Column("ConStopDate")]
-    public DateOnly EndDate { get; set; }
+    //    [Column("ConStopDate")]
+    public DateTime EndDate { get; set; }
 
     public uint BowOffset { get; set; }
 

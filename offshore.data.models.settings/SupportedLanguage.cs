@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace offshore.data.models.settings;
 
-[Table("tblSupportedLanguages")]
+//[Table("tblSupportedLanguages")]
 public class SupportedLanguage : OffshoreDataModel
 {
     public string? Id { get; set; }

@@ -4,33 +4,33 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace offshore.data.models.settings;
 
-[Table("tblCalibration")]
+//[Table("tblCalibration")]
 public class Calibration : OffshoreDataModel
 {
     public uint Id { get; set; }
 
-    [Column("SensorId"), Required]
+    //    [Column("SensorId"), Required]
     public Sensor? Sensor { get; set; }
 
-    [Column("TelRefArrayPos"), Required]
+    //[Column("TelRefArrayPos"), Required]
     public uint DataPosition { get; set; }
 
-    [Column("CalDate"), Required]
+    //[Column("CalDate"), Required]
     public DateTime? Date { get; set; }
 
-    [Column("CalRAW"), Required]
+    //[Column("CalRAW"), Required]
     public uint Raw { get; set; }
 
-    [Column("CalZero"), Required]
+    //    [Column("CalZero"), Required]
     public uint Zero { get; set; }
 
-    [Column("CalValue"), Required]
+    //[Column("CalValue"), Required]
     public double Value { get; set; }
 
-    [Column("Cal"), Required]
+    //[Column("Cal"), Required]
     public double Data {  get; set; }
 
-    [Column("CalDoneBy"), Required]
+    //[Column("CalDoneBy"), Required]
     public string CalibratedBy { get; set; } = VALUE_NOT_SET;
 
     public override void OnModelCreating(ModelBuilder modelBuilder)

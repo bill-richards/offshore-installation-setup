@@ -2,6 +2,7 @@
 
 public interface IOffshoreDbContext : IDisposable
 {
+    string DatabaseType { get; }
     string FilePath { get; set; }
     bool FreshDatabaseCreated { get; }
 

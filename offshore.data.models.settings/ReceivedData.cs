@@ -4,25 +4,25 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace offshore.data.models.settings;
 
-[Table("tblRecData")]
+//[Table("tblRecData")]
 public class ReceivedData : OffshoreDataModel
 {
-    [Column("RecDataID")]
+    //    [Column("RecDataID")]
     public uint Id { get; set; }
 
-    [Column("RecDataDate"), Required]
+    //[Column("RecDataDate"), Required]
     public DateTime Date { get; set; }
 
-    [Column("RecDataSPMID"), Required]
+    //[Column("RecDataSPMID"), Required]
     public SinglePointMooring? Spm { get; set; }
 
-    [Column("RecDataRef"), Required]
+    //[Column("RecDataRef"), Required]
     public Telemetry? TelemetryData { get; set; }
 
-    [Column("RecDataRaw"), Required, MaxLength(2000)]
+    //[Column("RecDataRaw"), Required, MaxLength(2000)]
     public string RawData { get; set; } = VALUE_NOT_SET;
 
-    [Column("RecDataProc"), MaxLength(300)]
+    //[Column("RecDataProc"), MaxLength(300)]
     public string ProcessedData { get; set; } = VALUE_NOT_SET;
 
     public override void OnModelCreating(ModelBuilder modelBuilder)

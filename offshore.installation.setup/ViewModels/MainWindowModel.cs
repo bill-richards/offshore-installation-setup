@@ -1,7 +1,4 @@
-﻿using example.data;
-using example.data.models.contexts;
-using example.data.models.defaults;
-using offshore.data.models.settings;
+﻿using offshore.data.models.settings;
 using offshore.data.models.settings.defaults;
 using offshore.data.sqlite.contexts;
 using offshore.services;
@@ -18,60 +15,13 @@ public class MainWindowModel : IMainWindowModel
 
     private void OnPropertyChanged(string propertyName) => PropertyChanged!(this, new PropertyChangedEventArgs(propertyName));
 
-    public MainWindowModel(IAbstractFactory<ILibraryContext> libraryFactory, IAbstractFactory<ISettingsDataContext> offshoreFactory)
+    public MainWindowModel(IAbstractFactory<ISettingsDataContext> offshoreFactory)
     {
-        LibraryContextFactory = libraryFactory;
-        ClearBooksDataButtonClick = new RelayCommand(new Action<object>(ClearBooksData));
-        DeleteBooksDataButtonClick = new RelayCommand(new Action<object>(DeleteBooksData));
-        GetBooksDataButtonClick = new RelayCommand(new Action<object>(GetBooksData));
-        CreateBooksDatabaseButtonClick = new RelayCommand(new Action<object>(PopulateBooksDatabase));
-
         OffshoreContextFactory = offshoreFactory;
         ClearOsOpDataButtonClick = new RelayCommand(new Action<object>(ClearOsOpData));
         DeleteOsOpDataButtonClick = new RelayCommand(new Action<object>(DeleteOsOpData));
         GetOsOpDataButtonClick = new RelayCommand(new Action<object>(GetOsOpData));
         CreateOsOpDatabaseButtonClick = new RelayCommand(new Action<object>(PopulateOsOpDatabase));
-    }
-
-    public ObservableCollection<Book> Books { get; } = new ObservableCollection<Book>();
-    public ObservableCollection<Publisher> Publishers { get; } = new ObservableCollection<Publisher>();
-
-    private IAbstractFactory<ILibraryContext> LibraryContextFactory { get; }
-
-    public ICommand CreateBooksDatabaseButtonClick { get; set; }
-    public ICommand ClearBooksDataButtonClick { get; set; }
-    public ICommand DeleteBooksDataButtonClick { get; set; }
-    public ICommand GetBooksDataButtonClick { get; set; }
-
-    private void PopulateBooksDatabase(object obj)
-    {
-        var libraryContext = LibraryContextFactory.Create();
-        BookDefaults.PopulateDatabase(ref libraryContext);
-    }
-
-    private void ClearBooksData(object obj)
-    {
-        Books.Clear();
-        Publishers.Clear();
-    }
-
-    private void DeleteBooksData(object obj)
-    {
-        ClearBooksData(obj);
-        using var context = LibraryContextFactory.Create();
-
-        context.DeleteAllRecords<Publisher>()
-            .DeleteAllRecords<Book>();
-
-        context.SaveChanges();
-    }
-
-    private void GetBooksData(object obj)
-    {
-        ClearBooksData(obj);
-        using var context = LibraryContextFactory.Create();
-        Books.AddRange(context.Books);
-        Publishers.AddRange(context.Publishers);
     }
 
     public IAbstractFactory<ISettingsDataContext> OffshoreContextFactory { get; }
