@@ -42,9 +42,9 @@ public class Alarm : OffshoreDataModel
 
     public override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<Alarm>(entity =>
+        modelBuilder.Entity<Alarm>(e =>
         {
-            entity.HasIndex(r => r.Id);
+            e.HasIndex(r => r.Id);
         });
     }
 }

@@ -1,16 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using offshore.data.models.settings;
-using offshore.data.sqlite.contexts;
 
-namespace offshore.data.sqlite;
+namespace offshore.data.models.settings.contexts;
 
 public class SettingsDataContext : OffshoreDbContext, ISettingsDataContext
 {
-    public SettingsDataContext(IOffshoreDbConfiguration databaseConfiguration, string path, string databaseType = "SqlExpress", bool create = true)
-        : base(databaseConfiguration, databaseType, path, create) { }
+    public SettingsDataContext(IOffshoreDbConfiguration databaseConfiguration, string databaseType = "SqlExpress", bool create = true)
+        : base(databaseConfiguration, databaseType, create) { }
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) 
-        => DatabaseConfiguration.OnConfiguring(optionsBuilder, FilePath);
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        => DatabaseConfiguration.OnConfiguring(optionsBuilder);
 
     public override int SaveChanges() => base.SaveChanges();
 
@@ -22,7 +20,7 @@ public class SettingsDataContext : OffshoreDbContext, ISettingsDataContext
     public DbSet<MeasurementDataUnit> MeasurementDataUnits { get; set; }
     public DbSet<Measurement> Measurements { get; set; }
     public DbSet<MeasurementUnit> MeasurementUnits { get; set; }
-    public DbSet<Module> Modules{ get; set; }
+    public DbSet<Module> Modules { get; set; }
     public DbSet<ReceivedData> ReceivedData { get; set; }
     public DbSet<Sensor> Sensors { get; set; }
     public DbSet<SinglePointMooring> SinglePointMoorings { get; set; }
@@ -30,9 +28,9 @@ public class SettingsDataContext : OffshoreDbContext, ISettingsDataContext
     public DbSet<Site> Sites { get; set; }
     public DbSet<SiteConfiguration> SiteConfigurations { get; set; }
     public DbSet<SiteMeasurementDataUnit> SiteMeasurementDataUnits { get; set; }
-    public DbSet<SupportedLanguage> SupportedLanguages { get; set; }
+    public DbSet<SupportedLanguage> Languages { get; set; }
     public DbSet<Telemetry> TelemetryData { get; set; }
-    public DbSet<TranslatableString> TranslatableStrings { get; set; }
+    public DbSet<Translatable> Translatables { get; set; }
     public DbSet<Translation> Translations { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -57,7 +55,7 @@ public class SettingsDataContext : OffshoreDbContext, ISettingsDataContext
         new SiteMeasurementDataUnit().OnModelCreating(modelBuilder);
         new SupportedLanguage().OnModelCreating(modelBuilder);
         new Telemetry().OnModelCreating(modelBuilder);
-        new TranslatableString().OnModelCreating(modelBuilder);
+        new Translatable().OnModelCreating(modelBuilder);
         new Translation().OnModelCreating(modelBuilder);
     }
 }

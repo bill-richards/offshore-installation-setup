@@ -7,8 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="contexts\MongoDbSettingsDataContext.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\offshore.data.sqlite\offshore.data.sqlite.csproj" />
     <ProjectReference Include="..\offshore.data\offshore.data.csproj" />
+	  <PackageReference Include="MongoDB.EntityFrameworkCore" Version="7.0.0-preview.1" />
   </ItemGroup>
 
 </Project>

@@ -13,7 +13,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "offshore.data.models.settin
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "offshore.installation.setup", "offshore.installation.setup\offshore.installation.setup.csproj", "{5832E1D7-763F-4BAC-8C45-86406783B0BE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "offshore.data.sqlexpress", "offshore.data.sqlexpress\offshore.data.sqlexpress.csproj", "{C7BC54D5-21C2-47D6-AB48-162F1790AD93}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "offshore.data.sqlexpress", "offshore.data.sqlexpress\offshore.data.sqlexpress.csproj", "{C7BC54D5-21C2-47D6-AB48-162F1790AD93}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "offshore.data.mongodb", "offshore.data.mongodb\offshore.data.mongodb.csproj", "{9CA99F78-AE9E-402D-A953-BCAE4A6132A5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +47,10 @@ Global
 		{C7BC54D5-21C2-47D6-AB48-162F1790AD93}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C7BC54D5-21C2-47D6-AB48-162F1790AD93}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C7BC54D5-21C2-47D6-AB48-162F1790AD93}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9CA99F78-AE9E-402D-A953-BCAE4A6132A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9CA99F78-AE9E-402D-A953-BCAE4A6132A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9CA99F78-AE9E-402D-A953-BCAE4A6132A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9CA99F78-AE9E-402D-A953-BCAE4A6132A5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

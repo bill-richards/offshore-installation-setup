@@ -4,10 +4,20 @@ namespace offshore.data.sqlexpress;
 
 public class OffshoreSqlExpressDbConfiguration : IOffshoreDbConfiguration
 {
+    private string _connectionString;
+    
     public string DatabaseType => "SqlExpress";
 
-    public void OnConfiguring(DbContextOptionsBuilder optionsBuilder, string filePath)
+    public OffshoreSqlExpressDbConfiguration(string connectionString) 
+        => _connectionString = connectionString;
+
+    public void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.UseSqlServer(filePath);
+        if (string.IsNullOrWhiteSpace(_connectionString))
+            throw new FieldAccessException("ConnectionString cannot be empty or whitespace");
+
+        optionsBuilder.UseSqlServer(_connectionString);
     }
+
+    public void SetConnectionString(string connectionString) => _connectionString = connectionString;
 }

@@ -209,11 +209,11 @@
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
                         <Label Content="Supported Languages" Margin="5 8 0 0" FontWeight="Bold"/>
-                        <ListView Grid.Row="1" Margin="10 0" VerticalAlignment="Top" ItemsSource="{Binding SupportedLanguages}" HorizontalAlignment="Left">
+                        <ListView Grid.Row="1" Margin="10 0" VerticalAlignment="Top" ItemsSource="{Binding Languages}" HorizontalAlignment="Left">
                             <ListView.View>
                                 <GridView>
-                                    <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Id}" Width="35"/>
-                                    <GridViewColumn Header="Language" DisplayMemberBinding="{Binding Language}" Width="70" />
+                                    <GridViewColumn Header="ShortName" DisplayMemberBinding="{Binding ShortName}" Width="70" />
+                                    <GridViewColumn Header="Language" DisplayMemberBinding="{Binding Name}" Width="70" />
                                 </GridView>
                             </ListView.View>
                         </ListView>
@@ -224,11 +224,10 @@
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
                         <Label Content="Strings" Margin="5 8 0 0" FontWeight="Bold"/>
-                        <ListView Grid.Row="1" Margin="10 0" VerticalAlignment="Top" ItemsSource="{Binding TranslatableStrings}" HorizontalAlignment="Left">
+                        <ListView Grid.Row="1" Margin="10 0" VerticalAlignment="Top" ItemsSource="{Binding Translatables}" HorizontalAlignment="Left">
                         <ListView.View>
                             <GridView>
-                                <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Id}" Width="35"/>
-                                <GridViewColumn Header="Translatable String" DisplayMemberBinding="{Binding String }" Width="170" />
+                                <GridViewColumn Header="Translatable String" DisplayMemberBinding="{Binding Value }" Width="170" />
                             </GridView>
                         </ListView.View>
                     </ListView>
@@ -242,8 +241,8 @@
                         <ListView Grid.Row="1" Margin="10 0" VerticalAlignment="Top" ItemsSource="{Binding Translations}" HorizontalAlignment="Left">
                             <ListView.View>
                                 <GridView>
-                                    <GridViewColumn Header="Translatable String" DisplayMemberBinding="{Binding TranslatableString.String }" Width="170" />
-                                    <GridViewColumn Header="Language" DisplayMemberBinding="{Binding Language.Language}" Width="70" />
+                                    <GridViewColumn Header="Translatable String" DisplayMemberBinding="{Binding Translatable.Value }" Width="170" />
+                                    <GridViewColumn Header="Language" DisplayMemberBinding="{Binding Language.Name}" Width="70" />
                                     <GridViewColumn Header="Translation" DisplayMemberBinding="{Binding Value}" Width="120" />
                                 </GridView>
                             </ListView.View>

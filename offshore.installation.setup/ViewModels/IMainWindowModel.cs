@@ -23,9 +23,9 @@ public interface IMainWindowModel : INotifyPropertyChanged
     ObservableCollection<Site> Sites { get; } 
     ObservableCollection<SiteConfiguration> SiteConfigurations { get; } 
     ObservableCollection<SiteMeasurementDataUnit> SiteMeasurementDataUnits { get; }
-    ObservableCollection<SupportedLanguage> SupportedLanguages { get; } 
+    ObservableCollection<SupportedLanguage> Languages { get; } 
     ObservableCollection<Telemetry> TelemetryData { get; } 
-    ObservableCollection<TranslatableString> TranslatableStrings { get; } 
+    ObservableCollection<Translatable> Translatables { get; } 
     ObservableCollection<Translation> Translations { get; } 
 
     public ICommand CreateOsOpDatabaseButtonClick { get; }

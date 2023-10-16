@@ -1,15 +1,14 @@
-﻿using example.data.models.contexts;
-using offshore.installation.setup.ViewModels;
+﻿using offshore.installation.setup.ViewModels;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using offshore.data;
 using offshore.data.sqlite;
-using offshore.data.sqlite.contexts;
 using offshore.services;
-using System;
 using System.Windows;
-using System.Linq;
 using offshore.data.sqlexpress;
+using MongoDB.Driver;
+using offshore.data.mongodb;
+using offshore.data.models.settings.contexts;
 
 namespace offshore.installation.setup;
 
@@ -28,36 +27,78 @@ public partial class App : Application
             {
                 services.AddSingleton<MainWindow>();
                 services.AddTransient<IMainWindowModel, MainWindowModel>();
+                services.AddTransient<IDataConfigurationFile, DataConfigurationFile>();
 
-                if(store!.Equals("express"))
-                    ConfigureSqlExpressStore(services, configurationFile.ExpressConfiguration);
-                else
-                    ConfigureSqliteStore(services, configurationFile.LiteConfiguration, siteConfiguration!.Licence);
+                if(store!.Equals(configurationFile.SqlExpressSectionName))
+                    ConfigureSqlExpressStore(services);
+                else if (store!.Equals(configurationFile.MongoSectionName))
+                    ConfigureMongoDbStore(services);
+                else if (store!.Equals(configurationFile.SqliteSectionName))
+                    ConfigureSqliteStore(services, siteConfiguration!.Licence);
 
             }).Build();
     }
 
-    private static void ConfigureSqlExpressStore(IServiceCollection services, DataConfigurationFile configuration)
+    private static void ConfigureMongoDbStore(IServiceCollection services)
     {
-        services.AddTransient<IOffshoreDbConfiguration, OffshoreSqlExpressDbConfiguration>();
+        services.AddSingleton<IMongoClient, MongoClient>(implementationFactory: provider => 
+        {
+            var configFile = provider.GetService<IDataConfigurationFile>();
+            var configuration = configFile!.MongoConfiguration;
+
+            var connectionString = $"mongodb://{configuration.Server}:{configuration.Port}";
+            return new MongoClient(connectionString);
+        });
+
+        services.AddSingleton<IOffshoreDbConfiguration, OffshoreMongoDbConfiguration>(implementationFactory: provider =>
+        {
+            var configFile = provider.GetService<IDataConfigurationFile>();
+            var configuration = configFile!.MongoConfiguration;
+
+            var client = provider.GetService<IMongoClient>();
+            return new OffshoreMongoDbConfiguration(client!.GetDatabase(configuration.Database));
+        });
+
         services.AddFactory<ISettingsDataContext, SettingsDataContext>(factory: provider =>
         {
-            var connectionString = $"server={configuration.Server};database={configuration.Database};trusted_connection=true;TrustServerCertificate=True";
-
-            var databaseConfiguration = provider.GetService<IOffshoreDbConfiguration>(); //.First(s => s.DatabaseType == "SqlExpress");
-            return new SettingsDataContext(databaseConfiguration!, connectionString);
+            var databaseConfiguration = provider.GetService<IOffshoreDbConfiguration>(); //.First(s => s.DatabaseType == "MongoDb");
+            return new SettingsDataContext(databaseConfiguration!);
         });
     }
 
-    private static void ConfigureSqliteStore(IServiceCollection services, DataConfigurationFile configuration, uint? licence)
+    private static void ConfigureSqlExpressStore(IServiceCollection services)
     {
-        services.AddTransient<IOffshoreDbConfiguration, OffshoreSqliteDbConfiguration>();
+        services.AddSingleton<IOffshoreDbConfiguration, OffshoreSqlExpressDbConfiguration>(implementationFactory: provider =>
+        {
+            var configFile = provider.GetService<IDataConfigurationFile>();
+            var configuration = configFile!.ExpressConfiguration;
+
+            var connectionString = $"server={configuration.Server};database={configuration.Database};trusted_connection=true;TrustServerCertificate=True";
+            return new OffshoreSqlExpressDbConfiguration(connectionString);
+        });
+        services.AddFactory<ISettingsDataContext, SettingsDataContext>();
+        //services.AddFactory<ISettingsDataContext, SettingsDataContext>(factory: provider =>
+        //{
+        //    var databaseConfiguration = provider.GetService<IOffshoreDbConfiguration>(); //.First(s => s.DatabaseType == "SqlExpress");
+        //    return new SettingsDataContext(databaseConfiguration!);
+        //});
+    }
+
+    private static void ConfigureSqliteStore(IServiceCollection services, uint? licence)
+    {
+        services.AddSingleton<IOffshoreDbConfiguration, OffshoreSqliteDbConfiguration>(implementationFactory: provider =>
+        {
+            var configFile = provider.GetService<IDataConfigurationFile>();
+            var configuration = configFile!.LiteConfiguration;
+
+            var path = $"{configuration.DataFolder}/{licence}OPSTELSET.sqlite";
+            return new OffshoreSqliteDbConfiguration(path);
+        });
+
         services.AddFactory<ISettingsDataContext, SettingsDataContext>(factory: provider =>
         {
-            var path = $"{configuration.DataFolder}/{licence}OPSTELSET.sqlite";
-
             var databaseConfiguration = provider.GetService<IOffshoreDbConfiguration>(); //.First(s => s.DatabaseType == "Sqlite");
-            return new SettingsDataContext(databaseConfiguration!, path, "Sqlite");
+            return new SettingsDataContext(databaseConfiguration!, "Sqlite");
         });
     }
 

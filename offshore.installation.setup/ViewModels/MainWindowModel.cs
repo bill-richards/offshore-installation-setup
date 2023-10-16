@@ -1,6 +1,7 @@
-﻿using offshore.data.models.settings;
+﻿using Microsoft.EntityFrameworkCore;
+using offshore.data.models.settings;
+using offshore.data.models.settings.contexts;
 using offshore.data.models.settings.defaults;
-using offshore.data.sqlite.contexts;
 using offshore.services;
 using System;
 using System.Collections.ObjectModel;
@@ -40,15 +41,15 @@ public class MainWindowModel : IMainWindowModel
     public ObservableCollection<MeasurementUnit> MeasurementUnits { get; } = new ObservableCollection<MeasurementUnit>();
     public ObservableCollection<Module> Modules { get; } = new ObservableCollection<Module>();
     public ObservableCollection<ReceivedData> ReceivedData { get; } = new ObservableCollection<ReceivedData>();
-    public ObservableCollection<Sensor> Sensors{ get; } = new ObservableCollection<Sensor>();
+    public ObservableCollection<Sensor> Sensors { get; } = new ObservableCollection<Sensor>();
     public ObservableCollection<SinglePointMooring> SinglePointMoorings { get; } = new ObservableCollection<SinglePointMooring>();
     public ObservableCollection<SinglePointMooringModule> SinglePointMooringModules { get; } = new ObservableCollection<SinglePointMooringModule>();
     public ObservableCollection<Site> Sites { get; } = new ObservableCollection<Site>();
     public ObservableCollection<SiteConfiguration> SiteConfigurations { get; } = new ObservableCollection<SiteConfiguration>();
     public ObservableCollection<SiteMeasurementDataUnit> SiteMeasurementDataUnits { get; } = new ObservableCollection<SiteMeasurementDataUnit>();
-    public ObservableCollection<SupportedLanguage> SupportedLanguages { get; } = new ObservableCollection<SupportedLanguage>();
+    public ObservableCollection<SupportedLanguage> Languages { get; } = new ObservableCollection<SupportedLanguage>();
     public ObservableCollection<Telemetry> TelemetryData { get; } = new ObservableCollection<Telemetry>();
-    public ObservableCollection<TranslatableString> TranslatableStrings { get; } = new ObservableCollection<TranslatableString>();
+    public ObservableCollection<Translatable> Translatables { get; } = new ObservableCollection<Translatable>();
     public ObservableCollection<Translation> Translations { get; } = new ObservableCollection<Translation>();
 
     private void PopulateOsOpDatabase(object obj)
@@ -65,7 +66,7 @@ public class MainWindowModel : IMainWindowModel
         Alarms.Clear();
         Calibrations.Clear();
         ChangeLogs.Clear();
-        Consignments.Clear(); 
+        Consignments.Clear();
         LiveData.Clear();
         Measurements.Clear();
         MeasurementDataUnits.Clear();
@@ -78,9 +79,9 @@ public class MainWindowModel : IMainWindowModel
         Sites.Clear();
         SiteConfigurations.Clear();
         SiteMeasurementDataUnits.Clear();
-        SupportedLanguages.Clear();
+        Languages.Clear();
         TelemetryData.Clear();
-        TranslatableStrings.Clear();
+        Translatables.Clear();
         Translations.Clear();
     }
 
@@ -108,7 +109,7 @@ public class MainWindowModel : IMainWindowModel
             .DeleteAllRecords<SiteMeasurementDataUnit>()
             .DeleteAllRecords<SupportedLanguage>()
             .DeleteAllRecords<Telemetry>()
-            .DeleteAllRecords<TranslatableString>()
+            .DeleteAllRecords<Translatable>()
             .DeleteAllRecords<Translation>();
 
         context.SaveChanges();
@@ -135,9 +136,9 @@ public class MainWindowModel : IMainWindowModel
         Sites.AddRange(context.Sites);
         SiteConfigurations.AddRange(context.SiteConfigurations);
         SiteMeasurementDataUnits.AddRange(context.SiteMeasurementDataUnits);
-        SupportedLanguages.AddRange(context.SupportedLanguages);
+        Languages.AddRange(context.Languages);
         TelemetryData.AddRange(context.TelemetryData);
-        TranslatableStrings.AddRange(context.TranslatableStrings);
+        Translatables.AddRange(context.Translatables);
         Translations.AddRange(context.Translations);
     }
 }

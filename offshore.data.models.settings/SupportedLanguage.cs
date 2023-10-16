@@ -6,17 +6,17 @@ namespace offshore.data.models.settings;
 //[Table("tblSupportedLanguages")]
 public class SupportedLanguage : OffshoreDataModel
 {
-    public string? Id { get; set; }
-
-    public string Language { get; set; } = VALUE_NOT_SET;
-
-    public virtual ICollection<Translation>? Translations { get; set; }
+    public string? ShortName { get; set; }
+    public string? Name { get; set; }
 
     public override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<SupportedLanguage>(e =>
         {
-            e.HasIndex(p => p.Id);
+            e.Property<uint>("Id");
+            e.HasIndex("Id");
+            e.Property(p => p.Name).IsRequired();
+            e.Property(p => p.ShortName).IsRequired();
         });
     }
 }

@@ -23,5 +23,4 @@ public static class DiExtensionMethods
         services.AddSingleton<IAbstractFactory<TService>, AbstractFactory<TService>>();
 
     }
-
 }
