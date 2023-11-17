@@ -5,6 +5,7 @@
         /**
          * configuration sections
          */
+        DataConfigurationFile SchemataConfiguration { get; }
         DataConfigurationFile ExpressConfiguration { get; }
         DataConfigurationFile LiteConfiguration { get; }
         DataConfigurationFile MongoConfiguration { get; }
@@ -38,6 +39,26 @@
         /// Available/Configured for SiteConfiguration
         /// </summary>
         string? Store { get; set; }
+        /// <summary>
+        /// Available/Configured for SchemataConfiguration
+        /// </summary>
+        string? UsersSchema { get; set; }
+        /// <summary>
+        /// Available/Configured for SchemataConfiguration
+        /// </summary>
+        string? SettingsSchema { get; set; }
+        /// <summary>
+        /// Available/Configured for SchemataConfiguration
+        /// </summary>
+        string? LanguageSchema { get; set; }
+        /// <summary>
+        /// Available/Configured for SchemataConfiguration
+        /// </summary>
+        string? BusinessSchema { get; set; }
+        /// <summary>
+        /// Available/Configured for SchemataConfiguration
+        /// </summary>
+        string? ConfigurationSchema { get; set; }
 
         /**
          * configuration section names
@@ -46,5 +67,6 @@
         string SiteSectionName { get; }
         string SqlExpressSectionName { get; }
         string SqliteSectionName { get; }
+        string SchemataSectionName { get; }
     }
 }

@@ -5,19 +5,159 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:offshore.installation.setup"
         mc:Ignorable="d"
-        Title="Offshore Operations Ltd - Installation Configurator" Height="600" Width="1165">
+        
+        Title="Offshore Operations Ltd - Installation Configurator" Height="600" Width="1165" ResizeMode="NoResize">
     <Grid>
         <StackPanel Orientation="Vertical" VerticalAlignment="Top">
 
             <StackPanel Orientation="Vertical" HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0 10 10 0">
                 <StackPanel Orientation="Horizontal">
                     <Button Padding="5 5" Width="110" Command="{Binding CreateOsOpDatabaseButtonClick}">Set Default Config</Button>
+                    <Button Padding="5 5" Width="110" Command="{Binding CreateDemoDataButtonClick}">Set Demo Data</Button>
                     <Button Padding="5 5" Width="120" Command="{Binding GetOsOpDataButtonClick}">Show Data</Button>
                     <Button Padding="5 5" Width="110" Command="{Binding ClearOsOpDataButtonClick}">Clear Display</Button>
                     <Button Padding="5 5" Width="110" Command="{Binding DeleteOsOpDataButtonClick}">Delete All Data</Button>
                 </StackPanel>
 
             </StackPanel>
+
+            <Expander Margin="10 5" MaxHeight="210" Header="Translations" HorizontalAlignment="Left">
+                <Grid >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Grid Grid.Column="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="35" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Label Content="Supported Languages" Margin="5 8 0 0" FontWeight="Bold"/>
+                        <ListView Grid.Row="1" Margin="10 0" VerticalAlignment="Top" ItemsSource="{Binding Languages}" HorizontalAlignment="Left">
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Header="ShortName" DisplayMemberBinding="{Binding ShortName}" Width="70" />
+                                    <GridViewColumn Header="Language" DisplayMemberBinding="{Binding Name}" Width="70" />
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                    </Grid>
+                    <Grid Grid.Column="1" >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="35" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Label Content="Transalatable Strings" Margin="5 8 0 0" FontWeight="Bold"/>
+                        <ListView Grid.Row="1" Margin="10 0" VerticalAlignment="Top" ItemsSource="{Binding Translatables}" HorizontalAlignment="Left">
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Header="Translatable String" DisplayMemberBinding="{Binding Name }" Width="170" />
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                    </Grid>
+                    <Grid Grid.Column="2" >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="35" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Label Content="Translations" Margin="5 8 0 0" FontWeight="Bold"/>
+                        <ListView Grid.Row="1" Margin="10 0" VerticalAlignment="Top" ItemsSource="{Binding Translations}" HorizontalAlignment="Left">
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Header="Translatable String" DisplayMemberBinding="{Binding Translatable.Name }" Width="170" />
+                                    <GridViewColumn Header="Language" DisplayMemberBinding="{Binding Language.Name}" Width="70" />
+                                    <GridViewColumn Header="Translation" DisplayMemberBinding="{Binding Value}" Width="120" />
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                    </Grid>
+                </Grid>
+            </Expander>
+
+            <Expander Margin="10 5" MaxHeight="200" Header="Measurements" HorizontalAlignment="Left">
+                <Grid >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Grid Grid.Column="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="35" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Label Content="Measurement Units" Margin="5 8 0 0" FontWeight="Bold"/>
+                        <ListView Grid.Row="1" Margin="10 0" VerticalAlignment="Top" ItemsSource="{Binding MeasurementUnits}" HorizontalAlignment="Left">
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Header="Units" DisplayMemberBinding="{Binding Label}" Width="50" />
+                                    <GridViewColumn Header="Factor" DisplayMemberBinding="{Binding Factor}" Width="120" />
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                    </Grid>
+
+                    <Grid Grid.Column="1" >
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="35" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Label Content="Measurements" Margin="5 8 0 0" FontWeight="Bold"/>
+                        <ListView Margin="10 0" Grid.Row="1" VerticalAlignment="Top" ItemsSource="{Binding Measurements}" HorizontalAlignment="Left">
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" Width="130" />
+                                    <GridViewColumn Header="Default" DisplayMemberBinding="{Binding DefaultUnit.Label}" Width="50" />
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                    </Grid>
+                </Grid>
+            </Expander>
+
+            <Expander Margin="10 5" MaxHeight="200" Header="Modules and Sensors" HorizontalAlignment="Left">
+                <Grid >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                        <ColumnDefinition />
+                    </Grid.ColumnDefinitions>
+                    <Grid Grid.Column="0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="35" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Label Content="Modules " Margin="5 8 0 0" FontWeight="Bold"/>
+                        <ListView Margin="10 0" Grid.Row="1" VerticalAlignment="Top" ItemsSource="{Binding Modules}" HorizontalAlignment="Left">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name }" Width="185" />
+                                <GridViewColumn Header="Graph Min" DisplayMemberBinding="{Binding GraphMinimum}" Width="70" />
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                    </Grid>
+                    <Grid Grid.Column="1">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="35" />
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <Label Content="Sensors" Margin="5 8 0 0" FontWeight="Bold"/>
+                        <ListView Margin="10 0" Grid.Row="1" VerticalAlignment="Top" ItemsSource="{Binding Sensors}" HorizontalAlignment="Left">
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name }" Width="80" />
+                                    <GridViewColumn Header="Serial Number" DisplayMemberBinding="{Binding SerialNumber}" Width="90" />
+                                    <GridViewColumn Header="Minmum Value" DisplayMemberBinding="{Binding MinimumValue}" Width="85" />
+                                    <GridViewColumn Header="Maximum Value" DisplayMemberBinding="{Binding MaximumValue}" Width="90" />
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
+                    </Grid>
+                </Grid>
+            </Expander>
 
             <Expander Margin="10 5" MaxHeight="200" Header="Configuration" HorizontalAlignment="Left">
                 <Grid Background="#FFE5E5E5">
@@ -65,112 +205,37 @@
                     </ListView>
                 </Grid>
             </Expander>
-            
-            <Expander Margin="10 5" MaxHeight="200" Header="Measurements" HorizontalAlignment="Left">
-                <Grid >
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
-                    <Grid Grid.Column="0">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="35" />
-                            <RowDefinition Height="*" />
-                        </Grid.RowDefinitions>
-                        <Label Content="Measurement Units" Margin="5 8 0 0" FontWeight="Bold"/>
-                        <ListView Grid.Row="1" Margin="10 0" VerticalAlignment="Top" ItemsSource="{Binding MeasurementUnits}" HorizontalAlignment="Left">
-                            <ListView.View>
-                                <GridView>
-                                    <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Id}" Width="35"/>
-                                    <GridViewColumn Header="Units" DisplayMemberBinding="{Binding Label}" Width="50" />
-                                    <GridViewColumn Header="Factor" DisplayMemberBinding="{Binding Factor}" Width="120" />
-                                </GridView>
-                            </ListView.View>
-                        </ListView>
-                    </Grid>
-                    <Grid Grid.Column="1" >
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="35" />
-                            <RowDefinition Height="*" />
-                        </Grid.RowDefinitions>
-                        <Label Content="Data Units" Margin="5 8 0 0" FontWeight="Bold"/>
-                        <ListView Margin="10 0" Grid.Row="1" VerticalAlignment="Top" ItemsSource="{Binding MeasurementDataUnits}" HorizontalAlignment="Left">
-                            <ListView.View>
-                                <GridView>
-                                    <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Id}" Width="35"/>
-                                    <GridViewColumn Header="Measurement" DisplayMemberBinding="{Binding MeasurementUnit.Description}" Width="170" />
-                                    <GridViewColumn Header="Units" DisplayMemberBinding="{Binding MeasurementUnit.Label}" Width="80" />
-                                </GridView>
-                            </ListView.View>
-                        </ListView>
-                    </Grid>
-                    <Grid Grid.Column="2" >
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="35" />
-                            <RowDefinition Height="*" />
-                        </Grid.RowDefinitions>
-                        <Label Content="Measurements" Margin="5 8 0 0" FontWeight="Bold"/>
-                        <ListView Margin="10 0" Grid.Row="1" VerticalAlignment="Top" ItemsSource="{Binding Measurements}" HorizontalAlignment="Left">
-                            <ListView.View>
-                                <GridView>
-                                    <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Id}" Width="35"/>
-                                    <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" Width="130" />
-                                    <GridViewColumn Header="Default" DisplayMemberBinding="{Binding DefaultUnit.Label}" Width="50" />
-                                </GridView>
-                            </ListView.View>
-                        </ListView>
-                    </Grid>
-                </Grid>
-            </Expander>
 
-            <Expander Margin="10 5" MaxHeight="200" Header="Modules" HorizontalAlignment="Left">
+            <Expander Margin="10 5" MaxHeight="200" Header="Single Point Moorings" HorizontalAlignment="Left">
                 <Grid >
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition />
                         <ColumnDefinition />
                         <ColumnDefinition />
                     </Grid.ColumnDefinitions>
-                    <Grid Grid.Column="0">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="35" />
-                            <RowDefinition Height="*" />
-                        </Grid.RowDefinitions>
-                        <Label Content="Modules " Margin="5 8 0 0" FontWeight="Bold"/>
-                        <ListView Margin="10 0" Grid.Row="1" VerticalAlignment="Top" ItemsSource="{Binding Modules}" HorizontalAlignment="Left">
-                        <ListView.View>
-                            <GridView>
-                                <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Id}" Width="35"/>
-                                <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name }" Width="185" />
-                                <GridViewColumn Header="Graph Min" DisplayMemberBinding="{Binding GraphMinimum}" Width="70" />
-                            </GridView>
-                        </ListView.View>
-                    </ListView>
-                    </Grid>
-                    <Grid Grid.Column="1" >
+                    <Grid Grid.Column="0" >
                         <Grid.RowDefinitions>
                             <RowDefinition Height="35" />
                             <RowDefinition Height="*" />
                         </Grid.RowDefinitions>
                         <Label Content="Single-point-moorings" Margin="5 8 0 0" FontWeight="Bold"/>
                         <ListView Margin="10 0" Grid.Row="1" VerticalAlignment="Top" ItemsSource="{Binding SinglePointMoorings}" HorizontalAlignment="Left">
-                        <ListView.View>
-                            <GridView>
-                                <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Id}" Width="35"/>
-                                <GridViewColumn Header="Is Active" Width="70">
-                                    <GridViewColumn.CellTemplate>
-                                        <DataTemplate>
-                                            <CheckBox HorizontalAlignment="Center" IsChecked="{Binding IsActive}" />
-                                        </DataTemplate>
-                                    </GridViewColumn.CellTemplate>
-                                </GridViewColumn>
-                                <GridViewColumn Header="Site" DisplayMemberBinding="{Binding Site.Name}" Width="110" />
-                                <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" Width="50" />
-                            </GridView>
-                        </ListView.View>
-                    </ListView>
+                            <ListView.View>
+                                <GridView>
+                                    <GridViewColumn Header="Is Active" Width="70">
+                                        <GridViewColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <CheckBox HorizontalAlignment="Center" IsChecked="{Binding IsActive}" />
+                                            </DataTemplate>
+                                        </GridViewColumn.CellTemplate>
+                                    </GridViewColumn>
+                                    <GridViewColumn Header="Site" DisplayMemberBinding="{Binding Site.Name}" Width="110" />
+                                    <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Name}" Width="50" />
+                                </GridView>
+                            </ListView.View>
+                        </ListView>
                     </Grid>
-                    <Grid Grid.Column="2" >
+                    <Grid Grid.Column="1" >
                         <Grid.RowDefinitions>
                             <RowDefinition Height="35" />
                             <RowDefinition Height="*" />
@@ -179,7 +244,6 @@
                         <ListView Margin="10 0" Grid.Row="1" VerticalAlignment="Top" ItemsSource="{Binding SinglePointMooringModules}" HorizontalAlignment="Left">
                             <ListView.View>
                                 <GridView>
-                                    <GridViewColumn Header="ID" DisplayMemberBinding="{Binding Id}" Width="35"/>
                                     <GridViewColumn Header="Name" DisplayMemberBinding="{Binding Spm.Name}" Width="110" />
                                     <GridViewColumn Header="Default" DisplayMemberBinding="{Binding Module.Name}" Width="50" />
                                     <GridViewColumn Header="Is Active" Width="70">
@@ -189,61 +253,6 @@
                                             </DataTemplate>
                                         </GridViewColumn.CellTemplate>
                                     </GridViewColumn>
-                                </GridView>
-                            </ListView.View>
-                        </ListView>
-                    </Grid>
-                </Grid>
-            </Expander>
-
-            <Expander Margin="10 5" MaxHeight="210" Header="Translations" HorizontalAlignment="Left">
-                <Grid >
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                        <ColumnDefinition />
-                    </Grid.ColumnDefinitions>
-                    <Grid Grid.Column="0">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="35" />
-                            <RowDefinition Height="*" />
-                        </Grid.RowDefinitions>
-                        <Label Content="Supported Languages" Margin="5 8 0 0" FontWeight="Bold"/>
-                        <ListView Grid.Row="1" Margin="10 0" VerticalAlignment="Top" ItemsSource="{Binding Languages}" HorizontalAlignment="Left">
-                            <ListView.View>
-                                <GridView>
-                                    <GridViewColumn Header="ShortName" DisplayMemberBinding="{Binding ShortName}" Width="70" />
-                                    <GridViewColumn Header="Language" DisplayMemberBinding="{Binding Name}" Width="70" />
-                                </GridView>
-                            </ListView.View>
-                        </ListView>
-                    </Grid>
-                    <Grid Grid.Column="1" >
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="35" />
-                            <RowDefinition Height="*" />
-                        </Grid.RowDefinitions>
-                        <Label Content="Strings" Margin="5 8 0 0" FontWeight="Bold"/>
-                        <ListView Grid.Row="1" Margin="10 0" VerticalAlignment="Top" ItemsSource="{Binding Translatables}" HorizontalAlignment="Left">
-                        <ListView.View>
-                            <GridView>
-                                <GridViewColumn Header="Translatable String" DisplayMemberBinding="{Binding Value }" Width="170" />
-                            </GridView>
-                        </ListView.View>
-                    </ListView>
-                    </Grid>
-                    <Grid Grid.Column="2" >
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="35" />
-                            <RowDefinition Height="*" />
-                        </Grid.RowDefinitions>
-                        <Label Content="Translations" Margin="5 8 0 0" FontWeight="Bold"/>
-                        <ListView Grid.Row="1" Margin="10 0" VerticalAlignment="Top" ItemsSource="{Binding Translations}" HorizontalAlignment="Left">
-                            <ListView.View>
-                                <GridView>
-                                    <GridViewColumn Header="Translatable String" DisplayMemberBinding="{Binding Translatable.Value }" Width="170" />
-                                    <GridViewColumn Header="Language" DisplayMemberBinding="{Binding Language.Name}" Width="70" />
-                                    <GridViewColumn Header="Translation" DisplayMemberBinding="{Binding Value}" Width="120" />
                                 </GridView>
                             </ListView.View>
                         </ListView>

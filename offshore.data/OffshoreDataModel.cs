@@ -1,9 +1,20 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 
 namespace offshore.data;
 
 public abstract class OffshoreDataModel
 {
-    public const string VALUE_NOT_SET = "not set";
+    public uint Id { get; set; }
+    public bool IsDefault { get; set; } = false;
+    [Required] public bool IsDeleted { get; set; } = false;
+
     public abstract void OnModelCreating(ModelBuilder modelBuilder);
+    public void OnModelCreating<TModelType>(ModelBuilder modelBuilder) where TModelType : class
+    {
+        modelBuilder.Entity<TModelType>(e =>
+        {
+            e.HasKey("Id");
+        });
+    }
 }

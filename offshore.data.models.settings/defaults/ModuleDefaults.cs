@@ -1,29 +1,33 @@
-﻿namespace offshore.data.models.settings.defaults;
+﻿using offshore.data.models.settings.contexts;
+
+namespace offshore.data.models.settings.defaults;
 
 
 public static class ModuleDefaults
 {
-    public static void PopulateDatabase(IOffshoreDbContext context)
+    public static void PopulateDatabase(ISettingsDataContext context)
     {
-        var module = new Module { Name = "HAWSER TENSION", GraphMinimum = 60 };
-        if (context.Contains(module)) { return;  }
+        var module = new Module { Name = "HAWSER TENSION", GraphMinimum = 60, IsDefault = true };
+        if (context.GetNamedRecord<Module>(module.Name) != null) return;
 
-        context.AddToDbSet(module);
-        context.AddToDbSet(new Module { Name = "PIPE PRESSURE", GraphMinimum = 60 });
-        context.AddToDbSet(new Module { Name = "TANKER MANIFOLD PRESSURE", GraphMinimum = 60 });
-        context.AddToDbSet(new Module { Name = "CURRENT", GraphMinimum = 60 });
-        context.AddToDbSet(new Module { Name = "WAVE", GraphMinimum = 60 });
-        context.AddToDbSet(new Module { Name = "WIND", GraphMinimum = 60 });
-        context.AddToDbSet(new Module { Name = "BUOY TEMPERATURE", GraphMinimum = 60 });
-        context.AddToDbSet(new Module { Name = "BUOY EXCURSION", GraphMinimum = 60 });
-        context.AddToDbSet(new Module { Name = "BUOY ORIENTATION", GraphMinimum = 60 });
-        context.AddToDbSet(new Module { Name = "TANKER EXCURSION", GraphMinimum = 60 });
-        context.AddToDbSet(new Module { Name = "SHORE PRESSURE", GraphMinimum = 60 });
-        context.AddToDbSet(new Module { Name = "SHORE FLOW RATE", GraphMinimum = 60 });
-        context.AddToDbSet(new Module { Name = "POWER SYSTEM", GraphMinimum = 1440 });
-        context.AddToDbSet(new Module { Name = "LEAK DETECTION", GraphMinimum = 60 });
-        context.AddToDbSet(new Module { Name = "WEATHER", GraphMinimum = 1440 });
-        context.AddToDbSet(new Module { Name = "INCLINATION", GraphMinimum = 60 });
+        context.AddRangeToDbSet(new[]{
+            module,
+            new() { Name = "PIPE PRESSURE", GraphMinimum = 60, IsDefault = true },
+            new() { Name = "TANKER MANIFOLD PRESSURE", GraphMinimum = 60, IsDefault = true },
+            new() { Name = "CURRENT", GraphMinimum = 60, IsDefault = true },
+            new() { Name = "WAVE", GraphMinimum = 60, IsDefault = true },
+            new() { Name = "WIND", GraphMinimum = 60, IsDefault = true },
+            new() { Name = "BUOY TEMPERATURE", GraphMinimum = 60, IsDefault = true },
+            new() { Name = "BUOY EXCURSION", GraphMinimum = 60, IsDefault = true },
+            new() { Name = "BUOY ORIENTATION", GraphMinimum = 60, IsDefault = true },
+            new() { Name = "TANKER EXCURSION", GraphMinimum = 60, IsDefault = true },
+            new() { Name = "SHORE PRESSURE", GraphMinimum = 60, IsDefault = true },
+            new() { Name = "SHORE FLOW RATE", GraphMinimum = 60, IsDefault = true },
+            new() { Name = "POWER SYSTEM", GraphMinimum = 1440, IsDefault = true },
+            new() { Name = "LEAK DETECTION", GraphMinimum = 60, IsDefault = true },
+            new() { Name = "WEATHER", GraphMinimum = 1440, IsDefault = true },
+            new() { Name = "INCLINATION", GraphMinimum = 60, IsDefault = true }
+        });
 
         context.SaveChanges();
     }

@@ -8,6 +8,8 @@ public class OffshoreSqliteDbConfiguration : IOffshoreDbConfiguration
     private readonly string _filePath;
     public string DatabaseType => "Sqlite";
 
+    public string Schema => throw new NotImplementedException();
+
     public OffshoreSqliteDbConfiguration(string filePath) {  _filePath = filePath; }
 
     public void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

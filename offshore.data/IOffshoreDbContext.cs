@@ -1,27 +1,30 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.EntityFrameworkCore.Infrastructure;
 
 namespace offshore.data;
 
 public interface IOffshoreDbContext : IDisposable
 {
     string DatabaseType { get; }
-    bool FreshDatabaseCreated { get; }
 
-    void AddToDbSet<TModel>(TModel model) where TModel : class;
-    void AddRangeToDbSet<TModel>(TModel[] models) where TModel : class;
-    bool Contains<TModel>(TModel model) where TModel : class;
+    void AddToDbSet<TModel>(TModel model) where TModel : OffshoreDataModel;
+    void AddRangeToDbSet<TModel>(TModel[] models) where TModel : OffshoreDataModel;
+    bool Contains<TModel>(TModel model) where TModel : OffshoreDataModel;
 
-    TModel FirstOrDefault<TModel>(Func<TModel, bool> exp) where TModel : class;
+    TModel FirstOrDefault<TModel>(Func<TModel, bool> exp) where TModel : OffshoreDataModel;
 
-    DbSet<TModel> GetDbSet<TModel>() where TModel : class;
+    DbSet<TModel> GetDbSet<TModel>() where TModel : OffshoreDataModel;
 
-    IOffshoreDbContext DeleteAllRecords<TModel>() where TModel : class;
+    IOffshoreDbContext DeleteAllRecords<TModel>() where TModel : OffshoreDataModel;
 
-    IOffshoreDbContext DeleteAllRecords<TModel>(IEnumerable<TModel> collection) where TModel : class;
+    IOffshoreDbContext DeleteAllRecords<TModel>(IEnumerable<TModel> collection) where TModel : OffshoreDataModel;
 
     /* expose required members from DbContext through the interface */
 
-    EntityEntry<TModel> Entry<TModel>(TModel model) where TModel : class;
+    ChangeTracker ChangeTracker { get; }
+    DatabaseFacade Database { get; }
+
+    EntityEntry<TModel> Entry<TModel>(TModel model) where TModel : OffshoreDataModel;
     int SaveChanges();
 }

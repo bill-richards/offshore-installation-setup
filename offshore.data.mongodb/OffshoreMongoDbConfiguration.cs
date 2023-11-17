@@ -9,6 +9,8 @@ public class OffshoreMongoDbConfiguration : IOffshoreDbConfiguration
     private IMongoDatabase _database;
     public string DatabaseType => "MongoDb";
 
+    public string Schema => throw new NotImplementedException();
+
     public OffshoreMongoDbConfiguration(IMongoDatabase database) => _database = database;
 
     public void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
