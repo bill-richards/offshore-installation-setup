@@ -22,6 +22,7 @@ select top(20) * from config.Modules
 --- by default, which I'm not sure about at the moment but also think
 --- that we probably should
 ---
+select top(10) * from biz.Locations
 select top(10) * from biz.Companies
 select top(10) * from biz.Addresses
 --*/

@@ -31,7 +31,7 @@ public class SinglePointMooring : OffshoreDataModel
     [Required]
     public string? Frequency { get; set; }
 
-    public virtual ICollection<SpmModule>? Modules { get; set; }
+    public virtual ICollection<Module>? Modules { get; set; }
     public virtual ICollection<LiveDatum>? LiveData { get; set; }
 
 
@@ -42,7 +42,7 @@ public class SinglePointMooring : OffshoreDataModel
         {
             e.HasAlternateKey(p => p.Name);
             e.HasOne(p => p.Site).WithMany(r => r.SinglePointMoorings);
-            e.HasMany(p => p.Modules).WithOne(m => m.Spm);
+            e.HasMany(p => p.Modules).WithMany(m => m.SinglePointMoorings);
         });
     }
 }

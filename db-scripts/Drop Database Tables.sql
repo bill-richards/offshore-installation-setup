@@ -143,8 +143,8 @@ GO
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[config].[Sites]') AND type in (N'U'))
 DROP TABLE config.Sites
 GO
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[config].[SpmModule]') AND type in (N'U'))
-DROP TABLE config.SpmModule
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[config].[ModuleSinglePointMooring]') AND type in (N'U'))
+DROP TABLE config.ModuleSinglePointMooring
 GO
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[config].[TelemetryData]') AND type in (N'U'))
 DROP TABLE config.TelemetryData

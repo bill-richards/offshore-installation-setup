@@ -53,6 +53,21 @@ namespace offshore.data.models.settings.Migrations
                     b.ToTable("LanguageUser", "config");
                 });
 
+            modelBuilder.Entity("ModuleSinglePointMooring", b =>
+                {
+                    b.Property<long>("ModulesId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("SinglePointMooringsId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("ModulesId", "SinglePointMooringsId");
+
+                    b.HasIndex("SinglePointMooringsId");
+
+                    b.ToTable("ModuleSinglePointMooring", "config");
+                });
+
             modelBuilder.Entity("RoleUser", b =>
                 {
                     b.Property<long>("RolesId")
@@ -1110,43 +1125,6 @@ namespace offshore.data.models.settings.Migrations
                     b.ToTable("SiteMeasurementUnits", "config");
                 });
 
-            modelBuilder.Entity("offshore.data.models.settings.SpmModule", b =>
-                {
-                    b.Property<long>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("bigint");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
-
-                    b.Property<bool>("Enabled")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsDefault")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<long?>("ModuleId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("SiteId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("SpmId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ModuleId");
-
-                    b.HasIndex("SiteId");
-
-                    b.HasIndex("SpmId");
-
-                    b.ToTable("SpmModules", "config");
-                });
-
             modelBuilder.Entity("offshore.data.models.settings.Telemetry", b =>
                 {
                     b.Property<long>("Id")
@@ -1353,6 +1331,21 @@ namespace offshore.data.models.settings.Migrations
                     b.HasOne("offshore.data.models.settings.User", null)
                         .WithMany()
                         .HasForeignKey("UsersId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("ModuleSinglePointMooring", b =>
+                {
+                    b.HasOne("offshore.data.models.settings.Module", null)
+                        .WithMany()
+                        .HasForeignKey("ModulesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("offshore.data.models.settings.SinglePointMooring", null)
+                        .WithMany()
+                        .HasForeignKey("SinglePointMooringsId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -1668,27 +1661,6 @@ namespace offshore.data.models.settings.Migrations
                     b.Navigation("Units");
                 });
 
-            modelBuilder.Entity("offshore.data.models.settings.SpmModule", b =>
-                {
-                    b.HasOne("offshore.data.models.settings.Module", "Module")
-                        .WithMany()
-                        .HasForeignKey("ModuleId");
-
-                    b.HasOne("offshore.data.models.settings.Site", "Site")
-                        .WithMany()
-                        .HasForeignKey("SiteId");
-
-                    b.HasOne("offshore.data.models.settings.SinglePointMooring", "Spm")
-                        .WithMany("Modules")
-                        .HasForeignKey("SpmId");
-
-                    b.Navigation("Module");
-
-                    b.Navigation("Site");
-
-                    b.Navigation("Spm");
-                });
-
             modelBuilder.Entity("offshore.data.models.settings.Telemetry", b =>
                 {
                     b.HasOne("offshore.data.models.settings.SinglePointMooring", "Spm")
@@ -1769,8 +1741,6 @@ namespace offshore.data.models.settings.Migrations
             modelBuilder.Entity("offshore.data.models.settings.SinglePointMooring", b =>
                 {
                     b.Navigation("LiveData");
-
-                    b.Navigation("Modules");
                 });
 
             modelBuilder.Entity("offshore.data.models.settings.Site", b =>

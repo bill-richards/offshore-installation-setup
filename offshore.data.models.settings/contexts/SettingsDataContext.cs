@@ -27,7 +27,6 @@ public class SettingsDataContext : OffshoreDbContext, ISettingsDataContext
     public DbSet<Receiver> Receivers { get; set; }
     public DbSet<Sensor> Sensors { get; set; }
     public DbSet<SinglePointMooring> SinglePointMoorings { get; set; }
-    public DbSet<SpmModule> SpmModules{ get; set; }
     public DbSet<SiteConfiguration> SiteConfigurations { get; set; }
     public DbSet<SiteMeasurementUnit> SiteMeasurementUnits { get; set; }
     public DbSet<Site> Sites { get; set; }

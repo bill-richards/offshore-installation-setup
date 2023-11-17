@@ -825,40 +825,30 @@ namespace offshore.data.models.settings.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "SpmModule",
+                name: "ModuleSinglePointMooring",
                 schema: "config",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    SpmId = table.Column<long>(type: "bigint", nullable: true),
-                    ModuleId = table.Column<long>(type: "bigint", nullable: true),
-                    SiteId = table.Column<long>(type: "bigint", nullable: true),
-                    Enabled = table.Column<bool>(type: "bit", nullable: false),
-                    IsDefault = table.Column<bool>(type: "bit", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                    ModulesId = table.Column<long>(type: "bigint", nullable: false),
+                    SinglePointMooringsId = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SpmModule", x => x.Id);
+                    table.PrimaryKey("PK_ModuleSinglePointMooring", x => new { x.ModulesId, x.SinglePointMooringsId });
                     table.ForeignKey(
-                        name: "FK_SpmModule_Modules_ModuleId",
-                        column: x => x.ModuleId,
+                        name: "FK_ModuleSinglePointMooring_Modules_ModulesId",
+                        column: x => x.ModulesId,
                         principalSchema: "config",
                         principalTable: "Modules",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_SpmModule_SinglePointMoorings_SpmId",
-                        column: x => x.SpmId,
+                        name: "FK_ModuleSinglePointMooring_SinglePointMoorings_SinglePointMooringsId",
+                        column: x => x.SinglePointMooringsId,
                         principalSchema: "config",
                         principalTable: "SinglePointMoorings",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_SpmModule_Sites_SiteId",
-                        column: x => x.SiteId,
-                        principalSchema: "config",
-                        principalTable: "Sites",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -1154,6 +1144,12 @@ namespace offshore.data.models.settings.Migrations
                 column: "DefaultUnitId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_ModuleSinglePointMooring_SinglePointMooringsId",
+                schema: "config",
+                table: "ModuleSinglePointMooring",
+                column: "SinglePointMooringsId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_ReceivedData_SpmId",
                 schema: "config",
                 table: "ReceivedData",
@@ -1280,24 +1276,6 @@ namespace offshore.data.models.settings.Migrations
                 column: "UsersId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SpmModule_ModuleId",
-                schema: "config",
-                table: "SpmModule",
-                column: "ModuleId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_SpmModule_SiteId",
-                schema: "config",
-                table: "SpmModule",
-                column: "SiteId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_SpmModule_SpmId",
-                schema: "config",
-                table: "SpmModule",
-                column: "SpmId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_TelemetryData_SpmId",
                 schema: "config",
                 table: "TelemetryData",
@@ -1375,6 +1353,10 @@ namespace offshore.data.models.settings.Migrations
                 schema: "config");
 
             migrationBuilder.DropTable(
+                name: "ModuleSinglePointMooring",
+                schema: "config");
+
+            migrationBuilder.DropTable(
                 name: "ReceivedData",
                 schema: "config");
 
@@ -1388,10 +1370,6 @@ namespace offshore.data.models.settings.Migrations
 
             migrationBuilder.DropTable(
                 name: "SiteUser",
-                schema: "config");
-
-            migrationBuilder.DropTable(
-                name: "SpmModule",
                 schema: "config");
 
             migrationBuilder.DropTable(

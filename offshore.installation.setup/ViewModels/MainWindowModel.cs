@@ -201,7 +201,6 @@ public class MainWindowModel : IMainWindowModel
             .DeleteAllRecords<Receiver>()
             .DeleteAllRecords<Sensor>()
             .DeleteAllRecords<SinglePointMooring>()
-            .DeleteAllRecords<SpmModule>()
             .DeleteAllRecords<Site>()
             .DeleteAllRecords<SiteConfiguration>()
             .DeleteAllRecords<SiteMeasurementUnit>()
