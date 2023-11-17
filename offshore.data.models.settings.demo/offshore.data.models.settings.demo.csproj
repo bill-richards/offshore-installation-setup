@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<RootNamespace>offshore.data.models.settins</RootNamespace>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\offshore.data.models.settings\offshore.data.models.settings.csproj" />
+	  <ProjectReference Include="..\offshore.services\offshore.services.csproj" />
+	</ItemGroup>
+
+</Project>
