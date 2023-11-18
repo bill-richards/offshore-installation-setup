@@ -5,9 +5,9 @@ namespace offshore.data.models.settings.contexts;
 
 public class ConfigDataContext : OffshoreDbContext, IConfigurationDataContext
 {
-    private readonly IDataConfigurationFile _configFile;
+    private readonly IDatabaseConfigurationFile _configFile;
 
-    public ConfigDataContext(IConfigurationSchema databaseConfiguration, IDataConfigurationFile configFile, string databaseType = "SqlExpress")
+    public ConfigDataContext(IConfigurationSchema databaseConfiguration, IDatabaseConfigurationFile configFile, string databaseType = "SqlExpress")
         : base(databaseConfiguration, databaseType)
     {
         _configFile = configFile;
@@ -32,7 +32,7 @@ public class ConfigDataContext : OffshoreDbContext, IConfigurationDataContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.HasDefaultSchema(_configFile.SchemataConfiguration.SettingsSchema);
+        modelBuilder.HasDefaultSchema(_configFile.SchemataConfiguration.ConfigurationSchema);
 
         new Alarm().OnModelCreating(modelBuilder);
         new Calibration().OnModelCreating(modelBuilder);

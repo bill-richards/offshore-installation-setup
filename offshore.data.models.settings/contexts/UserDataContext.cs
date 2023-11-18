@@ -5,9 +5,9 @@ namespace offshore.data.models.settings.contexts;
 
 public class UserDataContext : OffshoreDbContext, IUserDataContext
 {
-    private readonly IDataConfigurationFile _configFile;
+    private readonly IDatabaseConfigurationFile _configFile;
 
-    public UserDataContext(IUsersSchema databaseConfiguration, IDataConfigurationFile configFile, string databaseType = "SqlExpress")
+    public UserDataContext(IUsersSchema databaseConfiguration, IDatabaseConfigurationFile configFile, string databaseType = "SqlExpress")
         : base(databaseConfiguration, databaseType)
     {
         _configFile = configFile;

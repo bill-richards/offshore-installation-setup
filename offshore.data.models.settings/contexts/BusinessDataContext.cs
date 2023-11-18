@@ -5,8 +5,8 @@ namespace offshore.data.models.settings.contexts;
 
 public class BusinessDataContext : OffshoreDbContext, IBusinessDataContext
 {
-    private readonly IDataConfigurationFile _configFile;
-    public BusinessDataContext(IBusinessSchema databaseConfiguration, IDataConfigurationFile configFile, string databaseType = "SqlExpress") 
+    private readonly IDatabaseConfigurationFile _configFile;
+    public BusinessDataContext(IBusinessSchema databaseConfiguration, IDatabaseConfigurationFile configFile, string databaseType = "SqlExpress") 
         : base(databaseConfiguration, databaseType)
     {
         _configFile = configFile;

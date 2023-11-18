@@ -1,6 +1,6 @@
 ﻿namespace offshore.services;
 
-public class DataConfigurationFile : JsonConfigurationFile<DataConfigurationFile>, IDataConfigurationFile
+public class DatabaseConfigurationFile : JsonConfigurationFile<DatabaseConfigurationFile>, IDatabaseConfigurationFile
 {
     private const string ConfigurationFileName = "appsettings.json";
     public string SqliteSectionName => "lite";
@@ -9,11 +9,11 @@ public class DataConfigurationFile : JsonConfigurationFile<DataConfigurationFile
     public string SiteSectionName => "site";
     public string SchemataSectionName => "schemata";
 
-    public DataConfigurationFile SiteConfiguration => GetConfiguration(ConfigurationFileName, SiteSectionName);
-    public DataConfigurationFile LiteConfiguration => GetConfiguration(ConfigurationFileName, SqliteSectionName);
-    public DataConfigurationFile ExpressConfiguration => GetConfiguration(ConfigurationFileName, SqlExpressSectionName);
-    public DataConfigurationFile MongoConfiguration => GetConfiguration(ConfigurationFileName, MongoSectionName);
-    public DataConfigurationFile SchemataConfiguration => GetConfiguration(ConfigurationFileName, SchemataSectionName);
+    public DatabaseConfigurationFile SiteConfiguration => GetConfiguration(ConfigurationFileName, SiteSectionName);
+    public DatabaseConfigurationFile LiteConfiguration => GetConfiguration(ConfigurationFileName, SqliteSectionName);
+    public DatabaseConfigurationFile ExpressConfiguration => GetConfiguration(ConfigurationFileName, SqlExpressSectionName);
+    public DatabaseConfigurationFile MongoConfiguration => GetConfiguration(ConfigurationFileName, MongoSectionName);
+    public DatabaseConfigurationFile SchemataConfiguration => GetConfiguration(ConfigurationFileName, SchemataSectionName);
 
     public uint? Licence { get; set; }
     public uint? Port { get; set; }

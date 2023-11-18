@@ -20,7 +20,7 @@ public partial class App : Application
 
     public App()
     {
-        var configurationFile = new DataConfigurationFile();
+        var configurationFile = new DatabaseConfigurationFile();
         var siteConfiguration = configurationFile!.SiteConfiguration;
         var store = siteConfiguration.Store;
 
@@ -30,7 +30,7 @@ public partial class App : Application
                 
                 services.AddSingleton<MainWindow>();
                 services.AddTransient<IMainWindowModel, MainWindowModel>();
-                services.AddTransient<IDataConfigurationFile, DataConfigurationFile>();
+                services.AddTransient<IDatabaseConfigurationFile, DatabaseConfigurationFile>();
                 services.AddSingleton<IDataModelParser, DataModelParser>();
 
                 if (store!.Equals(configurationFile.SqlExpressSectionName))
@@ -52,7 +52,7 @@ public partial class App : Application
     {
         services.AddSingleton<IMongoClient, MongoClient>(implementationFactory: provider => 
         {
-            var configFile = provider.GetService<IDataConfigurationFile>();
+            var configFile = provider.GetService<IDatabaseConfigurationFile>();
             var configuration = configFile!.MongoConfiguration;
 
             var connectionString = $"mongodb://{configuration.Server}:{configuration.Port}";
@@ -61,7 +61,7 @@ public partial class App : Application
 
         services.AddSingleton<IOffshoreDbConfiguration, OffshoreMongoDbConfiguration>(implementationFactory: provider =>
         {
-            var configFile = provider.GetService<IDataConfigurationFile>();
+            var configFile = provider.GetService<IDatabaseConfigurationFile>();
             var configuration = configFile!.MongoConfiguration;
 
             var client = provider.GetService<IMongoClient>();
@@ -71,7 +71,7 @@ public partial class App : Application
         services.AddFactory<IConfigurationDataContext, CompleteDataContext>(factory: provider =>
         {
             var databaseConfiguration = provider.GetService<IOffshoreDbConfiguration>(); //.First(s => s.DatabaseType == "MongoDb");
-            return new CompleteDataContext((databaseConfiguration as ISettingsSchema)!, provider.GetService<IDataConfigurationFile>()!);
+            return new CompleteDataContext((databaseConfiguration as ISettingsSchema)!, provider.GetService<IDatabaseConfigurationFile>()!);
         });
     }
 
@@ -79,7 +79,7 @@ public partial class App : Application
     {
         services.AddSingleton<ISettingsSchema, OffshoreSqlExpressDbConfiguration>(implementationFactory: provider =>
         {
-            var configFile = provider.GetService<IDataConfigurationFile>();
+            var configFile = provider.GetService<IDatabaseConfigurationFile>();
             var configuration = configFile!.ExpressConfiguration;
             var schemata = configFile!.SchemataConfiguration;
 
@@ -95,7 +95,7 @@ public partial class App : Application
 
         services.AddSingleton<IConfigurationSchema, OffshoreSqlExpressDbConfiguration>(implementationFactory: provider =>
         {
-            var configFile = provider.GetService<IDataConfigurationFile>();
+            var configFile = provider.GetService<IDatabaseConfigurationFile>();
             var configuration = configFile!.ExpressConfiguration;
             var schemata = configFile!.SchemataConfiguration;
 
@@ -106,7 +106,7 @@ public partial class App : Application
 
         services.AddSingleton<IUsersSchema, OffshoreSqlExpressDbConfiguration>(implementationFactory: provider =>
         {
-            var configFile = provider.GetService<IDataConfigurationFile>();
+            var configFile = provider.GetService<IDatabaseConfigurationFile>();
             var configuration = configFile!.ExpressConfiguration;
             var schemata = configFile!.SchemataConfiguration;
 
@@ -117,7 +117,7 @@ public partial class App : Application
 
         services.AddSingleton<ILanguageSchema, OffshoreSqlExpressDbConfiguration>(implementationFactory: provider =>
         {
-            var configFile = provider.GetService<IDataConfigurationFile>();
+            var configFile = provider.GetService<IDatabaseConfigurationFile>();
             var configuration = configFile!.ExpressConfiguration;
             var schemata = configFile!.SchemataConfiguration;
 
@@ -128,7 +128,7 @@ public partial class App : Application
 
         services.AddSingleton<IBusinessSchema, OffshoreSqlExpressDbConfiguration>(implementationFactory: provider =>
         {
-            var configFile = provider.GetService<IDataConfigurationFile>();
+            var configFile = provider.GetService<IDatabaseConfigurationFile>();
             var configuration = configFile!.ExpressConfiguration;
             var schemata = configFile!.SchemataConfiguration;
 
@@ -142,7 +142,7 @@ public partial class App : Application
     {
         services.AddSingleton<IOffshoreDbConfiguration, OffshoreSqliteDbConfiguration>(implementationFactory: provider =>
         {
-            var configFile = provider.GetService<IDataConfigurationFile>();
+            var configFile = provider.GetService<IDatabaseConfigurationFile>();
             var configuration = configFile!.LiteConfiguration;
 
             var path = $"{configuration.DataFolder}/{licence}OPSTELSET.sqlite";
@@ -152,7 +152,7 @@ public partial class App : Application
         services.AddFactory<IConfigurationDataContext, CompleteDataContext>(factory: provider =>
         {
             var databaseConfiguration = provider.GetService<IOffshoreDbConfiguration>(); //.First(s => s.DatabaseType == "Sqlite");
-            return new CompleteDataContext((databaseConfiguration as ISettingsSchema)!, provider.GetService<IDataConfigurationFile>()!, "Sqlite");
+            return new CompleteDataContext((databaseConfiguration as ISettingsSchema)!, provider.GetService<IDatabaseConfigurationFile>()!, "Sqlite");
         });
     }
 

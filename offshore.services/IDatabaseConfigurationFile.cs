@@ -1,15 +1,15 @@
 ﻿namespace offshore.services
 {
-    public interface IDataConfigurationFile
+    public interface IDatabaseConfigurationFile
     {
         /**
          * configuration sections
          */
-        DataConfigurationFile SchemataConfiguration { get; }
-        DataConfigurationFile ExpressConfiguration { get; }
-        DataConfigurationFile LiteConfiguration { get; }
-        DataConfigurationFile MongoConfiguration { get; }
-        DataConfigurationFile SiteConfiguration { get; }
+        DatabaseConfigurationFile SchemataConfiguration { get; }
+        DatabaseConfigurationFile ExpressConfiguration { get; }
+        DatabaseConfigurationFile LiteConfiguration { get; }
+        DatabaseConfigurationFile MongoConfiguration { get; }
+        DatabaseConfigurationFile SiteConfiguration { get; }
 
         /**
          * configuration items

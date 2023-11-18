@@ -5,9 +5,9 @@ namespace offshore.data.models.settings.contexts;
 
 public class LanguageDataContext : OffshoreDbContext, ILanguageDataContext
 {
-    private readonly IDataConfigurationFile _configFile;
+    private readonly IDatabaseConfigurationFile _configFile;
 
-    public LanguageDataContext(ILanguageSchema databaseConfiguration, IDataConfigurationFile configFile, string databaseType = "SqlExpress")
+    public LanguageDataContext(ILanguageSchema databaseConfiguration, IDatabaseConfigurationFile configFile, string databaseType = "SqlExpress")
         : base(databaseConfiguration, databaseType)
     {
         _configFile = configFile;
