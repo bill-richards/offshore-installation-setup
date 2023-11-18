@@ -2,7 +2,7 @@
 
 namespace offshore.data.models.settings.defaults;
 
-public static class UserDefaults
+public static class PermissionsAndRolesSetup
 {
     public static void PopulateDatabase(IUserDataContext usersContext, 
                                         IConfigurationDataContext settingsContext)

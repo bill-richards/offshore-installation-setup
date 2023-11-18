@@ -104,7 +104,7 @@ public class MainWindowModel : IMainWindowModel
         using var userContext = UsersContextFactory.Create();
         using var settingsContext = SettingsContextFactory.Create();
 
-        UserDefaults.PopulateDatabase(userContext, settingsContext);
+        PermissionsAndRolesSetup.PopulateDatabase(userContext, settingsContext);
     }
 
     private void PopulateTelephonyDefaults(in DefaultTelephonyDataModel entities)
