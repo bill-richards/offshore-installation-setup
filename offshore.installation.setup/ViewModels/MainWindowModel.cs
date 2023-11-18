@@ -145,7 +145,7 @@ public class MainWindowModel : IMainWindowModel
         using var users = UsersContextFactory.Create();
         using var settings = SettingsContextFactory.Create();
         using var languages = LanguageContextFactory.Create();
-        DemoDefaults.PopulateDatabase(settings);
+        DemoDataImporter.PopulateDatabase(settings);
     }
 
     private void ClearOsOpData(object obj)

@@ -2,7 +2,7 @@
 
 namespace offshore.data.models.settings.defaults;
 
-public static class DemoDefaults
+public static class DemoDataImporter
 {
     const string siteName = "Example-Site";
     const string paulWartnarby = "Paul Wartnarby";
