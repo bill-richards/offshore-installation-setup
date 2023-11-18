@@ -19,9 +19,12 @@ public class Sensor : OffshoreDataModel
     public virtual MeasurementUnit? DefaultMeasurementUnit { get; set; }
     public virtual Calibration? Calibration { get; set; }
     public virtual Telemetry? Telemetry { get; set; }
+
     public virtual Module? Module { get; set; }
 
     public virtual ICollection<Alarm>? Alarms { get; set; }
+
+    [NotMapped] public string? TelemetryRef { get; set; }
 
     public override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -32,10 +35,6 @@ public class Sensor : OffshoreDataModel
             e.HasOne(p => p.DefaultMeasurementUnit);
             e.HasOne(p => p.Calibration);
             e.HasOne(p => p.Telemetry);
-            //e.Property(p => p.DataArrayPosition)
-            // .HasConversion(
-            //    v => string.Join(",", v!),
-            //    v => v!.Split(new[] { ',' }).Select(i => uint.Parse(i)).ToArray());
         });
     }
 }

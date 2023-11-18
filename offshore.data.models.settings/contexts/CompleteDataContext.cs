@@ -3,11 +3,11 @@ using offshore.services;
 
 namespace offshore.data.models.settings.contexts;
 
-public class SettingsDataContext : OffshoreDbContext, ISettingsDataContext
+public class CompleteDataContext : OffshoreDbContext, ICompleteDataContext
 {
     private readonly IDataConfigurationFile _configFile;
 
-    public SettingsDataContext(ISettingsSchema databaseConfiguration, IDataConfigurationFile configFile, string databaseType = "SqlExpress")
+    public CompleteDataContext(ISettingsSchema databaseConfiguration, IDataConfigurationFile configFile, string databaseType = "SqlExpress")
         : base(databaseConfiguration, databaseType)
     {
         _configFile = configFile;

@@ -7,8 +7,8 @@ namespace offshore.data.models.settings;
 [Table("Languages", Schema = "lang")]
 public class Language : OffshoreDataModel
 {
-    [Required] public string? ShortName { get; set; }
     [Required] public string? Name { get; set; }
+    [Required] public string? Display { get; set; }
 
     public virtual ICollection<Translation>? Translations { get; set; }
     public ICollection<User>? Users { get; set; }

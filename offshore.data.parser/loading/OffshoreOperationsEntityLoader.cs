@@ -1,10 +1,11 @@
-﻿using offshore.data.models.settings.contexts;
+﻿using offshore.data.models.settings;
+using offshore.data.models.settings.contexts;
 
-namespace offshore.data.models.settings.defaults;
+namespace offshore.data.parsing.loading;
 
-public static class OffshoreOperationsDataSetup
+public static class OffshoreOperationsEntityLoader
 {
-    public static void PopulateDatabase(ISettingsDataContext settings)
+    public static void PopulateDatabase(ICompleteDataContext settings)
     {
         const string name = "Paul Wartnarby";
         const string company = "Offshore Operations Limited";
@@ -13,7 +14,7 @@ public static class OffshoreOperationsDataSetup
 
         var England = settings.GetNamedRecord<Country>("England");
         var mobilePhone = settings.GetNamedRecord<TelephoneType>("mobile");
-        var language = settings.GetNamedRecord<Language>("English");
+        var language = settings.GetNamedRecord<Language>("en");
 
 
         if (settings.FirstOrDefault<TelephoneNumber>(t => t.Number == mobileNumber) is null)

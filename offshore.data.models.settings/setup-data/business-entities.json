@@ -1,0 +1,52 @@
+{
+  "TelephoneTypes": [
+    {
+      "Name": "mobile",
+      "IsDefault": true
+    },
+    {
+      "Name": "land-line",
+      "IsDefault": true
+    }
+  ],
+  "Countries": [
+    {
+      "Name": "England",
+      "IsDefault": true
+    },
+    {
+      "Name": "Republic of Ireland",
+      "IsDefault": true
+    },
+    {
+      "Name": "Scotland",
+      "IsDefault": true
+    },
+    {
+      "Name": "Wales",
+      "IsDefault": true
+    }
+  ],
+  "CountryCodes": [
+    {
+      "CountryRef": "England",
+      "DialingCode": "+44",
+      "IsDefault": true
+    },
+    {
+      "CountryRef": "Republic of Ireland",
+      "DialingCode": "+353",
+      "IsDefault": true
+    },
+    {
+      "CountryRef": "Scotland",
+      "DialingCode": "+44",
+      "IsDefault": true
+    },
+    {
+      "CountryRef": "Wales",
+      "DialingCode": "+44",
+      "IsDefault": true
+    }
+  ]
+}

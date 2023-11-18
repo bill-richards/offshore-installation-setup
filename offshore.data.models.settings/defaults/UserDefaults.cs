@@ -5,7 +5,7 @@ namespace offshore.data.models.settings.defaults;
 public static class UserDefaults
 {
     public static void PopulateDatabase(IUserDataContext usersContext, 
-                                        ISettingsDataContext settingsContext)
+                                        IConfigurationDataContext settingsContext)
     {
         var syncRole = usersContext.GetSyncRole();
         var sysAdminRole = usersContext.GetSysAdminRole();
@@ -37,7 +37,7 @@ public static class UserDefaults
         
         if (settingsContext.GetNamedRecord<User>("sa") is null)
         {
-            var language = settingsContext.GetNamedRecord<Language>("English");
+            var language = settingsContext.GetNamedRecord<Language>("en");;
             Role role = settingsContext.GetNamedRecord<Role>(syncRole.Name!);
 
             settingsContext.AddToDbSet(new User()

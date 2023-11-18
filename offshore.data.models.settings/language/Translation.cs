@@ -12,6 +12,8 @@ public class Translation : OffshoreDataModel
 
     [Required]
     public string? Value { get; set; }
+    [NotMapped] public string? LanguageRef { get; set; }
+    [NotMapped] public string? TranslatableRef { get; set; }
 
     public override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -20,7 +22,7 @@ public class Translation : OffshoreDataModel
         {
             e.HasOne(p => p.Language).WithMany(l => l.Translations);
             e.HasOne(p => p.Translatable).WithMany(t => t.Translations);
-            e.HasAlternateKey(new[] { "LanguageId", "TranslatableId" });
+            e.HasAlternateKey(["LanguageId", "TranslatableId"]);
         });
     }
 }

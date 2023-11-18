@@ -35,6 +35,7 @@
     <ProjectReference Include="..\offshore.data.models.settings.demo\offshore.data.models.settings.demo.csproj" />
     <ProjectReference Include="..\offshore.data.models.settings\offshore.data.models.settings.csproj" />
     <ProjectReference Include="..\offshore.data.mongodb\offshore.data.mongodb.csproj" />
+    <ProjectReference Include="..\offshore.data.parser\offshore.data.parser.csproj" />
     <ProjectReference Include="..\offshore.data.sqlexpress\offshore.data.sqlexpress.csproj" />
     <ProjectReference Include="..\offshore.data.sqlite\offshore.data.sqlite.csproj" />
     <ProjectReference Include="..\offshore.services\offshore.services.csproj" />

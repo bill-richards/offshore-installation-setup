@@ -8,7 +8,7 @@ public static class DemoDefaults
     const string paulWartnarby = "Paul Wartnarby";
     const string companyName = "Example-Company";
 
-    public static void PopulateDatabase(ISettingsDataContext settings)
+    public static void PopulateDatabase(ICompleteDataContext settings)
     {
         const string exampleUserName = $"{siteName} User";
         const string exampleAdminName = $"{siteName} Admin";
@@ -111,8 +111,8 @@ public static class DemoDefaults
         settings.SaveChanges();
         exampleCompany = settings.GetNamedRecord<Company>(exampleCompany.Name);
 
-        var english = settings.GetNamedRecord<Language>("English");
-        var spanish = settings.FirstOrDefault<Language>(l => l.ShortName!.Equals("es"));
+        var english = settings.GetNamedRecord<Language>("en");
+        var spanish = settings.GetNamedRecord<Language>("es");
         if (settings.GetNamedRecord<User>(examplePilotName) is null)
         {
             settings.AddRangeToDbSet(new[]

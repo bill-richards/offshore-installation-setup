@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using offshore.data.models.settings.contexts;
 
@@ -10,15 +11,17 @@ using offshore.data.models.settings.contexts;
 
 namespace offshore.data.models.settings.Migrations
 {
-    [DbContext(typeof(SettingsDataContext))]
-    partial class SettingsDataContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(CompleteDataContext))]
+    [Migration("20231118023929_Create_Database")]
+    partial class Create_Database
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
                 .HasDefaultSchema("config")
-                .HasAnnotation("ProductVersion", "7.0.13")
+                .HasAnnotation("ProductVersion", "8.0.0")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -471,6 +474,10 @@ namespace offshore.data.models.settings.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
+                    b.Property<string>("Display")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<bool>("IsDefault")
                         .HasColumnType("bit");
 
@@ -478,10 +485,6 @@ namespace offshore.data.models.settings.Migrations
                         .HasColumnType("bit");
 
                     b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ShortName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -561,9 +564,6 @@ namespace offshore.data.models.settings.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
-                    b.Property<long?>("DefaultUnitId")
-                        .HasColumnType("bigint");
-
                     b.Property<bool>("IsDefault")
                         .HasColumnType("bit");
 
@@ -578,8 +578,6 @@ namespace offshore.data.models.settings.Migrations
 
                     b.HasAlternateKey("Name");
 
-                    b.HasIndex("DefaultUnitId");
-
                     b.ToTable("MeasurementTypes", "config");
                 });
 
@@ -590,10 +588,6 @@ namespace offshore.data.models.settings.Migrations
                         .HasColumnType("bigint");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
-
-                    b.Property<string>("Description")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<double>("Factor")
                         .HasColumnType("float");
@@ -608,7 +602,16 @@ namespace offshore.data.models.settings.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<long?>("MeasurementTypeId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("MeasurementTypeId");
 
                     b.ToTable("MeasurementUnits", "config");
                 });
@@ -1515,13 +1518,13 @@ namespace offshore.data.models.settings.Migrations
                     b.Navigation("Address");
                 });
 
-            modelBuilder.Entity("offshore.data.models.settings.MeasurementType", b =>
+            modelBuilder.Entity("offshore.data.models.settings.MeasurementUnit", b =>
                 {
-                    b.HasOne("offshore.data.models.settings.MeasurementUnit", "DefaultUnit")
+                    b.HasOne("offshore.data.models.settings.MeasurementType", "MeasurementType")
                         .WithMany()
-                        .HasForeignKey("DefaultUnitId");
+                        .HasForeignKey("MeasurementTypeId");
 
-                    b.Navigation("DefaultUnit");
+                    b.Navigation("MeasurementType");
                 });
 
             modelBuilder.Entity("offshore.data.models.settings.ReceivedData", b =>

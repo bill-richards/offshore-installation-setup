@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "offshore.installation.setup": {
+      "commandName": "Project",
+      "hotReloadEnabled": false
+    }
+  }
+}

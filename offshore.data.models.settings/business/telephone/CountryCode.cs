@@ -9,7 +9,9 @@ public class CountryCode : OffshoreDataModel
 {
     [Required] public string? DialingCode { get; set; }
 
-    [Required] public Country? Country { get; init; }
+    [Required] public Country? Country { get; set; }
+
+    [NotMapped] public string? CountryRef {  get; set; }
 
     public ICollection<TelephoneNumber>? TelephoneNumbers { get; init; } = new HashSet<TelephoneNumber>();
 

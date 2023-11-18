@@ -1,8 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace offshore.data.models.settings;
 
+[Table("TelemetryData")]
 public class Telemetry : OffshoreDataModel
 {
     [Required] public string? Name { get; set; }

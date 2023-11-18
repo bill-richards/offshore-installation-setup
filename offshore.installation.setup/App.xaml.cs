@@ -10,6 +10,7 @@ using MongoDB.Driver;
 using offshore.data.mongodb;
 using offshore.data.models.settings.contexts;
 using Microsoft.EntityFrameworkCore;
+using offshore.data.parsing;
 
 namespace offshore.installation.setup;
 
@@ -30,8 +31,9 @@ public partial class App : Application
                 services.AddSingleton<MainWindow>();
                 services.AddTransient<IMainWindowModel, MainWindowModel>();
                 services.AddTransient<IDataConfigurationFile, DataConfigurationFile>();
+                services.AddSingleton<IDataModelParser, DataModelParser>();
 
-                if(store!.Equals(configurationFile.SqlExpressSectionName))
+                if (store!.Equals(configurationFile.SqlExpressSectionName))
                     ConfigureSqlExpressStore(services);
                 else if (store!.Equals(configurationFile.MongoSectionName))
                     ConfigureMongoDbStore(services);
@@ -41,7 +43,7 @@ public partial class App : Application
             }).Build();
 
         using var scope = AppHost.Services.CreateScope();
-        using var settings = scope.ServiceProvider.GetRequiredService<ISettingsDataContext>();
+        using var settings = scope.ServiceProvider.GetRequiredService<IConfigurationDataContext>();
 
         settings.Database.Migrate();
     }
@@ -66,10 +68,10 @@ public partial class App : Application
             return new OffshoreMongoDbConfiguration(client!.GetDatabase(configuration.Database));
         });
 
-        services.AddFactory<ISettingsDataContext, SettingsDataContext>(factory: provider =>
+        services.AddFactory<IConfigurationDataContext, CompleteDataContext>(factory: provider =>
         {
             var databaseConfiguration = provider.GetService<IOffshoreDbConfiguration>(); //.First(s => s.DatabaseType == "MongoDb");
-            return new SettingsDataContext((databaseConfiguration as ISettingsSchema)!, provider.GetService<IDataConfigurationFile>()!);
+            return new CompleteDataContext((databaseConfiguration as ISettingsSchema)!, provider.GetService<IDataConfigurationFile>()!);
         });
     }
 
@@ -84,7 +86,7 @@ public partial class App : Application
             var connectionString = $"server={configuration.Server};database={configuration.Database};trusted_connection=true;TrustServerCertificate=True";
             return new OffshoreSqlExpressDbConfiguration(connectionString, schemata.SettingsSchema!);
         });
-        services.AddFactory<ISettingsDataContext, SettingsDataContext>();
+        services.AddFactory<IConfigurationDataContext, CompleteDataContext>();
         //services.AddFactory<ISettingsDataContext, SettingsDataContext>(factory: provider =>
         //{
         //    var databaseConfiguration = provider.GetService<IOffshoreDbConfiguration>(); //.First(s => s.DatabaseType == "SqlExpress");
@@ -100,7 +102,7 @@ public partial class App : Application
             var connectionString = $"server={configuration.Server};database={configuration.Database};trusted_connection=true;TrustServerCertificate=True";
             return new OffshoreSqlExpressDbConfiguration(connectionString, schemata.ConfigurationSchema!);
         });
-        services.AddFactory<ISettingsDataContext, SettingsDataContext>();
+        services.AddFactory<ICompleteDataContext, CompleteDataContext>();
 
         services.AddSingleton<IUsersSchema, OffshoreSqlExpressDbConfiguration>(implementationFactory: provider =>
         {
@@ -147,10 +149,10 @@ public partial class App : Application
             return new OffshoreSqliteDbConfiguration(path);
         });
 
-        services.AddFactory<ISettingsDataContext, SettingsDataContext>(factory: provider =>
+        services.AddFactory<IConfigurationDataContext, CompleteDataContext>(factory: provider =>
         {
             var databaseConfiguration = provider.GetService<IOffshoreDbConfiguration>(); //.First(s => s.DatabaseType == "Sqlite");
-            return new SettingsDataContext((databaseConfiguration as ISettingsSchema)!, provider.GetService<IDataConfigurationFile>()!, "Sqlite");
+            return new CompleteDataContext((databaseConfiguration as ISettingsSchema)!, provider.GetService<IDataConfigurationFile>()!, "Sqlite");
         });
     }
 

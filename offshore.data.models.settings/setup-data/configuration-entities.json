@@ -1,0 +1,452 @@
+{
+	"MeasurementTypes": [
+		{ "Name": "Flow", 					"DefaultUnitRef": "Cubic metre per hour", "IsDefault": true },
+		{ "Name": "Distance", 				"DefaultUnitRef": "Metre", "IsDefault": true },
+		{ "Name": "Mass", 					"DefaultUnitRef": "Metric Tonne", "IsDefault": true },
+		{ "Name": "Speed", 					"DefaultUnitRef": "Metre per second", "IsDefault": true },
+		{ "Name": "Atmospheric Pressure", 	"DefaultUnitRef": "Atmospheric Bar", "IsDefault": true },
+		{ "Name": "Temperature", 			"DefaultUnitRef": "Degree Celcius", "IsDefault": true },
+		{ "Name": "Product Pressure", 		"DefaultUnitRef": "Bar", "IsDefault": true },
+		{ "Name": "Power", 					"DefaultUnitRef": "Volts", "IsDefault": true },
+		{ "Name": "Percentage", 			"DefaultUnitRef": "Percentage", "IsDefault": true },
+		{ "Name": "Bearing", 				"DefaultUnitRef": "Degrees", "IsDefault": true },
+		{ "Name": "Time", 					"DefaultUnitRef": "Seconds", "IsDefault": true }
+	],
+	"MeasurementUnits": [
+    {
+      "Name": "Metric Tonne",
+      "Label": "tonne",
+      "Factor": 1,
+      "MeasurementTypeRef": "Mass",
+      "IsDefault": true
+    },
+    {
+      "Name": "Metre per second",
+      "Label": "m/s",
+      "Factor": 1,
+      "MeasurementTypeRef": "Speed",
+      "IsDefault": true
+    },
+    {
+      "Name": "Degrees Celcius",
+      "Label": "°C",
+      "Factor": 1,
+      "MeasurementTypeRef": "Temperature",
+      "IsDefault": true
+    },
+    {
+      "Name": "Bar",
+      "Label": "bar",
+      "Factor": 1,
+      "MeasurementTypeRef": "Product Pressure",
+      "IsDefault": true
+    },
+    {
+      "Name": "Cubic metre per hour",
+      "Label": "m³h",
+      "Factor": 1,
+      "MeasurementTypeRef": "Flow",
+      "IsDefault": true
+    },
+    {
+      "Name": "Metre",
+      "Label": "m",
+      "Factor": 1,
+      "MeasurementTypeRef": "Distance",
+      "IsDefault": true
+    },
+    {
+      "Name": "Atmospheric Bar",
+      "Label": "bar",
+      "Factor": 0.001,
+      "MeasurementTypeRef": "Atmospheric Pressure",
+      "IsDefault": true
+    },
+    {
+      "Name": "Volts",
+      "Label": "v",
+      "Factor": 1,
+      "MeasurementTypeRef": "Power",
+      "IsDefault": true
+    },
+    {
+      "Name": "Percentage",
+      "Label": "%",
+      "Factor": 1,
+      "MeasurementTypeRef": "Percentage",
+      "IsDefault": true
+    },
+    {
+      "Name": "Degrees",
+      "Label": "°",
+      "Factor": 1,
+      "MeasurementTypeRef": "Bearing",
+	  "IsDefault": true
+    },
+    {
+      "Name": "Seconds",
+      "Label": "seconds",
+      "Factor": 1,
+      "MeasurementTypeRef": "Time",
+      "IsDefault": true
+    },
+    {
+      "Name": "U.S Short Ton",
+      "Label": "U.S.ton",
+      "Factor": 1.102,
+      "IsDefault": true
+    },
+    {
+      "Name": "U.K Long Ton",
+      "Label": "U.K.ton",
+      "Factor": 0.98425197,
+      "IsDefault": true
+    },
+    {
+      "Name": "Kilogram",
+      "Label": "kg",
+      "Factor": 1000,
+      "IsDefault": true
+    },
+    {
+      "Name": "Knot",
+      "Label": "knots",
+      "Factor": 1.94384443759918,
+      "IsDefault": true
+    },
+    {
+      "Name": "Mile per hour",
+      "Label": "mph",
+      "Factor": 2.23693633079529,
+      "IsDefault": true
+    },
+    {
+      "Name": "Kilometre per hour",
+      "Label": "km/h",
+      "Factor": 3.59999990463257,
+      "IsDefault": true
+    },
+    {
+      "Name": "Feet per second",
+      "Label": "ft/s",
+      "Factor": 3.28083992004395,
+      "IsDefault": true
+    },
+    {
+      "Name": "Millibar",
+      "Label": "mbar",
+      "Factor": 1000,
+      "IsDefault": true
+    },
+    {
+      "Name": "Kilopascal",
+      "Label": "kPa",
+      "Factor": 100,
+      "IsDefault": true
+    },
+    {
+      "Name": "Atmosphere",
+      "Label": "atm",
+      "Factor": 0.986923,
+      "IsDefault": true
+    },
+    {
+      "Name": "Pound per square inch",
+      "Label": "psi",
+      "Factor": 14.503774,
+      "IsDefault": true
+    },
+    {
+      "Name": "U.K. gallon per hour",
+      "Label": "U.K.gph",
+      "Factor": 220,
+      "IsDefault": true
+    },
+    {
+      "Name": "U.S. gallon per hour",
+      "Label": "U.S.gph",
+      "Factor": 264.2,
+      "IsDefault": true
+    },
+    {
+      "Name": "Barrel (petroleum) per hour",
+      "Label": "barrel/h",
+      "Factor": 6.29,
+      "IsDefault": true
+    },
+    {
+      "Name": "Cubic foot per hour",
+      "Label": "ft³/h",
+      "Factor": 35.31,
+      "IsDefault": true
+    },
+    {
+      "Name": "Cubic inch per hour",
+      "Label": "in³/h",
+      "Factor": 61024,
+      "IsDefault": true
+    },
+    {
+      "Name": "Kilometre",
+      "Label": "km",
+      "Factor": 0.001,
+      "IsDefault": true
+    },
+    {
+      "Name": "Feet",
+      "Label": "ft",
+      "Factor": 3.28084,
+      "IsDefault": true
+    },
+    {
+      "Name": "Mile",
+      "Label": "mi",
+      "Factor": 0.000621,
+      "IsDefault": true
+    },
+    {
+      "Name": "Nautical mile",
+      "Label": "NM",
+      "Factor": 1852,
+      "IsDefault": true
+    },
+    {
+      "Name": "Inch",
+      "Label": "in",
+      "Factor": 39.370079,
+      "IsDefault": true
+    },
+    {
+      "Name": "Yard",
+      "Label": "yd",
+      "Factor": 1.093613,
+      "IsDefault": true
+    },
+    {
+      "Name": "Millibar",
+      "Label": "mbar",
+      "Factor": 1,
+      "IsDefault": true
+    },
+    {
+      "Name": "Kilopascal",
+      "Label": "kPa",
+      "Factor": 0.1,
+      "IsDefault": true
+    },
+    {
+      "Name": "Pascal",
+      "Label": "Pa",
+      "Factor": 100,
+      "IsDefault": true
+    },
+    {
+      "Name": "Atmosphere",
+      "Label": "atm",
+      "Factor": 0.000986923,
+      "IsDefault": true
+    },
+    {
+      "Name": "Pound per square inch",
+      "Label": "psi",
+      "Factor": 0.014503774,
+      "IsDefault": true
+    },
+    {
+      "Name": "Minutes",
+      "Label": "minutes",
+      "Factor": 0.01666666666666,
+      "IsDefault": true
+    },
+    {
+      "Name": "Hours",
+      "Label": "hours",
+      "Factor": 0.00027778,
+      "IsDefault": true
+    },
+    {
+      "Name": "Degree Fahrenheit",
+      "Label": "°F",
+      "Factor": 1.8,
+      "IsDefault": true
+    }
+  ],
+	"Receivers": [
+		{ "Type": "USB", "IsDefault": true },
+		{ "Type": "Serial", "IsDefault": true },
+		{ "Type": "Tcp", "IsDefault": true }
+	],
+	"Telemetries": [
+		{
+		"Name": "$COMMS",
+		"IsDefault": true
+		},
+		{
+		"Name": "$OSANA",
+		"IsDefault": true
+		},
+		{
+		"Name": "$OSGP1",
+		"IsDefault": true
+		},
+		{
+		"Name": "$OSGP2",
+		"IsDefault": true
+		},
+		{
+		"Name": "$OSSWO",
+		"IsDefault": true
+		},
+		{
+		"Name": "$OSVSB",
+		"IsDefault": true
+		},
+		{
+		"Name": "$OSAWA",
+		"IsDefault": true
+		},
+		{
+		"Name": "$OSFPA",
+		"IsDefault": true
+		},
+		{
+		"Name": "$OSSA",
+		"IsDefault": true
+		},
+		{
+		"Name": "$OWGPS",
+		"IsDefault": true
+		},
+		{
+		"Name": "$OSANP",
+		"IsDefault": true
+		},
+		{
+		"Name": "$OSMXM",
+		"IsDefault": true
+		},
+		{
+		"Name": "$OSALH",
+		"IsDefault": true
+		}
+	],
+	"Sensors": [
+		{
+		"Name": "Comms",
+		"MaximumValue": 100,
+		"DataArrayPosition": "0",
+		"AlarmInterval": 100,
+		"TelemetryRef": "$COMMS",
+		"IsDefault": true
+		},
+		{
+		"Name": "Load",
+		"MaximumValue": 250,
+		"DataArrayPosition": "2",
+		"AlarmInterval": 10,
+		"TelemetryRef": "$OSANA",
+		"IsDefault": true
+		},
+		{
+		"Name": "Flow",
+		"MaximumValue": 25,
+		"DataArrayPosition": "6",
+		"AlarmInterval": 10,
+		"TelemetryRef": "$OSANA",
+		"MinimumValue": -2,
+		"DecimalPlaces": 2,
+		"IsDefault": true
+		},
+		{
+		"Name": "WindSpeed",
+		"MaximumValue": 100,
+		"DataArrayPosition": "6",
+		"AlarmInterval": 10,
+		"TelemetryRef": "$OSSWO",
+		"DecimalPlaces": 2,
+		"IsDefault": true
+		}
+	],
+	"Modules": [
+    {
+      "Name": "HAWSER TENSION",
+      "GraphMinimum": 60,
+      "IsDefault": true
+    },
+    {
+      "Name": "PIPE PRESSURE",
+      "GraphMinimum": 60,
+      "IsDefault": true
+    },
+    {
+      "Name": "TANKER MANIFOLD PRESSURE",
+      "GraphMinimum": 60,
+      "IsDefault": true
+    },
+    {
+      "Name": "CURRENT",
+      "GraphMinimum": 60,
+      "IsDefault": true
+    },
+    {
+      "Name": "WAVE",
+      "GraphMinimum": 60,
+      "IsDefault": true
+    },
+    {
+      "Name": "WIND",
+      "GraphMinimum": 60,
+      "IsDefault": true
+    },
+    {
+      "Name": "BUOY TEMPERATURE",
+      "GraphMinimum": 60,
+      "IsDefault": true
+    },
+    {
+      "Name": "BUOY EXCURSION",
+      "GraphMinimum": 60,
+      "IsDefault": true
+    },
+    {
+      "Name": "BUOY ORIENTATION",
+      "GraphMinimum": 60,
+      "IsDefault": true
+    },
+    {
+      "Name": "TANKER EXCURSION",
+      "GraphMinimum": 60,
+      "IsDefault": true
+    },
+    {
+      "Name": "SHORE PRESSURE",
+      "GraphMinimum": 60,
+      "IsDefault": true
+    },
+    {
+      "Name": "SHORE FLOW RATE",
+      "GraphMinimum": 60,
+      "IsDefault": true
+    },
+    {
+      "Name": "POWER SYSTEM",
+      "GraphMinimum": 1440,
+      "IsDefault": true
+    },
+    {
+      "Name": "LEAK DETECTION",
+      "GraphMinimum": 60,
+      "IsDefault": true
+    },
+    {
+      "Name": "WEATHER",
+      "GraphMinimum": 1440,
+      "IsDefault": true
+    },
+    {
+      "Name": "INCLINATION",
+      "GraphMinimum": 60,
+      "IsDefault": true
+    }
+  ]
+}

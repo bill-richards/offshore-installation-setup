@@ -46,8 +46,8 @@ namespace offshore.data.models.settings.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ShortName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Display = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     IsDefault = table.Column<bool>(type: "bit", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
@@ -57,21 +57,20 @@ namespace offshore.data.models.settings.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "MeasurementUnits",
+                name: "MeasurementTypes",
                 schema: "config",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Label = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Factor = table.Column<double>(type: "float", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     IsDefault = table.Column<bool>(type: "bit", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_MeasurementUnits", x => x.Id);
+                    table.PrimaryKey("PK_MeasurementTypes", x => x.Id);
+                    table.UniqueConstraint("AK_MeasurementTypes_Name", x => x.Name);
                 });
 
             migrationBuilder.CreateTable(
@@ -243,26 +242,27 @@ namespace offshore.data.models.settings.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "MeasurementTypes",
+                name: "MeasurementUnits",
                 schema: "config",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    DefaultUnitId = table.Column<long>(type: "bigint", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Label = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Factor = table.Column<double>(type: "float", nullable: false),
+                    MeasurementTypeId = table.Column<long>(type: "bigint", nullable: true),
                     IsDefault = table.Column<bool>(type: "bit", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_MeasurementTypes", x => x.Id);
-                    table.UniqueConstraint("AK_MeasurementTypes_Name", x => x.Name);
+                    table.PrimaryKey("PK_MeasurementUnits", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_MeasurementTypes_MeasurementUnits_DefaultUnitId",
-                        column: x => x.DefaultUnitId,
+                        name: "FK_MeasurementUnits_MeasurementTypes_MeasurementTypeId",
+                        column: x => x.MeasurementTypeId,
                         principalSchema: "config",
-                        principalTable: "MeasurementUnits",
+                        principalTable: "MeasurementTypes",
                         principalColumn: "Id");
                 });
 
@@ -1138,10 +1138,10 @@ namespace offshore.data.models.settings.Migrations
                 column: "AddressId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_MeasurementTypes_DefaultUnitId",
+                name: "IX_MeasurementUnits_MeasurementTypeId",
                 schema: "config",
-                table: "MeasurementTypes",
-                column: "DefaultUnitId");
+                table: "MeasurementUnits",
+                column: "MeasurementTypeId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ModuleSinglePointMooring_SinglePointMooringsId",
@@ -1405,7 +1405,7 @@ namespace offshore.data.models.settings.Migrations
                 schema: "config");
 
             migrationBuilder.DropTable(
-                name: "MeasurementTypes",
+                name: "MeasurementUnits",
                 schema: "config");
 
             migrationBuilder.DropTable(
@@ -1425,7 +1425,7 @@ namespace offshore.data.models.settings.Migrations
                 schema: "users");
 
             migrationBuilder.DropTable(
-                name: "MeasurementUnits",
+                name: "MeasurementTypes",
                 schema: "config");
 
             migrationBuilder.DropTable(

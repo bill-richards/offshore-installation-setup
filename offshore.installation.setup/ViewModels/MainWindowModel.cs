@@ -1,40 +1,44 @@
-﻿using Microsoft.EntityFrameworkCore;
-using offshore.data.models.settings;
+﻿using offshore.data.models.settings;
 using offshore.data.models.settings.contexts;
 using offshore.data.models.settings.defaults;
+using offshore.data.parsing.loading;
+using offshore.data.parsing.models;
 using offshore.services;
 using System;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
-using System.Linq;
 using System.Windows.Input;
 
 namespace offshore.installation.setup.ViewModels;
 
 public class MainWindowModel : IMainWindowModel
 {
+    private readonly IDataModelParser _dataParser;
+
     public event PropertyChangedEventHandler? PropertyChanged;
 
     private void OnPropertyChanged(string propertyName) => PropertyChanged!(this, new PropertyChangedEventArgs(propertyName));
 
-    public MainWindowModel(IAbstractFactory<ISettingsDataContext> settingsContextFactory,
+    public MainWindowModel(IAbstractFactory<ICompleteDataContext> settingsContextFactory,
                             IAbstractFactory<IBusinessDataContext> businessContextFactory,
                             IAbstractFactory<IUserDataContext> usersContextFactory,
-                            IAbstractFactory<ILanguageDataContext> languageContextFactory)
+                            IAbstractFactory<ILanguageDataContext> languageContextFactory,
+                            IDataModelParser dataParser)
     {
         LanguageContextFactory = languageContextFactory;
+        _dataParser = dataParser;
         SettingsContextFactory = settingsContextFactory;
         BusinessContextFactory = businessContextFactory;
         UsersContextFactory = usersContextFactory;
         ClearOsOpDataButtonClick = new RelayCommand(new Action<object>(ClearOsOpData));
         DeleteOsOpDataButtonClick = new RelayCommand(new Action<object>(DeleteOsOpData));
         GetOsOpDataButtonClick = new RelayCommand(new Action<object>(GetOsOpData));
-        CreateOsOpDatabaseButtonClick = new RelayCommand(new Action<object>(PopulateOsOpDatabase));
+        CreateOsOpDatabaseButtonClick = new RelayCommand(new Action<object>(PopulateDefaultData));
         CreateDemoDataButtonClick = new RelayCommand(new Action<object>(PopulateDemoData));
     }
 
     public IAbstractFactory<ILanguageDataContext> LanguageContextFactory { get; }
-    public IAbstractFactory<ISettingsDataContext> SettingsContextFactory { get; }
+    public IAbstractFactory<ICompleteDataContext> SettingsContextFactory { get; }
     public IAbstractFactory<IUserDataContext> UsersContextFactory { get; }
     public IAbstractFactory<IBusinessDataContext> BusinessContextFactory { get; }
     public ICommand CreateOsOpDatabaseButtonClick { get; init; }
@@ -43,39 +47,95 @@ public class MainWindowModel : IMainWindowModel
     public ICommand GetOsOpDataButtonClick { get; init; }
     public ICommand CreateDemoDataButtonClick { get; init; }
 
-    public ObservableCollection<Alarm> Alarms { get; } = new ObservableCollection<Alarm>();
-    public ObservableCollection<Calibration> Calibrations { get; } = new ObservableCollection<Calibration>();
-    public ObservableCollection<ChangeLog> ChangeLogs { get; } = new ObservableCollection<ChangeLog>();
-    public ObservableCollection<Consignment> Consignments { get; } = new ObservableCollection<Consignment>();
-    public ObservableCollection<LiveDatum> LiveData { get; } = new ObservableCollection<LiveDatum>();
-    public ObservableCollection<MeasurementType> Measurements { get; } = new ObservableCollection<MeasurementType>();
-    public ObservableCollection<MeasurementUnit> MeasurementUnits { get; } = new ObservableCollection<MeasurementUnit>();
-    public ObservableCollection<Module> Modules { get; } = new ObservableCollection<Module>();
-    public ObservableCollection<ReceivedData> ReceivedData { get; } = new ObservableCollection<ReceivedData>();
-    public ObservableCollection<Receiver> ReceiverTypes { get; } = new ObservableCollection<Receiver>();
-    public ObservableCollection<Sensor> Sensors { get; } = new ObservableCollection<Sensor>();
-    public ObservableCollection<SinglePointMooring> SinglePointMoorings { get; } = new ObservableCollection<SinglePointMooring>();
-    public ObservableCollection<Site> Sites { get; } = new ObservableCollection<Site>();
-    public ObservableCollection<SiteConfiguration> SiteConfigurations { get; } = new ObservableCollection<SiteConfiguration>();
-    public ObservableCollection<SiteMeasurementUnit> SiteMeasurementDataUnits { get; } = new ObservableCollection<SiteMeasurementUnit>();
-    public ObservableCollection<Telemetry> TelemetryData { get; } = new ObservableCollection<Telemetry>();
+    public ObservableCollection<Alarm> Alarms { get; } = [];
+    public ObservableCollection<Calibration> Calibrations { get; } = [];
+    public ObservableCollection<ChangeLog> ChangeLogs { get; } = [];
+    public ObservableCollection<Consignment> Consignments { get; } = [];
+    public ObservableCollection<LiveDatum> LiveData { get; } = [];
+    public ObservableCollection<MeasurementType> Measurements { get; } = [];
+    public ObservableCollection<MeasurementUnit> MeasurementUnits { get; } = [];
+    public ObservableCollection<Module> Modules { get; } = [];
+    public ObservableCollection<ReceivedData> ReceivedData { get; } = [];
+    public ObservableCollection<Receiver> ReceiverTypes { get; } = [];
+    public ObservableCollection<Sensor> Sensors { get; } = [];
+    public ObservableCollection<SinglePointMooring> SinglePointMoorings { get; } = [];
+    public ObservableCollection<Site> Sites { get; } = [];
+    public ObservableCollection<SiteConfiguration> SiteConfigurations { get; } = [];
+    public ObservableCollection<SiteMeasurementUnit> SiteMeasurementDataUnits { get; } = [];
+    public ObservableCollection<Telemetry> TelemetryData { get; } = [];
 
-    public ObservableCollection<Language> Languages { get; } = new ObservableCollection<Language>();
-    public ObservableCollection<Translatable> Translatables { get; } = new ObservableCollection<Translatable>();
-    public ObservableCollection<Translation> Translations { get; } = new ObservableCollection<Translation>();
+    public ObservableCollection<Language> Languages { get; } = [];
+    public ObservableCollection<Translatable> Translatables { get; } = [];
+    public ObservableCollection<Translation> Translations { get; } = [];
 
-    public ObservableCollection<Permission> Permissions { get; } = new ObservableCollection<Permission>();
-    public ObservableCollection<Role> Roles { get; } = new ObservableCollection<Role>();
-    public ObservableCollection<User> Users { get; } = new ObservableCollection<User>();
+    public ObservableCollection<Permission> Permissions { get; } = [];
+    public ObservableCollection<Role> Roles { get; } = [];
+    public ObservableCollection<User> Users { get; } = [];
 
-    private void PopulateOsOpDatabase(object obj)
+    private void PopulateDefaultData(object obj)
     {
-        PopulateBusinessDefaults();
-        PopulateLanguageData();
-        PopulateUserData();
-        PopulateSettingsData();
+        if (_dataParser.TryParseDataFile("setup-data\\language-entities.json", out DefaultLanguageDataModel? languageEntities))
+            PopulateLanguageDefaults(languageEntities!);
+        
+        PopulateUserDefaults(); // Keep this one in c#
 
-        PopulateOffshoreOpsData();
+        if (_dataParser.TryParseDataFile("setup-data\\business-entities.json", out DefaultTelephonyDataModel? businessEntities))
+            PopulateTelephonyDefaults(businessEntities!);
+
+        if (_dataParser.TryParseDataFile("setup-data\\configuration-entities.json", out DefaultConfigurationDataModel? configurationEntities))
+            PopulateConfigurationDefaults(configurationEntities!);
+
+        //PopulateOffshoreOpsData();
+    }
+
+    private void PopulateLanguageDefaults(in DefaultLanguageDataModel entities)
+    {
+        using var context = LanguageContextFactory.Create();
+        LanguageEntityLoader.PopulateDatabase(context, new()
+        {
+            Languages = entities.Languages!,
+            Translatables = entities.Translatables!,
+            Translations = entities.Translations!
+        });
+    }
+
+    private void PopulateUserDefaults()
+    {
+        using var userContext = UsersContextFactory.Create();
+        using var settingsContext = SettingsContextFactory.Create();
+
+        UserDefaults.PopulateDatabase(userContext, settingsContext);
+    }
+
+    private void PopulateTelephonyDefaults(in DefaultTelephonyDataModel entities)
+    {
+        using var context = BusinessContextFactory.Create();
+        TelephonyEntityLoader.PopulateDatabase(context, new()
+        {
+            TelephoneTypes = entities.TelephoneTypes!,
+            Countries = entities.Countries!,
+            CountryCodes = entities.CountryCodes!
+        });
+    }
+
+    private void PopulateConfigurationDefaults(in DefaultConfigurationDataModel entities)
+    {
+        using var context = SettingsContextFactory.Create();
+
+        ConfigurationEntityLoader.PopulateDatabase(context, new() { 
+            MeasurementTypes = entities.MeasurementTypes!,
+            MeasurementUnits = entities.MeasurementUnits!,
+            Modules = entities.Modules!,
+            Receivers = entities.Receivers!,
+            Sensors = entities.Sensors!,
+            Telemetries = entities.Telemetries!
+        });
+    }
+
+    private void PopulateOffshoreOpsData()
+    {
+        using var context = SettingsContextFactory.Create();
+        OffshoreOperationsEntityLoader.PopulateDatabase(context);
     }
 
     private void PopulateDemoData(object obj) => SetupDemoRecords();
@@ -86,40 +146,6 @@ public class MainWindowModel : IMainWindowModel
         using var settings = SettingsContextFactory.Create();
         using var languages = LanguageContextFactory.Create();
         DemoDefaults.PopulateDatabase(settings);
-    }
-
-    private void PopulateOffshoreOpsData()
-    {
-        using var context = SettingsContextFactory.Create();
-        OffshoreOperationsDataSetup.PopulateDatabase(context);
-    }
-
-    private void PopulateBusinessDefaults()
-    {
-        using var context = BusinessContextFactory.Create();
-        BusinessDefaults.PopulateDatabase(context);
-    }
-
-    private void PopulateLanguageData()
-    {
-        using var context = LanguageContextFactory.Create();
-
-        TranslationDefaults.PopulateDatabase(context);
-    }
-    private void PopulateSettingsData()
-    {
-        using var context = SettingsContextFactory.Create();
-
-        MeasurementDefaults.PopulateDatabase(context);
-        TelemetryDefaults.PopulateDatabase(context);
-        ModuleDefaults.PopulateDatabase(context);
-    }
-    private void PopulateUserData()
-    {
-        using var userContext = UsersContextFactory.Create();
-        using var settingsContext = SettingsContextFactory.Create();
-
-        UserDefaults.PopulateDatabase(userContext, settingsContext);
     }
 
     private void ClearOsOpData(object obj)
