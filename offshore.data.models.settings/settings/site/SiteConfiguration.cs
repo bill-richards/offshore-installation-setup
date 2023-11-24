@@ -15,18 +15,18 @@ public class SiteConfiguration : OffshoreDataModel
     [Required]
     public uint LogData { get; set; }
     [Required]
-    public string? SqlConnection { get; set; }
+    public string SqlConnection { get; set; } = "";
     [Required, Column("SyncLicence")]
-    public string? SynchronisationLicence { get; set; }
+    public string SynchronisationLicence { get; set; } = "";
     [Required, Column("SyncPassword")]
-    public string? SynchronisationPassword { get; set; }
+    public string SynchronisationPassword { get; set; } = "";
     [Required]
     public uint TimeZone { get; set; }
     [Required]
     public bool AudibleAlarm { get; set; } = false;
     public bool SmsAlarm { get; set; } = false;
     [Required]
-    public string? SmsSender { get; set; } = "TELEMETRY";
+    public string SmsSender { get; set; } = "TELEMETRY";
     [Required]
     public uint SmsInterval { get; set; }
     public bool EmailAlarm { get; set; } = false;

@@ -11,6 +11,8 @@ public class DataModelParser : IDataModelParser
         var fullFilePath = $"{AppDomain.CurrentDomain.BaseDirectory}\\{relativeFilePath}";
         if (!File.Exists(fullFilePath)) return false;
 
+        
+
         parsedEntities = JsonSerializer.Deserialize<TDataType>(File.ReadAllText(fullFilePath));
         return true;
     }

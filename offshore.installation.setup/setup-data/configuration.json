@@ -4,9 +4,9 @@
 		{ "Name": "Distance", 				"DefaultUnitRef": "Metre", "IsDefault": true },
 		{ "Name": "Mass", 					"DefaultUnitRef": "Metric Tonne", "IsDefault": true },
 		{ "Name": "Speed", 					"DefaultUnitRef": "Metre per second", "IsDefault": true },
-		{ "Name": "Atmospheric Pressure", 	"DefaultUnitRef": "Atmospheric Bar", "IsDefault": true },
+		{ "Name": "Atmospheric Pressure","DefaultUnitRef": "Atmospheric Bar", "IsDefault": true },
 		{ "Name": "Temperature", 			"DefaultUnitRef": "Degree Celcius", "IsDefault": true },
-		{ "Name": "Product Pressure", 		"DefaultUnitRef": "Bar", "IsDefault": true },
+		{ "Name": "Product Pressure", 	"DefaultUnitRef": "Bar", "IsDefault": true },
 		{ "Name": "Power", 					"DefaultUnitRef": "Volts", "IsDefault": true },
 		{ "Name": "Percentage", 			"DefaultUnitRef": "Percentage", "IsDefault": true },
 		{ "Name": "Bearing", 				"DefaultUnitRef": "Degrees", "IsDefault": true },
@@ -272,9 +272,9 @@
     }
   ],
 	"Receivers": [
-		{ "Type": "USB", "IsDefault": true },
-		{ "Type": "Serial", "IsDefault": true },
-		{ "Type": "Tcp", "IsDefault": true }
+		{ "Type": "USB",     "IsDefault": true },
+		{ "Type": "Serial",  "IsDefault": true },
+		{ "Type": "Tcp",     "IsDefault": true }
 	],
 	"Telemetries": [
 		{

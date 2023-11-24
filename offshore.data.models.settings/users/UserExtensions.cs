@@ -23,16 +23,16 @@ public static class UserExtensions
         var permission = context.GetNamedRecord<Permission>(AllPermissionName);
         if (permission == null)
         {
-            if (context.ChangeTracker.HasChanges())
-                throw new InvalidOperationException(string.Format(PermissionErrorMessage, AllPermissionName));
+            //if (context.ChangeTracker.HasChanges())
+            //    throw new InvalidOperationException(string.Format(PermissionErrorMessage, AllPermissionName));
 
             var allPermissions = new Permission(AllPermissionName)
             {
                 IsDefault = true
             };
             context.AddToDbSet(allPermissions);
-            context.SaveChanges();
-            permission = context.GetNamedRecord<Permission>(AllPermissionName);
+            //context.SaveChanges();
+            permission = context.GetDbSet<Permission>().Local.GetNamedRecord(AllPermissionName);
         }
         return permission;
     }
@@ -42,8 +42,8 @@ public static class UserExtensions
         var permission = context.GetNamedRecord<Permission>(ConsignmentPermissionName);
         if (permission == null)
         {
-            if (context.ChangeTracker.HasChanges())
-                throw new InvalidOperationException(string.Format(PermissionErrorMessage, ConsignmentPermissionName));
+            //if (context.ChangeTracker.HasChanges())
+            //    throw new InvalidOperationException(string.Format(PermissionErrorMessage, ConsignmentPermissionName));
 
             permission = new Permission
             {
@@ -57,8 +57,8 @@ public static class UserExtensions
             }
 
             context.AddToDbSet(permission);
-            context.SaveChanges();
-            permission = context.GetNamedRecord<Permission>(ConsignmentPermissionName);
+            //context.SaveChanges();
+            permission = context.GetDbSet<Permission>().Local.GetNamedRecord(ConsignmentPermissionName);
         }
         return permission;
     }
@@ -68,8 +68,8 @@ public static class UserExtensions
         var permission = context.GetNamedRecord<Permission>(SitePermissionName);
         if (permission == null)
         {
-            if (context.ChangeTracker.HasChanges())
-                throw new InvalidOperationException(string.Format(PermissionErrorMessage, SitePermissionName));
+            //if (context.ChangeTracker.HasChanges())
+            //    throw new InvalidOperationException(string.Format(PermissionErrorMessage, SitePermissionName));
 
             permission = new Permission
             {
@@ -87,8 +87,8 @@ public static class UserExtensions
             }
 
             context.AddToDbSet(permission);
-            context.SaveChanges();
-            permission = context.GetNamedRecord<Permission>(SitePermissionName);
+            //context.SaveChanges();
+            permission = context.GetDbSet<Permission>().Local.GetNamedRecord(SitePermissionName);
         }
         return permission;
     }
@@ -122,16 +122,16 @@ public static class UserExtensions
         var record = context.GetNamedRecord<TModelType>(namePropertyValue);
         if (record == null)
         {
-            if (context.ChangeTracker.HasChanges())
-                throw new InvalidOperationException(string.Format(errorFormatString, namePropertyValue));
+            //if (context.ChangeTracker.HasChanges())
+            //    throw new InvalidOperationException(string.Format(errorFormatString, namePropertyValue));
 
             record = new TModelType();
             record.GetType().GetProperty("Name")!.SetValue(record, namePropertyValue);
             record.GetType().GetProperty("IsDefault")!.SetValue(record, true);
             context.AddToDbSet(record);
-            context.SaveChanges();
+            //context.SaveChanges();
 
-            record = context.GetNamedRecord<TModelType>(namePropertyValue);
+            record = context.GetDbSet<TModelType>().Local.GetNamedRecord(namePropertyValue);
         }
         return record;
     }

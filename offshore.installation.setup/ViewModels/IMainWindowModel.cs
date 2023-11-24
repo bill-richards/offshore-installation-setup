@@ -18,7 +18,6 @@ public interface IMainWindowModel : INotifyPropertyChanged
     ObservableCollection<ReceivedData> ReceivedData { get; } 
     ObservableCollection<Sensor> Sensors { get; } 
     ObservableCollection<SinglePointMooring> SinglePointMoorings { get; }
-    //ObservableCollection<SinglePointMooringModule> SinglePointMooringModules { get; } 
     ObservableCollection<Site> Sites { get; } 
     ObservableCollection<SiteConfiguration> SiteConfigurations { get; } 
     ObservableCollection<SiteMeasurementUnit> SiteMeasurementDataUnits { get; }
@@ -32,4 +31,5 @@ public interface IMainWindowModel : INotifyPropertyChanged
     public ICommand DeleteOsOpDataButtonClick { get; }
     public ICommand GetOsOpDataButtonClick { get; }
     public ICommand CreateDemoDataButtonClick { get; }
+    public ICommand ValidateOsOpDataButtonClick { get; }
 }

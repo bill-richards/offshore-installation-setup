@@ -1,12 +1,13 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.ComponentModel.DataAnnotations;
 
 namespace offshore.data.models.settings;
 
 public class SiteMeasurementUnit : OffshoreDataModel
 {
-    public virtual Site? Site { get; set; }
-    public virtual MeasurementType? Measurement { get; set; }
-    public virtual MeasurementUnit? Units { get; set; }
+    [Required] public virtual Site? Site { get; set; }
+    [Required] public virtual MeasurementType? Measurement { get; set; }
+    [Required] public virtual MeasurementUnit? Units { get; set; }
     public override void OnModelCreating(ModelBuilder modelBuilder)
     {
         OnModelCreating<SiteMeasurementUnit>(modelBuilder);

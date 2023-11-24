@@ -91,6 +91,9 @@ GO
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[biz].[TelephoneTypes]') AND type in (N'U'))
 DROP TABLE [biz].TelephoneTypes
 GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[biz].[ContactTelephoneNumber]') AND type in (N'U'))
+DROP TABLE [biz].ContactTelephoneNumber
+GO
 
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[config].[TelephoneNumberUser]') AND type in (N'U'))
 DROP TABLE config.TelephoneNumberUser
@@ -121,6 +124,9 @@ DROP TABLE config.MeasurementUnits
 GO
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[config].[Modules]') AND type in (N'U'))
 DROP TABLE config.Modules
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[config].[ModuleSensor]') AND type in (N'U'))
+DROP TABLE config.ModuleSensor
 GO
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[config].[ReceivedData]') AND type in (N'U'))
 DROP TABLE config.ReceivedData

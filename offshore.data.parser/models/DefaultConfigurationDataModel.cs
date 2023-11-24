@@ -5,11 +5,11 @@ namespace offshore.data.parsing.models;
 
 public class DefaultConfigurationDataModel : IJsonDataModel<DefaultConfigurationDataModel>
 {
-    public MeasurementType[]? MeasurementTypes { get; set; }
-    public MeasurementUnit[]? MeasurementUnits { get; set; }
-    public Receiver[]? Receivers { get; set; }
-    public Telemetry[]? Telemetries { get; set; }
-    public Sensor[]? Sensors { get; set; }
-    public Module[]? Modules { get; set; }
+    public MeasurementType[] MeasurementTypes { get; set; } = [];
+    public MeasurementUnit[] MeasurementUnits { get; set; } = [];
+    public Receiver[] Receivers { get; set; } = [];
+    public Telemetry[] Telemetries { get; set; } = [];
+    public Sensor[] Sensors { get; set; } = [];
+    public Module[] Modules { get; set; } = [];
 }
 

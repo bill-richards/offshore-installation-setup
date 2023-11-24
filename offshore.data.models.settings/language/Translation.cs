@@ -7,13 +7,13 @@ namespace offshore.data.models.settings;
 [Table("Translations", Schema = "lang")]
 public class Translation : OffshoreDataModel
 {
-    public virtual Language? Language { get; set; }
-    public virtual Translatable? Translatable { get; set; }
+    [Required] public virtual Language? Language { get; set; }
+    [Required] public virtual Translatable? Translatable { get; set; }
 
     [Required]
-    public string? Value { get; set; }
-    [NotMapped] public string? LanguageRef { get; set; }
-    [NotMapped] public string? TranslatableRef { get; set; }
+    public string Value { get; set; } = "";
+    [NotMapped] public string LanguageRef { get; set; } = "";
+    [NotMapped] public string TranslatableRef { get; set; } = "";
 
     public override void OnModelCreating(ModelBuilder modelBuilder)
     {

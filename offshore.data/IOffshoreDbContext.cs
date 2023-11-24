@@ -8,8 +8,12 @@ public interface IOffshoreDbContext : IDisposable
 {
     string DatabaseType { get; }
 
-    void AddToDbSet<TModel>(TModel model) where TModel : OffshoreDataModel;
-    void AddRangeToDbSet<TModel>(TModel[] models) where TModel : OffshoreDataModel;
+    IOffshoreDbContext And { get; }
+
+    LocalView<TModel> LocalView<TModel>() where TModel : OffshoreDataModel;
+
+    IOffshoreDbContext AddToDbSet<TModel>(TModel model) where TModel : OffshoreDataModel;
+    IOffshoreDbContext AddRangeToDbSet<TModel>(TModel[] models) where TModel : OffshoreDataModel;
     bool Contains<TModel>(TModel model) where TModel : OffshoreDataModel;
 
     TModel FirstOrDefault<TModel>(Func<TModel, bool> exp) where TModel : OffshoreDataModel;

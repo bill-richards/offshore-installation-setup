@@ -7,7 +7,7 @@ namespace offshore.data.models.settings;
 [Table("TelephoneTypes", Schema ="biz")]
 public class TelephoneType : OffshoreDataModel
 {
-    [Required] public string? Name { get; set; }
+    [Required] public string Name { get; set; } = "";
 
     public override void OnModelCreating(ModelBuilder modelBuilder)
     {

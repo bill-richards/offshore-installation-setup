@@ -1,0 +1,396 @@
+{
+   "$id": "offshore-operations-company-schema.json",
+   "$schema": "http://json-schema.org/draft-04/schema",
+   "title": "Offshore Operations - company Schema",
+   "description": "JSON Schema for Offshore Operations Site Monitoring Software",
+   "version": "1.0.0",
+   "type": "object",
+
+   "properties": {
+
+      "Names": {
+         "type": "array",
+         "uniqueItems": true,
+         "description": "Names used by various elements within the document, these will be user names or contact names",
+         "contains": { "type": "object" },
+         "items": {
+            "type": "object",
+            "description": "The definition of a single Name",
+            "properties": {
+               "Ref": {
+                  "type": "string",
+                  "description": "The value used to reference this particular Name from other elements within the document"
+               },
+               "Value": {
+                  "type": "string",
+                  "description": "The user`s or contact`s name"
+               }
+            },
+            "required": [ "Ref", "Value" ]
+         }
+      },
+
+      "Emails": {
+         "type": "array",
+         "uniqueItems": true,
+         "contains": { "type": "object" },
+         "description": "Email addresses referenced throughout the document",
+         "items": {
+            "type": "object",
+            "description": "The definition of a single email",
+            "properties": {
+               "Ref": {
+                  "description": "The value used to reference this particular email address from other elements within the document",
+                  "type": "string"
+               },
+               "Value": {
+                  "type": "string",
+                  "description": "the email address",
+                  "format": "email"
+               }
+            },
+            "required": [ "Ref", "Value" ]
+         }
+      },
+
+      "TelephoneTypes": {
+         "type": "array",
+         "uniqueItems": true,
+         "contains": { "type": "object" },
+         "description": "The types of telephones used by the company.",
+         "items": {
+            "type": "object",
+            "description": "The definition of a single TelephoneType",
+            "properties": {
+               "Ref": {
+                  "description": "The value used to reference this particular TelephoneType from other elements within the document",
+                  "type": "string"
+               },
+               "Name": {
+                  "description": "The TelephoneType`s name",
+                  "enum": [ "mobile", "land-line" ]
+               },
+               "IsDefault": {
+                  "type": "boolean",
+                  "description": "This flag is only set to true when the record is partof the installation data"
+               }
+            },
+            "required": [ "Ref", "Name" ]
+         }
+      },
+
+      "Languages": {
+         "type": "array",
+         "uniqueItems": true,
+         "contains": { "type": "object" },
+         "description": "The Languages supported by various elements defined within this specific data set",
+         "minItems": 1,
+         "items": {
+            "type": "object",
+            "description": "The definition of a single language",
+            "properties": {
+               "Ref": {
+                  "description": "The value used to reference this particular language from other elements within the document",
+                  "type": "string"
+               },
+               "Name": {
+                  "type": "string",
+                  "description": "The short identifier for this particular language, eg. 'en'",
+                  "maxLength": 3                  
+               },
+               "Display": {
+                  "type": "string",
+                  "description": "The display label for this language, eg 'English'"
+               },
+               "IsDefault": {
+                  "type": "boolean",
+                  "description": "This flag is only set to true when the record is partof the installation data"
+               }
+            },
+            "required": [ "Ref", "Name", "Display" ]
+         }
+
+      },
+
+      "Countries": {
+         "type": "array",
+         "uniqueItems": true,
+         "contains": { "type": "object" },
+         "description": "All countries where this particular company has offices, sites, etc.",
+         "items": {
+            "type": "object",
+            "description": "The definition of a single Country",
+            "properties": {
+               "Ref": {
+                  "description": "The value used to reference this particular Country from other elements within the document",
+                  "type": "string"
+               },
+               "Name": {
+                  "description": "The Country`s name",
+                  "type": "string"
+               },
+               "IsDefault": {
+                  "type": "boolean",
+                  "description": "This flag is only set to true when the record is partof the installation data"
+               }
+            },
+            "required": [ "Ref", "Name" ]
+         }
+      },
+
+      "CountryCodes": {
+         "type": "array",
+         "uniqueItems": true,
+         "contains": { "type": "object" },
+         "description": "International telephone dialing codes",
+         "items": {
+            "type": "object",
+            "description": "The definition of a single CountryCode",
+            "properties": {
+               "Ref": {
+                  "description": "The value used to reference this particular CountryCode from other elements within the document",
+                  "type": "string"
+               },
+               "CountryRef": {
+                  "description": "A reference to a previously defined Country",
+                  "type": "string"
+               },
+               "DialingCode": {
+                  "description": "The international dialing code, eg. '+44'",
+                  "type": "string",
+                  "maxLength": 4,
+                  "minLength": 3
+               },
+               "IsDefault": {
+                  "type": "boolean",
+                  "description": "This flag is only set to true when the record is partof the installation data"
+               }
+            },
+            "required": [ "Ref", "CountryRef", "DialingCode" ]
+         }
+      },
+
+      "TelephoneNumbers": {
+         "type": "array",
+         "uniqueItems": true,
+         "contains": { "type": "object" },
+         "description": "All individual telephone numbers used for users, alarms, contacts",
+         "items": {
+            "type": "object",
+            "description": "The definition of a single TelephoneNumber",
+            "properties": {
+               "Ref": {
+                  "description": "The value used to reference this particular TelephoneNumber from other elements within the document",
+                  "type": "string"
+               },
+               "CountryCodeRef": {
+                  "description": "Reference to the CountryCode for this TelephoneNumber",
+                  "type": "string"
+               },
+               "TypeRef": {
+                  "description": "Reference to the TelephoneNumberType of this TelephoneNumber",
+                  "type": "string"
+               },
+               "Number": {
+                  "description": "The actual number (excluding dialing code)",
+                  "type": "number"
+               },
+               "IsDefault": {
+                  "type": "boolean",
+                  "description": "This flag is only set to true when the record is partof the installation data"
+               }
+            },
+            "required": [ "Ref", "CountryCodeRef", "TypeRef", "Number" ]
+         }
+      },
+
+      "Addresses": {
+         "type": "array",
+         "uniqueItems": true,
+         "contains": { "type": "object" },
+         "description": "Physical addresses of locations",
+         "items": {
+            "type": "object",
+            "description": "The definition of a single Addresse",
+            "properties": {
+               "Ref": {
+                  "description": "The value used to reference this particular Addresse from other elements within the document",
+                  "type": "string"
+               },
+               "Line1": { "type": "string" },
+               "Line2": { "type": "string" },
+               "City": { "type": "string" },
+               "County": { "type": "string" },
+               "State": { "type": "string" },
+               "Province": { "type": "string" },
+               "CountryRef": {
+                  "description": "Reference to a Country, previously defined within this document",
+                  "type": "string"
+               },
+               "PostCode": { "type": "string" },
+               "IsDefault": {
+                  "type": "boolean",
+                  "description": "This flag is only set to true when the record is partof the installation data"
+               }
+            },
+            "required": [ "Ref", "Line1","CountryRef", "PostCode" ]
+         }
+      },
+
+      "Contacts": {
+         "type": "array",
+         "uniqueItems": true,
+         "contains": { "type": "object" },
+         "description": "Contact details associated with the various locations",
+         "items": {
+            "type": "object",
+            "description": "The definition of a single Contact",
+            "properties": {
+               "Ref": {
+                  "description": "The value used to reference this particular Contact from other elements within the document",
+                  "type": "string"
+               },
+               "NameRef": {
+                  "description": "Reference to a Name previously defined within this document",
+                  "type": "string"
+               },
+               "JobTitle": { "type": "string" },
+               "TelephoneRefs": {
+                  "description": "References to TelephoneNumber previously defined within this document",
+                  "type": "array",
+                  "uniqueItems": true,
+                  "contains": { "type": "string" }
+               },
+               "IsDefault": {
+                  "type": "boolean",
+                  "description": "This flag is only set to true when the record is partof the installation data"
+               }
+            },
+            "required": [ "Ref", "NameRef","JobTitle", "TelephoneRefs" ]
+         }
+      },
+
+      "Locations": {
+         "type": "array",
+         "uniqueItems": true,
+         "contains": { "type": "object" },
+         "description": "The locations whereoffices,sites, etc. can be found",
+         "items": {
+            "type": "object",
+            "description": "The definition of a single Location",
+            "properties": {
+               "Ref": {
+                  "description": "The value used to reference this particular Location from other elements within the document",
+                  "type": "string"
+               },
+               "Name": {
+                  "description": "The Location`s name",
+                  "type": "string"
+               },
+               "AddressRef": {
+                  "description": "A reference to an Address previously described within the document",
+                  "type": "string"
+               },
+               "ContactRefs": {
+                  "description": "References to one or more Contacts previously defined within this document",
+                  "type": "array",
+                  "uniqueItems": true,
+                  "contains": { "type": "string" }
+               },
+               "IsDefault": {
+                  "type": "boolean",
+                  "description": "This flag is only set to true when the record is partof the installation data"
+               }
+            },
+            "required": [ "Ref", "Name", "AddressRef", "ContactRefs" ]
+         }
+      },
+
+      "Companies": {
+         "type": "array",
+         "uniqueItems": true,
+         "contains": { "type": "object" },
+         "description": "The companies whose installations are described within this document",
+         "items": {
+            "type": "object",
+            "description": "The definition of a single Company",
+            "properties": {
+               "Ref": {
+                  "description": "The value used to reference this particular Company from other elements within the document",
+                  "type": "string"
+               },
+               "Name": {
+                  "description": "The Company`s name",
+                  "type": "string"
+               },
+               "LocationRef": {
+                  "description": "A reference to a Location previously described within the document",
+                  "type": "string"
+               },
+               "IsDefault": {
+                  "type": "boolean",
+                  "description": "This flag is only set to true when the record is partof the installation data"
+               }
+            },
+            "required": [ "Ref", "Name", "LocationRef" ]
+         }
+      },
+
+      "Users": {
+         "type": "array",
+         "uniqueItems": true,
+         "contains": { "type": "object" },
+         "description": "The user accounts associated with company",
+         "items": {
+            "type": "object",
+            "description": "The definition of a single User",
+            "properties": {
+               "Ref": {
+                  "description": "The value used to reference this particular User from other elements within the document",
+                  "type": "string"
+               },
+               "LanguageRefs": {
+                  "description": "References to one or more Languages previously defined within this document",
+                  "type": "array",
+                  "uniqueItems": true,
+                  "contains": { "type": "string" }
+               },
+               "RoleRefs": {
+                  "description": "References to one or more Roles previously defined within this document, the user will be assignedpermissions associated with each Role listed here",
+                  "type": "array",
+                  "uniqueItems": true,
+                  "contains": { "type": "string" }
+               },
+               "EmailRef": {
+                  "description": "A reference to an email address previously described within the document",
+                  "type": "string"
+               },
+               "TelephoneRefs": {
+                  "description": "References to one or more TelephoneNumbers previously defined within this document",
+                  "type": "array",
+                  "uniqueItems": true,
+                  "contains": { "type": "string" }
+               },
+               "IsDefault": {
+                  "type": "boolean",
+                  "description": "This flag is only set to true when the record is partof the installation data"
+               }
+            },
+            "required": [ "Ref", "LanguageRefs", "RoleRefs", "EmailRef", "TelephoneRefs" ]
+         }
+      }
+   },
+   "required": [
+      "Names",
+      "Emails",
+      "Addresses",
+      "Companies",
+      "Contacts",
+      "Countries",
+      "CountryCodes",
+      "Languages",
+      "Locations",
+      "TelephoneNumbers",
+      "Users"
+   ]
+}

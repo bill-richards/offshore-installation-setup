@@ -7,12 +7,11 @@ namespace offshore.data.models.settings;
 [Table("Roles", Schema = "users")]
 public class Role : OffshoreDataModel
 {
-    [Required, Column("Type")]
-    public string? Name { get; set; }
+    [Required, Column("Type")] public string? Name { get; set; } = "";
 
-    public Permission? PermissionSet { get; set; }
-    public ICollection<User>? Users { get; set; }
-    public uint Weight { get; set; }
+    [Required] public Permission? PermissionSet { get; set; }
+    public ICollection<User> Users { get; init; } = [];
+    [Required] public uint Weight { get; set; }
 
     [NotMapped] public Role And => this;
 

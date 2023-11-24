@@ -17,6 +17,7 @@
                     <Button Padding="5 5" Width="120" Command="{Binding GetOsOpDataButtonClick}">Show Data</Button>
                     <Button Padding="5 5" Width="110" Command="{Binding ClearOsOpDataButtonClick}">Clear Display</Button>
                     <Button Padding="5 5" Width="110" Command="{Binding DeleteOsOpDataButtonClick}">Delete All Data</Button>
+                    <Button Padding="5 5" Width="110" Command="{Binding ValidateOsOpDataButtonClick}">Validate Data File</Button>
                 </StackPanel>
 
             </StackPanel>

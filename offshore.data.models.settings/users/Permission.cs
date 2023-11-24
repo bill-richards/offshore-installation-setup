@@ -37,7 +37,7 @@ public class Permission : OffshoreDataModel
     [Column("DeleteConsignment")] public bool? CanDeleteConsignment { get; set; } = false;
     [Column("EnableConsignment")] public bool? CanEnableConsignment { get; set; } = false;
 
-    [NotMapped] public virtual ICollection<Role>? Roles { get; set; }
+    [NotMapped] public virtual ICollection<Role> Roles { get; set; } = [];
 
 
     public override void OnModelCreating(ModelBuilder modelBuilder)

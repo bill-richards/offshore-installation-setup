@@ -51,7 +51,7 @@ public static class DemoDataImporter
 
         if (settings.FirstOrDefault<TelephoneNumber>(t => t.Number == usersMobile.Number) is null)
         {
-            settings.AddRangeToDbSet(new[] { /*paulsMobile,*/ usersMobile, pilotMobile, usersLandline, adminLandline });
+            settings.AddRangeToDbSet(new[] { usersMobile, pilotMobile, usersLandline, adminLandline });
             settings.SaveChanges();
         }
         usersMobile = settings.FirstOrDefault<TelephoneNumber>(t => t.Number == usersMobile.Number);
@@ -76,7 +76,7 @@ public static class DemoDataImporter
                 {
                     Name = exampleAdminName,
                     JobTitle = $"{siteName} Manager",
-                    TelephoneNumber = adminLandline
+                    TelephoneNumbers = [adminLandline]
                 }
             },
         };
@@ -101,7 +101,7 @@ public static class DemoDataImporter
         Company exampleCompany = new()
         {
             Name = companyName,
-            Location = siteLocation,
+            //Location = siteLocation,
             Sites = new Site[] { exampleSite }
         };
         if (settings.GetNamedRecord<Company>(exampleCompany.Name) is null)

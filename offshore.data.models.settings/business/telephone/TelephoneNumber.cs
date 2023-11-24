@@ -4,14 +4,15 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace offshore.data.models.settings;
 
-[Table("TelephoneNumbers", Schema ="biz")]
+[Table("TelephoneNumbers", Schema = "biz")]
 public class TelephoneNumber : OffshoreDataModel
 {
     [Required] public TelephoneType? Type { get; set; }
     [Required] public CountryCode? CountryCode { get; set; }
     [Required] public ulong Number { get; set; }
 
-    public virtual ICollection<User> Users { get; set; } = new List<User>();
+    public virtual ICollection<User> Users { get; init; } = [];
+    public virtual ICollection<Contact> Contacts { get; init; } = [];
 
 
     public override void OnModelCreating(ModelBuilder modelBuilder)
@@ -22,7 +23,7 @@ public class TelephoneNumber : OffshoreDataModel
             e.HasMany(p => p.Users).WithMany(p => p.TelephoneNumbers);
             e.HasOne(p => p.Type);
             e.HasOne(p => p.CountryCode).WithMany(c => c.TelephoneNumbers);
-            e.HasIndex(new[] { nameof(Number) });
+            e.HasIndex([nameof(Number)]);
         });
     }
 }

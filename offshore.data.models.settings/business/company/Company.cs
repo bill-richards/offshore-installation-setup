@@ -7,11 +7,11 @@ namespace offshore.data.models.settings;
 [Table("Companies", Schema ="biz")]
 public class Company : OffshoreDataModel
 {
-    [Required] public string? Name { get; set; }
+    [Required] public string Name { get; set; } = "";
 
     [Required] public Location? Location { get; set; }
 
-    public virtual ICollection<Site>? Sites { get; set; }
+    public virtual ICollection<Site>? Sites { get; init; } = [];
 
     public override void OnModelCreating(ModelBuilder modelBuilder)
     {

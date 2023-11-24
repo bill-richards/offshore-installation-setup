@@ -9,12 +9,12 @@ public class User : OffshoreDataModel
 {
     [Required] public bool IsEnabled { get; set; } = true;
     [Required] public string? Name { get; set; }
-    public string? Email { get; set; }
-    public ICollection<Language> Languages { get; init; } = new List<Language>();
-    public ICollection<TelephoneNumber> TelephoneNumbers { get; init; } = new HashSet<TelephoneNumber>();
+    public string Email { get; set; } = "";
+    public ICollection<Language> Languages { get; init; } = [];
+    public ICollection<TelephoneNumber> TelephoneNumbers { get; init; } = [];
 
-    [Required] public ICollection<Role> Roles { get; init; } = new HashSet<Role>();
-    public ICollection<Site> Sites { get; init; } = new List<Site>();
+    [Required] public ICollection<Role> Roles { get; init; } = [];
+    public ICollection<Site> Sites { get; init; } = [];
 
 
     public override void OnModelCreating(ModelBuilder modelBuilder)

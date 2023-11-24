@@ -7,19 +7,17 @@ namespace offshore.data.models.settings;
 [Table("Languages", Schema = "lang")]
 public class Language : OffshoreDataModel
 {
-    [Required] public string? Name { get; set; }
-    [Required] public string? Display { get; set; }
+    [Required] public string Name { get; set; } = "";
+    [Required] public string Display { get; set; } = "";
 
-    public virtual ICollection<Translation>? Translations { get; set; }
-    public ICollection<User>? Users { get; set; }
+    public virtual ICollection<Translation> Translations { get; init; } = [];
+    public ICollection<User> Users { get; init; } = [];
 
     public override void OnModelCreating(ModelBuilder modelBuilder)
     {
         OnModelCreating<Language>(modelBuilder);
         modelBuilder.Entity<Language>(e =>
         {
-            //e.HasAlternateKey(p => p.Name);
-            //e.HasAlternateKey(p => p.ShortName);
             e.HasMany(p => p.Translations);
         });
     }

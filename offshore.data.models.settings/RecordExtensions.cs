@@ -1,15 +1,44 @@
-﻿using Microsoft.EntityFrameworkCore.ChangeTracking;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace offshore.data.models.settings;
 
 public static class RecordExtensions
 {
+
+    public static TModelType GetNamedRecord<TModelType>(this LocalView<TModelType> context, string name)
+    where TModelType : OffshoreDataModel, new()
+    {
+        try
+        {
+            return context.FirstOrDefault(r => r.GetType().GetProperty("Name")!.GetValue(r)!.Equals(name))!;
+        }
+        catch (InvalidOperationException)
+        {
+            return null!;
+        }
+    }
+
+
     public static TModelType GetNamedRecord<TModelType>(this IOffshoreDbContext context, string name)
     where TModelType : OffshoreDataModel, new()
     {
         try
         {
             return context.FirstOrDefault<TModelType>(r => r.GetType().GetProperty("Name")!.GetValue(r)!.Equals(name));
+        }
+        catch (InvalidOperationException)
+        {
+            return null!;
+        }
+    }
+
+    public static TModelType? GetNamedRecord<TModelType>(this DbSet<TModelType> set, string name)
+    where TModelType : OffshoreDataModel, new()
+    {
+        try
+        {
+            return set.FirstOrDefault(r => r.GetType().GetProperty("Name")!.GetValue(r)!.Equals(name));
         }
         catch (InvalidOperationException)
         {

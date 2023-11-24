@@ -8,6 +8,7 @@ GO
 select top(50) * from biz.Countries
 select top(50) * from biz.TelephoneTypes
 select top(50) * from biz.CountryCodes
+select top(50) * from biz.Contacts
 select top(50) * from lang.Languages
 select top(50) * from lang.Translatables
 select top(50) * from lang.Translations

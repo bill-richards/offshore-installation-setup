@@ -7,9 +7,9 @@ namespace offshore.data.models.settings;
 public class MeasurementType : OffshoreDataModel
 {
     [Required]
-    public string? Name { get; set; }
+    public string Name { get; set; } = "";
 
-    [NotMapped] public string? DefaultUnitRef { get; set; }
+    [NotMapped] public string DefaultUnitRef { get; set; } = "";
 
     public override void OnModelCreating(ModelBuilder modelBuilder)
     {

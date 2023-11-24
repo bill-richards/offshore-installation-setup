@@ -9,9 +9,9 @@ namespace offshore.data.models.settings;
 public class Translatable : OffshoreDataModel
 {
     [Required]
-    public string? Name { get; set; }
+    public string Name { get; set; } = "";
 
-    public virtual ICollection<Translation>? Translations { get; init; }
+    public virtual ICollection<Translation> Translations { get; init; } = [];
 
     public override void OnModelCreating(ModelBuilder modelBuilder)
     {

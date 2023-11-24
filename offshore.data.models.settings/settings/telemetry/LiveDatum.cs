@@ -7,16 +7,14 @@ public class LiveDatum : OffshoreDataModel
 {
     [Required]
     public DateTime Date { get; set; } = DateTime.Now;
-    public virtual SinglePointMooring? Spm { get; set; }
-    public virtual Telemetry? TelemetryData { get; set; }
-    public string? Processed { get; set; }
+    [Required] public virtual Telemetry? TelemetryData { get; set; }
+    public string Processed { get; set; } = "";
 
     public override void OnModelCreating(ModelBuilder modelBuilder)
     {
         OnModelCreating<LiveDatum>(modelBuilder);
         modelBuilder.Entity<LiveDatum>(e =>
         {
-            e.HasOne(p => p.Spm);
             e.HasOne(p => p.TelemetryData);
         });
     }

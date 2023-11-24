@@ -7,13 +7,13 @@ namespace offshore.data.models.settings;
 [Table("CountryCodes", Schema ="biz")]
 public class CountryCode : OffshoreDataModel
 {
-    [Required] public string? DialingCode { get; set; }
+    [Required] public string DialingCode { get; set; } = "";
 
     [Required] public Country? Country { get; set; }
 
-    [NotMapped] public string? CountryRef {  get; set; }
+    [NotMapped] public string CountryRef {  get; set; } = "";
 
-    public ICollection<TelephoneNumber>? TelephoneNumbers { get; init; } = new HashSet<TelephoneNumber>();
+    public ICollection<TelephoneNumber> TelephoneNumbers { get; init; } = [];
 
     public override void OnModelCreating(ModelBuilder modelBuilder)
     {

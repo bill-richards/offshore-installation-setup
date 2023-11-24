@@ -5,8 +5,8 @@ namespace offshore.data.parsing.models;
 
 public class DefaultLanguageDataModel : IJsonDataModel<DefaultLanguageDataModel>
 {
-    public Language[]? Languages { get; set; }
-    public Translatable[]? Translatables { get; set; }
-    public Translation[]? Translations { get; set; }
+    public offshore.data.models.settings.Language[] Languages { get; set; } = [];
+    public Translatable[] Translatables { get; set; } = [];
+    public Translation[] Translations { get; set; } = [];
 }
 

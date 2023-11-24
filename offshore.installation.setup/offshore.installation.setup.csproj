@@ -40,6 +40,26 @@
     <ProjectReference Include="..\offshore.data.sqlite\offshore.data.sqlite.csproj" />
     <ProjectReference Include="..\offshore.services\offshore.services.csproj" />
   </ItemGroup>
+
+  <ItemGroup>
+    <None Update="JSON\schemata\offshore-operations-company-structure-schema.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="setup-data\business.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="setup-data\configuration.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="setup-data\language.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="setup-data\offshore-ops.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ProjectExtensions><VisualStudio><UserProperties /></VisualStudio></ProjectExtensions>
 	
 	<!-- See appsettings.json for ef migrations -->
 

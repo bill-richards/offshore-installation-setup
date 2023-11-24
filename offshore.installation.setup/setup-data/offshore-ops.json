@@ -1,0 +1,114 @@
+{
+   "$schema": "JSON/schemata/offshore-operations-company-schema",
+
+   "Names": [
+      {
+         "Ref": "nme_1",
+         "Value": "Paul Wartnarby"
+      }
+   ],
+
+   "Emails": [
+      {
+         "Ref": "eml_1",
+         "Value": "paul@offshoreops.com"
+      }
+   ],
+
+   "TelephoneTypes": [
+      {
+         "Ref": "ttyp_1",
+         "Name": "mobile",
+         "IsDefault": true
+      }
+   ],
+
+   "Languages": [
+      {
+         "Ref": "lang_1",
+         "Name": "en",
+         "Display": "English",
+         "IsDefault": true
+      }
+   ],
+
+   "Countries": [
+      {
+         "Ref": "cnty_1",
+         "Name": "England",
+         "IsDefault": true
+      }
+   ],
+
+   "CountryCodes": [
+      {
+         "Ref": "cntycode_1",
+         "CountryRef": "cnty_1",
+         "DialingCode": "+44",
+         "IsDefault": true
+      }
+   ],
+
+   "TelephoneNumbers": [
+      {
+         "Ref": "tel_1",
+         "CountryCodeRef": "cntycode_1",
+         "Number": 7502034566,
+         "TypeRef": "ttyp_1",
+         "IsDefault": true
+      }
+   ],
+
+   "Addresses": [
+      {
+         "Ref": "addr_1",
+         "Line1": "144 Chelveston Crescent",
+         "City": "Southampton",
+         "County": "Hampshire",
+         "PostCode": "SO16 5SD",
+         "CountryRef": "cnty_1",
+         "IsDefault": true
+      }
+   ],
+
+   "Contacts": [
+      {
+         "Ref": "cont_1",
+         "NameRef": "nme_1",
+         "JobTitle": "Managing Director",
+         "TelephoneRefs": [ "tel_1" ],
+         "IsDefault": true
+      }
+   ],
+
+   "Locations": [
+      {
+         "Ref": "loc_1",
+         "Name": "Off-Ops Head Office",
+         "AddressRef": "addr_1",
+         "ContactRefs": [ "cont_1" ],
+         "IsDefault": true
+      }
+   ],
+
+   "Companies": [
+      {
+         "Ref": "comp_1",
+         "Name": "Offshore Operations Limited",
+         "LocationRef": "loc_1",
+         "IsDefault": true
+      }
+   ],
+
+   "Users": [
+      {
+         "Ref": "usr_1",
+         "NameRef": "nme_1",
+         "LanguageRefs": [ "lang_1" ],
+         "RoleRefs": [ "System Admin", "Site Admin" ],
+         "EmailRef": "eml_1",
+         "TelephoneRefs": [ "tel_1" ],
+         "IsDefault": true
+      }
+   ]
+}

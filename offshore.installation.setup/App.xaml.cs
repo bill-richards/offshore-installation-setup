@@ -11,6 +11,7 @@ using offshore.data.mongodb;
 using offshore.data.models.settings.contexts;
 using Microsoft.EntityFrameworkCore;
 using offshore.data.parsing;
+using offshore.data.parsing.Json;
 
 namespace offshore.installation.setup;
 
@@ -28,7 +29,8 @@ public partial class App : Application
             .ConfigureServices((hostContext, services) =>
             {
                 
-                services.AddSingleton<MainWindow>();
+                services.AddSingleton<MainWindow>(); 
+                services.AddSingleton<IJsonSchemaValidator, JsonSchemaValidator>(); 
                 services.AddTransient<IMainWindowModel, MainWindowModel>();
                 services.AddTransient<IDatabaseConfigurationFile, DatabaseConfigurationFile>();
                 services.AddSingleton<IDataModelParser, DataModelParser>();
