@@ -4,17 +4,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace offshore.data.models.settings;
 
-public class MeasurementUnit : OffshoreDataModel
+public class MeasurementUnit : NamedOffshoreDataModel
 {
-    [Required]
-    public string Name { get; set; } = "";
+
     [Required]
     public string Label { get; set; } = "";
     [Required]
     public double Factor { get; set; }
-
-    //[Required] public MeasurementType MeasurementType { get; set; }
-
 
     [NotMapped] public string MeasurementTypeRef { get; set; } = "";
 

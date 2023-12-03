@@ -1,13 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace offshore.data.models.settings;
 
 [Table("Contacts", Schema = "biz")]
-public class Contact : OffshoreDataModel
+public class Contact : NamedOffshoreDataModel
 {
-    [Required] public string Name { get; set; } = "";
     public string JobTitle { get; set; } = "";
 
     public ICollection<TelephoneNumber> TelephoneNumbers { get; init; } = [];

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using offshore.data.models.settings.contexts;
 
@@ -11,9 +12,11 @@ using offshore.data.models.settings.contexts;
 namespace offshore.data.models.settings.Migrations
 {
     [DbContext(typeof(CompleteDataContext))]
-    partial class CompleteDataContextModelSnapshot : ModelSnapshot
+    [Migration("20231203225128_UpdatedModel_Inheritance")]
+    partial class UpdatedModel_Inheritance
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -201,10 +204,6 @@ namespace offshore.data.models.settings.Migrations
                     b.Property<long?>("ModuleSensorId")
                         .HasColumnType("bigint");
 
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<bool>("RaiseSound")
                         .HasColumnType("bit");
 
@@ -222,8 +221,6 @@ namespace offshore.data.models.settings.Migrations
                     b.HasIndex("MeasurementUnitId");
 
                     b.HasIndex("ModuleSensorId");
-
-                    b.HasIndex("Name");
 
                     b.ToTable("Alarms", "config");
                 });
@@ -256,7 +253,7 @@ namespace offshore.data.models.settings.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<long>("Raw")
                         .HasColumnType("bigint");
@@ -270,8 +267,6 @@ namespace offshore.data.models.settings.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CalibratedById");
-
-                    b.HasIndex("Name");
 
                     b.ToTable("Calibrations", "config");
                 });
@@ -596,7 +591,7 @@ namespace offshore.data.models.settings.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Name");
+                    b.HasAlternateKey("Name");
 
                     b.ToTable("MeasurementTypes", "config");
                 });
@@ -624,11 +619,9 @@ namespace offshore.data.models.settings.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("Name");
 
                     b.ToTable("MeasurementUnits", "config");
                 });
@@ -652,11 +645,9 @@ namespace offshore.data.models.settings.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("Name");
 
                     b.ToTable("Modules", "config");
                 });
@@ -790,8 +781,6 @@ namespace offshore.data.models.settings.Migrations
 
                     b.HasAlternateKey("Name");
 
-                    b.HasIndex("Name");
-
                     b.ToTable("Permissions", "users");
                 });
 
@@ -919,11 +908,9 @@ namespace offshore.data.models.settings.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("Name");
 
                     b.ToTable("Sensors", "config");
                 });
@@ -987,8 +974,6 @@ namespace offshore.data.models.settings.Migrations
 
                     b.HasAlternateKey("Name");
 
-                    b.HasIndex("Name");
-
                     b.HasIndex("SiteId");
 
                     b.ToTable("SinglePointMoorings", "config");
@@ -1022,7 +1007,7 @@ namespace offshore.data.models.settings.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -1031,8 +1016,6 @@ namespace offshore.data.models.settings.Migrations
                     b.HasIndex("ConfigurationId");
 
                     b.HasIndex("LocationId");
-
-                    b.HasIndex("Name");
 
                     b.ToTable("Sites", "config");
                 });

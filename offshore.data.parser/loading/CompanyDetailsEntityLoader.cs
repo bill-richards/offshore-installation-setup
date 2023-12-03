@@ -7,154 +7,255 @@ namespace offshore.data.parsing.loading;
 public static class CompanyDetailsEntityLoader
 {
     private static readonly Dictionary<string, Name> Names = [];
-    private static readonly Dictionary<string, Email> Emails = [];
-    
+    private static readonly Dictionary<string, EmailJsonModel> Emails = [];
+
     private static readonly Dictionary<string, OffshoreDataModel> ModelReferences = [];
 
-    private static void AddBasicRecords(ICompleteDataContext context, in CompanyDataModel data)
+    private static void AddBasicRecords(ICompleteDataContext context, in JsonSiteModel data)
     {
-        foreach (var language in data.Languages!)
-        {
-            if (context.GetNamedRecord<data.models.settings.Language>(language.Name!) is null)
-            {
-                context.AddToDbSet(language);
-            }
-
-            ModelReferences.Add(language.Reference!, context.LocalView<data.models.settings.Language>().GetNamedRecord(language.Name!));
-
-        }
-        foreach (var item in data.Countries!)
-        {
-            if (context.GetNamedRecord<data.models.settings.Country>(item.Name!) is null)
-                context.AddToDbSet(item);
-
-            ModelReferences.Add(item.Reference!, context.LocalView<data.models.settings.Country>().GetNamedRecord(item.Name!));
-        }
-        foreach (var item in data.TelephoneTypes!)
-        {
-            if (context.GetNamedRecord<data.models.settings.TelephoneType>(item.Name!) is null)
-                context.AddToDbSet(item);
-
-            ModelReferences.Add(item.Reference!, context.LocalView<data.models.settings.TelephoneType>().GetNamedRecord(item.Name!));
-        }
-
-        if (context.ChangeTracker.HasChanges())
-            context.SaveChanges();
+        Names.Clear();
+        Emails.Clear();
+        ModelReferences.Clear();
 
         foreach (var item in data.Names!)
             Names.Add(item.Reference!, item);
         foreach (var item in data.Emails!)
             Emails.Add(item.Reference!, item);
-    }
 
-    public static void PopulateDatabase(ICompleteDataContext context, in CompanyDataModel data)
-    {
-        AddBasicRecords(context, in data);
+        foreach (var language in data.Languages!)
+        {
+            var existing = context.GetNamedRecord<Language>(language.Name!);
+            if (existing is null)
+            {
+                context.AddToDbSet(language);
+                existing = context.LocalView<Language>().GetNamedRecord(language.Name!);
+            }
+
+            if (!ModelReferences.ContainsKey(language.Reference))
+                ModelReferences.Add(language.Reference!, existing);
+
+        }
+        foreach (var item in data.Countries!)
+        {
+            var existing = context.GetNamedRecord<Country>(item.Name!);
+            if (existing is null)
+            {
+                context.AddToDbSet<Country>(item);
+                existing = context.LocalView<Country>()
+                                                            .GetNamedRecord(item.Name!);
+            }
+
+            if (!ModelReferences.ContainsKey(item.Reference))
+                ModelReferences.Add(item.Reference!, existing);
+        }
+        foreach (var item in data.TelephoneTypes!)
+        {
+            var existing = context.GetNamedRecord<TelephoneType>(item.Name!);
+            if (existing is null)
+            {
+                context.AddToDbSet(item);
+                existing = context.LocalView<TelephoneType>()
+                                                            .GetNamedRecord(item.Name!);
+            }
+
+            if (!ModelReferences.ContainsKey(item.Reference))
+                ModelReferences.Add(item.Reference!, existing);
+        }
 
         foreach (var item in data.CountryCodes)
         {
             var country = ModelReferences[item.CountryRef];
-            if (context.FirstOrDefault<data.models.settings.CountryCode>(c => c.Country!.Equals(country)) is null)
-                context.AddToDbSet<data.models.settings.CountryCode>(item);
+            var existing = context.FirstOrDefault<CountryCode>(c => c.Country!.Equals(country));
+            if (existing is null)
+            {
+                item.Country = country as Country;
+                context.AddToDbSet<CountryCode>(item);
+                existing = context.LocalView<CountryCode>()!
+                                                         .FirstOrDefault(c => c.Country!.Equals(country))!;
+            }
 
-
-            ModelReferences.Add(item.Reference!, context.LocalView<data.models.settings.CountryCode>()!
-                                                         .FirstOrDefault(c => c.Country!.Equals(country))!);
+            if (!ModelReferences.ContainsKey(item.Reference))
+                ModelReferences.Add(item.Reference!, existing);
         }
+
+        foreach (var item in data.Receivers)
+        {
+            var existing = context.GetNamedRecord<Receiver>(item.Name);
+            if (existing is null)
+            {
+                context.AddToDbSet<Receiver>(item);
+                existing = context.LocalView<Receiver>()!
+                                                         .GetNamedRecord(item.Name)!;
+            }
+
+            if (!ModelReferences.ContainsKey(item.Reference))
+                ModelReferences.Add(item.Reference!, existing);
+        }
+
+        if (context.ChangeTracker.HasChanges())
+            context.SaveChanges();
+
+    }
+
+    public static void PopulateDatabase(ICompleteDataContext context, in JsonSiteModel data)
+    {
+        AddBasicRecords(context, in data);
 
         foreach (var item in data.TelephoneNumbers)
         {
-            var existing = context.FirstOrDefault<data.models.settings.TelephoneNumber>(t => t.Number == item.Number);
+            var existing = context.FirstOrDefault<TelephoneNumber>(t => t.Number == item.Number);
             if (existing is null)
             {
-                item.CountryCode = (ModelReferences[item.CountryCodeReference] as data.models.settings.CountryCode)!;
-                item.Type = (ModelReferences[item.TypeReference] as data.models.settings.TelephoneType)!;
+                item.CountryCode = (ModelReferences[item.CountryCodeReference] as CountryCode)!;
+                item.Type = (ModelReferences[item.TypeReference] as TelephoneType)!;
 
-                context.AddToDbSet<data.models.settings.TelephoneNumber>(item);
-                existing = context.LocalView<data.models.settings.TelephoneNumber>()!
+                context.AddToDbSet<TelephoneNumber>(item);
+                existing = context.LocalView<TelephoneNumber>()!
                                                         .FirstOrDefault(t => t.Number == item.Number)!;
             }
 
-            ModelReferences.Add(item.Reference, existing);
+            if (!ModelReferences.ContainsKey(item.Reference))
+                ModelReferences.Add(item.Reference, existing);
         }
 
         foreach (var item in data.Addresses)
         {
-            var existing = context.FirstOrDefault<data.models.settings.Address>(a => a.PostCode == item.PostCode && a.Line1 == item.Line1);
+            var existing = context.FirstOrDefault<Address>(a => a.PostCode == item.PostCode && a.Line1 == item.Line1);
             if (existing is null)
             {
-                item.Country = (ModelReferences[item.CountryReference] as data.models.settings.Country)!;
-                context.AddToDbSet<data.models.settings.Address>(item);
-                existing = context.LocalView<data.models.settings.Address>()
+                item.Country = (ModelReferences[item.CountryReference] as Country)!;
+                context.AddToDbSet<Address>(item);
+                existing = context.LocalView<Address>()
                                                         .FirstOrDefault(a => a.PostCode == item.PostCode && a.Line1 == item.Line1);
             }
 
-            ModelReferences.Add(item.Reference, existing!);
+            if (!ModelReferences.ContainsKey(item.Reference))
+                ModelReferences.Add(item.Reference, existing!);
         }
 
         foreach (var item in data.Contacts)
         {
-            var contact = context.GetNamedRecord<data.models.settings.Contact>(Names[item.NameReference].Value);
+            var contact = context.GetNamedRecord<Contact>(Names[item.NameReference].Value);
             if (contact is null)
             {
                 item.Name = Names[item.NameReference].Value;
                 foreach (var reference in item.TelephoneReferences)
                 {
-                    var number = ModelReferences[reference] as data.models.settings.TelephoneNumber;
+                    var number = ModelReferences[reference] as TelephoneNumber;
                     item.TelephoneNumbers.Add(number!);
                 }
-                context.AddToDbSet<data.models.settings.Contact>(item);
-                contact = context.LocalView<data.models.settings.Contact>()!.GetNamedRecord(item.Name);
+                context.AddToDbSet<Contact>(item);
+                contact = context.LocalView<Contact>()!.GetNamedRecord(item.Name);
             }
 
-            ModelReferences.Add(item.Reference, contact);
+            if (!ModelReferences.ContainsKey(item.Reference))
+                ModelReferences.Add(item.Reference, contact);
         }
 
         foreach (var item in data.Locations)
         {
-            var location = context.GetNamedRecord<data.models.settings.Location>(item.Name!);
+            var location = context.GetNamedRecord<Location>(item.Name!);
             if (location is null)
             {
-                item.Address = (ModelReferences[item.AddressReference] as data.models.settings.Address)!;
+                item.Address = (ModelReferences[item.AddressReference] as Address)!;
                 foreach (var reference in item.ContactReferences!)
                 {
-                    var contact = ModelReferences[reference] as data.models.settings.Contact;
+                    var contact = ModelReferences[reference] as Contact;
                     item.Contacts.Add(contact!);
                 }
-                context.AddToDbSet<data.models.settings.Location>(item);
-                location = context.LocalView<data.models.settings.Location>()!.GetNamedRecord(item.Name);
+                context.AddToDbSet<Location>(item);
+                location = context.LocalView<Location>()!.GetNamedRecord(item.Name);
             }
-            ModelReferences.Add(item.Reference, location!);
+            if (!ModelReferences.ContainsKey(item.Reference))
+                ModelReferences.Add(item.Reference, location!);
         }
 
         foreach (var item in data.Companies)
         {
-            var company = context.GetNamedRecord<data.models.settings.Company>(item.Name);
-            if (company is null)
+            var existing = context.GetNamedRecord<Company>(item.Name);
+            if (existing is null)
             {
-                item.Location = ModelReferences[item.LocationReference] as data.models.settings.Location;
-                context.AddToDbSet<data.models.settings.Company>(item);
-                company = context.LocalView<data.models.settings.Company>()!.GetNamedRecord(item.Name);
+                item.Location = ModelReferences[item.LocationReference] as Location;
+                context.AddToDbSet<Company>(item);
+                existing = context.LocalView<Company>()!.GetNamedRecord(item.Name);
             }
+
+            if (!ModelReferences.ContainsKey(item.Reference))
+                ModelReferences.Add(item.Reference, existing);
         }
 
         foreach (var item in data.Users)
         {
-            var user = context.GetNamedRecord<data.models.settings.User>(Names[item.NameReference].Value);
-            if (user is null)
+            var existing = context.GetNamedRecord<User>(Names[item.NameReference].Value);
+            if (existing is null)
             {
                 item.Name = Names[item.NameReference].Value;
                 item.Email = Emails[item.EmailReference].Value;
-                foreach (var language in item.LanguageReferences) { 
-                    item.Languages.Add((ModelReferences[language] as data.models.settings.Language)!); }
-                
-                foreach (var role in item.RoleReferences) { item.Roles.Add(context.GetNamedRecord<Role>(role)); }
-                
-                foreach (var telephone in item.TelephoneReferences) { 
-                    item.TelephoneNumbers.Add((ModelReferences[telephone] as data.models.settings.TelephoneNumber)!); }
+                foreach (var language in item.LanguageReferences)
+                {
+                    item.Languages.Add((ModelReferences[language] as Language)!);
+                }
 
-                context.AddToDbSet<data.models.settings.User>(item);
+                foreach (var role in item.RoleReferences) { item.Roles.Add(context.GetNamedRecord<Role>(role)); }
+
+                foreach (var telephone in item.TelephoneReferences)
+                {
+                    item.TelephoneNumbers.Add((ModelReferences[telephone] as TelephoneNumber)!);
+                }
+
+                context.AddToDbSet<User>(item);
+                existing = context.LocalView<User>().GetNamedRecord(item.Name);
             }
+
+            if (!ModelReferences.ContainsKey(item.Reference))
+                ModelReferences.Add(item.Reference, existing);
+        }
+
+        foreach (var item in data.SiteConfigurations)
+        {
+            item.Name = Names[item.NameReference].Value;
+
+            var existing = context.GetNamedRecord<SiteConfiguration>(item.Name);
+            if (existing is null)
+            {
+                item.SyncUser = ModelReferences[item.UserReference] as User
+                                ?? context.GetNamedRecord<User>(item.UserReference);
+                item.ReceiverType = ModelReferences[item.ReceiverTypeReference] as Receiver;
+                context.AddToDbSet<SiteConfiguration>(item);
+
+                existing = context.LocalView<SiteConfiguration>()!.GetNamedRecord(item.Name);
+            }
+            if (!ModelReferences.ContainsKey(item.Reference))
+                ModelReferences.Add(item.Reference, existing);
+        }
+
+        foreach (var item in data.Sites)
+        {
+            item.Name = Names[item.NameReference].Value;
+
+            var existing = context.GetNamedRecord<Site>(item.Name);
+            if(existing is null)
+            {
+                item.Company = ModelReferences[item.CompanyReference]! as Company;
+                item.Location = ModelReferences[item.LocationReference]! as Location;
+                item.Configuration = ModelReferences[item.ConfigurationReference]! as SiteConfiguration;
+
+                context.AddToDbSet<Site>(item);
+                existing = context.LocalView<Site>().GetNamedRecord(item.Name);
+                foreach (var userRef in item.UserReferences)
+                {
+                    var user = ModelReferences[userRef] as User;
+                    var siteUser = context.FirstOrDefault<SiteUser>(s => s.Site == existing && s.User == user);
+                    if (siteUser is null)
+                    {
+                        context.AddToDbSet(new SiteUser { Site = existing, User = user });
+                        siteUser = context.LocalView<SiteUser>().FirstOrDefault(s => s.Site == existing && s.User == user);
+                    }
+                    existing.Users.Add(siteUser!);
+                }
+            }
+
+
         }
 
         if (context.ChangeTracker.HasChanges())

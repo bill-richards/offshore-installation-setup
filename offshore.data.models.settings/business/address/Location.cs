@@ -5,9 +5,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace offshore.data.models.settings;
 
 [Table("Locations", Schema ="biz")]
-public class Location : OffshoreDataModel
+public class Location : NamedOffshoreDataModel
 {
-    [Required] public string Name { get; set; } = "";
     [Required] public virtual Address? Address { get; set; }
 
     public virtual ICollection<Contact> Contacts { get; init; } = [];

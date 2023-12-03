@@ -12,8 +12,8 @@ using offshore.data.models.settings.contexts;
 namespace offshore.data.models.settings.Migrations
 {
     [DbContext(typeof(CompleteDataContext))]
-    [Migration("20231124010838_Create_Database")]
-    partial class Create_Database
+    [Migration("20231203233823_Updated_More_Model_Inheritance")]
+    partial class Updated_More_Model_Inheritance
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -71,6 +71,21 @@ namespace offshore.data.models.settings.Migrations
                     b.ToTable("LanguageUser", "config");
                 });
 
+            modelBuilder.Entity("ModuleSinglePointMooring", b =>
+                {
+                    b.Property<long>("ModulesId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long>("SinglePointMooringsId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("ModulesId", "SinglePointMooringsId");
+
+                    b.HasIndex("SinglePointMooringsId");
+
+                    b.ToTable("ModuleSinglePointMooring", "config");
+                });
+
             modelBuilder.Entity("RoleUser", b =>
                 {
                     b.Property<long>("RolesId")
@@ -84,21 +99,6 @@ namespace offshore.data.models.settings.Migrations
                     b.HasIndex("UsersId");
 
                     b.ToTable("RoleUser", "users");
-                });
-
-            modelBuilder.Entity("SiteUser", b =>
-                {
-                    b.Property<long>("SitesId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long>("UsersId")
-                        .HasColumnType("bigint");
-
-                    b.HasKey("SitesId", "UsersId");
-
-                    b.HasIndex("UsersId");
-
-                    b.ToTable("SiteUser", "config");
                 });
 
             modelBuilder.Entity("TelephoneNumberUser", b =>
@@ -201,6 +201,13 @@ namespace offshore.data.models.settings.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<long?>("ModuleSensorId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<bool>("RaiseSound")
                         .HasColumnType("bit");
 
@@ -210,9 +217,6 @@ namespace offshore.data.models.settings.Migrations
                     b.Property<bool>("SendSms")
                         .HasColumnType("bit");
 
-                    b.Property<long?>("SensorId")
-                        .HasColumnType("bigint");
-
                     b.Property<double>("Threshold")
                         .HasColumnType("float");
 
@@ -220,7 +224,9 @@ namespace offshore.data.models.settings.Migrations
 
                     b.HasIndex("MeasurementUnitId");
 
-                    b.HasIndex("SensorId");
+                    b.HasIndex("ModuleSensorId");
+
+                    b.HasIndex("Name");
 
                     b.ToTable("Alarms", "config");
                 });
@@ -258,9 +264,6 @@ namespace offshore.data.models.settings.Migrations
                     b.Property<long>("Raw")
                         .HasColumnType("bigint");
 
-                    b.Property<long>("SiteId")
-                        .HasColumnType("bigint");
-
                     b.Property<double>("Value")
                         .HasColumnType("float");
 
@@ -270,8 +273,6 @@ namespace offshore.data.models.settings.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CalibratedById");
-
-                    b.HasIndex("SiteId");
 
                     b.ToTable("Calibrations", "config");
                 });
@@ -333,11 +334,13 @@ namespace offshore.data.models.settings.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("LocationId");
+
+                    b.HasIndex("Name");
 
                     b.ToTable("Companies", "biz");
                 });
@@ -415,9 +418,11 @@ namespace offshore.data.models.settings.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Name");
 
                     b.ToTable("Contacts", "biz");
                 });
@@ -438,9 +443,11 @@ namespace offshore.data.models.settings.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Name");
 
                     b.ToTable("Countries", "biz");
                 });
@@ -495,9 +502,11 @@ namespace offshore.data.models.settings.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Name");
 
                     b.ToTable("Languages", "lang");
                 });
@@ -557,11 +566,13 @@ namespace offshore.data.models.settings.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("AddressId");
+
+                    b.HasIndex("Name");
 
                     b.ToTable("Locations", "biz");
                 });
@@ -642,12 +653,7 @@ namespace offshore.data.models.settings.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<long?>("SinglePointMooringId")
-                        .HasColumnType("bigint");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("SinglePointMooringId");
 
                     b.ToTable("Modules", "config");
                 });
@@ -660,11 +666,24 @@ namespace offshore.data.models.settings.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
+                    b.Property<long?>("CalibrationId")
+                        .HasColumnType("bigint");
+
+                    b.Property<string>("DataArrayPosition")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(8)");
+
+                    b.Property<bool>("IsActive")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("IsDefault")
                         .HasColumnType("bit");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
+
+                    b.Property<long>("MeasurementId")
+                        .HasColumnType("bigint");
 
                     b.Property<long>("ModuleId")
                         .HasColumnType("bigint");
@@ -672,11 +691,24 @@ namespace offshore.data.models.settings.Migrations
                     b.Property<long>("SensorId")
                         .HasColumnType("bigint");
 
+                    b.Property<string>("SerialNumber")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<long>("TelemetryId")
+                        .HasColumnType("bigint");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("CalibrationId");
+
+                    b.HasIndex("MeasurementId");
 
                     b.HasIndex("ModuleId");
 
                     b.HasIndex("SensorId");
+
+                    b.HasIndex("TelemetryId");
 
                     b.ToTable("ModuleSensor", "config");
                 });
@@ -812,11 +844,13 @@ namespace offshore.data.models.settings.Migrations
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
 
-                    b.Property<string>("Type")
+                    b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Name");
 
                     b.ToTable("Receivers", "config");
                 });
@@ -863,15 +897,8 @@ namespace offshore.data.models.settings.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
-                    b.Property<string>("DataArrayPosition")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(8)");
-
                     b.Property<long>("DecimalPlaces")
                         .HasColumnType("bigint");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
 
                     b.Property<bool>("IsDefault")
                         .HasColumnType("bit");
@@ -882,28 +909,16 @@ namespace offshore.data.models.settings.Migrations
                     b.Property<double>("MaximumValue")
                         .HasColumnType("float");
 
-                    b.Property<long?>("MeasurementId")
-                        .HasColumnType("bigint");
-
                     b.Property<double>("MinimumValue")
                         .HasColumnType("float");
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("SerialNumber")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<long>("TelemetryId")
-                        .HasColumnType("bigint");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("MeasurementId");
-
-                    b.HasIndex("TelemetryId");
+                    b.HasIndex("Name");
 
                     b.ToTable("Sensors", "config");
                 });
@@ -966,6 +981,8 @@ namespace offshore.data.models.settings.Migrations
                     b.HasKey("Id");
 
                     b.HasAlternateKey("Name");
+
+                    b.HasIndex("Name");
 
                     b.HasIndex("SiteId");
 
@@ -1048,6 +1065,10 @@ namespace offshore.data.models.settings.Migrations
                     b.Property<bool>("Modbus")
                         .HasColumnType("bit");
 
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<bool>("Pilot")
                         .HasColumnType("bit");
 
@@ -1097,6 +1118,8 @@ namespace offshore.data.models.settings.Migrations
 
                     b.HasIndex("EmailUserId");
 
+                    b.HasIndex("Name");
+
                     b.HasIndex("ReceiverTypeId");
 
                     b.HasIndex("SmsUserId");
@@ -1140,6 +1163,35 @@ namespace offshore.data.models.settings.Migrations
                     b.ToTable("SiteMeasurementUnits", "config");
                 });
 
+            modelBuilder.Entity("offshore.data.models.settings.SiteUser", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<bool>("IsDefault")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<long?>("SiteId")
+                        .HasColumnType("bigint");
+
+                    b.Property<long?>("UserId")
+                        .HasColumnType("bigint");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SiteId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("SiteUsers", "config");
+                });
+
             modelBuilder.Entity("offshore.data.models.settings.Telemetry", b =>
                 {
                     b.Property<long>("Id")
@@ -1159,9 +1211,11 @@ namespace offshore.data.models.settings.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Name");
 
                     b.ToTable("TelemetryData", "config");
                 });
@@ -1216,9 +1270,11 @@ namespace offshore.data.models.settings.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("Name");
 
                     b.ToTable("TelephoneTypes", "biz");
                 });
@@ -1243,8 +1299,7 @@ namespace offshore.data.models.settings.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("Name")
-                        .IsUnique();
+                    b.HasIndex("Name");
 
                     b.ToTable("Translatables", "lang");
                 });
@@ -1359,26 +1414,26 @@ namespace offshore.data.models.settings.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("ModuleSinglePointMooring", b =>
+                {
+                    b.HasOne("offshore.data.models.settings.Module", null)
+                        .WithMany()
+                        .HasForeignKey("ModulesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("offshore.data.models.settings.SinglePointMooring", null)
+                        .WithMany()
+                        .HasForeignKey("SinglePointMooringsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("RoleUser", b =>
                 {
                     b.HasOne("offshore.data.models.settings.Role", null)
                         .WithMany()
                         .HasForeignKey("RolesId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("offshore.data.models.settings.User", null)
-                        .WithMany()
-                        .HasForeignKey("UsersId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("SiteUser", b =>
-                {
-                    b.HasOne("offshore.data.models.settings.Site", null)
-                        .WithMany()
-                        .HasForeignKey("SitesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -1423,9 +1478,9 @@ namespace offshore.data.models.settings.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("offshore.data.models.settings.Sensor", null)
+                    b.HasOne("offshore.data.models.settings.ModuleSensor", null)
                         .WithMany("Alarms")
-                        .HasForeignKey("SensorId");
+                        .HasForeignKey("ModuleSensorId");
 
                     b.Navigation("MeasurementUnit");
                 });
@@ -1438,15 +1493,7 @@ namespace offshore.data.models.settings.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("offshore.data.models.settings.Site", "Site")
-                        .WithMany("Calibrations")
-                        .HasForeignKey("SiteId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("CalibratedBy");
-
-                    b.Navigation("Site");
                 });
 
             modelBuilder.Entity("offshore.data.models.settings.ChangeLog", b =>
@@ -1457,7 +1504,7 @@ namespace offshore.data.models.settings.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("offshore.data.models.settings.User", "User")
+                    b.HasOne("offshore.data.models.settings.SiteUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1527,15 +1574,18 @@ namespace offshore.data.models.settings.Migrations
                     b.Navigation("Address");
                 });
 
-            modelBuilder.Entity("offshore.data.models.settings.Module", b =>
-                {
-                    b.HasOne("offshore.data.models.settings.SinglePointMooring", null)
-                        .WithMany("Modules")
-                        .HasForeignKey("SinglePointMooringId");
-                });
-
             modelBuilder.Entity("offshore.data.models.settings.ModuleSensor", b =>
                 {
+                    b.HasOne("offshore.data.models.settings.Calibration", "Calibration")
+                        .WithMany()
+                        .HasForeignKey("CalibrationId");
+
+                    b.HasOne("offshore.data.models.settings.MeasurementType", "Measurement")
+                        .WithMany()
+                        .HasForeignKey("MeasurementId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("offshore.data.models.settings.Module", "Module")
                         .WithMany("Sensors")
                         .HasForeignKey("ModuleId")
@@ -1548,9 +1598,21 @@ namespace offshore.data.models.settings.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("offshore.data.models.settings.Telemetry", "Telemetry")
+                        .WithMany()
+                        .HasForeignKey("TelemetryId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Calibration");
+
+                    b.Navigation("Measurement");
+
                     b.Navigation("Module");
 
                     b.Navigation("Sensor");
+
+                    b.Navigation("Telemetry");
                 });
 
             modelBuilder.Entity("offshore.data.models.settings.ReceivedData", b =>
@@ -1581,23 +1643,6 @@ namespace offshore.data.models.settings.Migrations
                         .IsRequired();
 
                     b.Navigation("PermissionSet");
-                });
-
-            modelBuilder.Entity("offshore.data.models.settings.Sensor", b =>
-                {
-                    b.HasOne("offshore.data.models.settings.MeasurementType", "Measurement")
-                        .WithMany()
-                        .HasForeignKey("MeasurementId");
-
-                    b.HasOne("offshore.data.models.settings.Telemetry", "Telemetry")
-                        .WithMany()
-                        .HasForeignKey("TelemetryId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Measurement");
-
-                    b.Navigation("Telemetry");
                 });
 
             modelBuilder.Entity("offshore.data.models.settings.SinglePointMooring", b =>
@@ -1688,6 +1733,21 @@ namespace offshore.data.models.settings.Migrations
                     b.Navigation("Units");
                 });
 
+            modelBuilder.Entity("offshore.data.models.settings.SiteUser", b =>
+                {
+                    b.HasOne("offshore.data.models.settings.Site", "Site")
+                        .WithMany("Users")
+                        .HasForeignKey("SiteId");
+
+                    b.HasOne("offshore.data.models.settings.User", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId");
+
+                    b.Navigation("Site");
+
+                    b.Navigation("User");
+                });
+
             modelBuilder.Entity("offshore.data.models.settings.TelephoneNumber", b =>
                 {
                     b.HasOne("offshore.data.models.settings.CountryCode", "CountryCode")
@@ -1751,30 +1811,28 @@ namespace offshore.data.models.settings.Migrations
                     b.Navigation("Sensors");
                 });
 
+            modelBuilder.Entity("offshore.data.models.settings.ModuleSensor", b =>
+                {
+                    b.Navigation("Alarms");
+                });
+
             modelBuilder.Entity("offshore.data.models.settings.Permission", b =>
                 {
                     b.Navigation("Roles");
                 });
 
-            modelBuilder.Entity("offshore.data.models.settings.Sensor", b =>
-                {
-                    b.Navigation("Alarms");
-                });
-
             modelBuilder.Entity("offshore.data.models.settings.SinglePointMooring", b =>
                 {
                     b.Navigation("LiveData");
-
-                    b.Navigation("Modules");
                 });
 
             modelBuilder.Entity("offshore.data.models.settings.Site", b =>
                 {
-                    b.Navigation("Calibrations");
-
                     b.Navigation("SinglePointMoorings");
 
                     b.Navigation("SiteMeasurementUnits");
+
+                    b.Navigation("Users");
                 });
 
             modelBuilder.Entity("offshore.data.models.settings.Translatable", b =>

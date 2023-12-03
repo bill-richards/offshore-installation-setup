@@ -1,35 +1,20 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace offshore.data.models.settings;
 
-public class Sensor : OffshoreDataModel
+public class Sensor : NamedOffshoreDataModel
 {
-    [Required] public string Name { get; set; } = "";
-    public string SerialNumber { get; set; } = "";
     [Required] public double MinimumValue { get; set; } = 0;
     [Required] public double MaximumValue { get; set; }
     [Required] public uint DecimalPlaces { get; set; } = 0;
-    [Required, Column(TypeName = "nvarchar(8)")] public string DataArrayPosition { get; set; } = "";
-    [Required] public bool IsActive { get; set; } = false;
 
-    public virtual MeasurementType? Measurement { get; set; }
-
-    [Required] public virtual Telemetry? Telemetry { get; set; }
-
-    public virtual ICollection<Alarm> Alarms { get; init; } = [];
-
-    [NotMapped] public string TelemetryRef { get; set; } = "";
 
     public override void OnModelCreating(ModelBuilder modelBuilder)
     {
         OnModelCreating<Sensor>(modelBuilder);
         modelBuilder.Entity<Sensor>(e =>
         {
-            e.HasOne(s => s.Measurement);
-            e.HasOne(s => s.Telemetry);
-            e.HasMany(s => s.Alarms);
         });
     }
 }

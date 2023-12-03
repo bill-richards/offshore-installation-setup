@@ -3,11 +3,9 @@ using System.ComponentModel.DataAnnotations;
 
 namespace offshore.data.models.settings;
 
-public class Calibration : OffshoreDataModel
+public class Calibration : NamedOffshoreDataModel
 {
-    [Required] public string Name { get; set; } = "";
     [Required] public User? CalibratedBy { get; set; }
-    [Required] public Site? Site { get; set; }
     [Required] public uint DataPosition { get; set; }
     [Required] public DateTime Date { get; set; } = DateTime.Now;
     [Required] public uint Raw { get; set; }
@@ -20,7 +18,6 @@ public class Calibration : OffshoreDataModel
         OnModelCreating<Calibration>(modelBuilder);
         modelBuilder.Entity<Calibration>(e =>
         {
-            e.HasOne(p => p.Site).WithMany(s => s.Calibrations);
             e.HasOne(p => p.CalibratedBy);
         });
     }

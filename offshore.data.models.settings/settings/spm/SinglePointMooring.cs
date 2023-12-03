@@ -3,12 +3,11 @@ using System.ComponentModel.DataAnnotations;
 
 namespace offshore.data.models.settings;
 
-public class SinglePointMooring : OffshoreDataModel
+public class SinglePointMooring : NamedOffshoreDataModel
 {
     [Required] public Site? Site { get; set; }
     [Required]  public bool IsActive { get; set; } = true;
     [Required] public uint Index { get; set; }
-    [Required] public string Name { get; set; } = "";
     [Required] public int CompassAdjustment { get; set; }
     [Required]  public int WindAdjustment { get; set; }
     [Required] public int AwacPosition { get; set; }
@@ -30,7 +29,7 @@ public class SinglePointMooring : OffshoreDataModel
         {
             e.HasAlternateKey(p => p.Name);
             e.HasOne(p => p.Site).WithMany(r => r.SinglePointMoorings);
-            e.HasMany(p => p.Modules);
+            e.HasMany(p => p.Modules).WithMany(m => m.SinglePointMoorings);
         });
     }
 }

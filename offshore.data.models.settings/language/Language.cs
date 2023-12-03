@@ -5,9 +5,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace offshore.data.models.settings;
 
 [Table("Languages", Schema = "lang")]
-public class Language : OffshoreDataModel
+public class Language : NamedOffshoreDataModel
 {
-    [Required] public string Name { get; set; } = "";
     [Required] public string Display { get; set; } = "";
 
     public virtual ICollection<Translation> Translations { get; init; } = [];

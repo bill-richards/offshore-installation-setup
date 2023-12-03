@@ -8,7 +8,7 @@ public static class LanguageEntityLoader
 {
     public static void PopulateDatabase(ILanguageDataContext context, DefaultLanguageDataModel data)
     {
-        if (context.GetNamedRecord<data.models.settings.Language>(data.Languages![0].Name!) is null)
+        if (context.GetNamedRecord<Language>(data.Languages![0].Name!) is null)
             context.AddRangeToDbSet(data.Languages).And.SaveChanges();
 
         if (context.GetNamedRecord<Translatable>(data.Translatables![0].Name!) is null)
@@ -19,7 +19,7 @@ public static class LanguageEntityLoader
         {
             foreach (var translation in data.Translations)
             {
-                translation.Language = context.GetNamedRecord<data.models.settings.Language>(translation.LanguageRef!);
+                translation.Language = context.GetNamedRecord<Language>(translation.LanguageRef!);
                 translation.Translatable = context.GetNamedRecord<Translatable>(translation.TranslatableRef!);
             }
             context.AddRangeToDbSet(data.Translations!).And.SaveChanges();

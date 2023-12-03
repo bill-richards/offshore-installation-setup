@@ -4,8 +4,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace offshore.data.models.settings;
 
-public class SiteConfiguration : OffshoreDataModel
+public class SiteConfiguration : NamedOffshoreDataModel
 {
+
     [Required]
     public uint PortNumber { get; set; }
     [Required]

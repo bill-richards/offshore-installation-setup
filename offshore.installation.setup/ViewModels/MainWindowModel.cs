@@ -4,6 +4,7 @@ using offshore.data.models.settings.defaults;
 using offshore.data.parsing.Json;
 using offshore.data.parsing.loading;
 using offshore.data.parsing.models;
+using offshore.data.remote;
 using offshore.services;
 using System;
 using System.Collections.Generic;
@@ -41,6 +42,8 @@ public class MainWindowModel : IMainWindowModel
         CreateOsOpDatabaseButtonClick = new RelayCommand(new Action<object>(PopulateDefaultData));
         CreateDemoDataButtonClick = new RelayCommand(new Action<object>(PopulateDemoData));
         ValidateOsOpDataButtonClick = new RelayCommand(new Action<object>(ValidateDataFile));
+
+        var records = new RemoteReceivedData().GetOneHundredAndFiftyReceivedDataRecordsAfterId(17074);
     }
 
     private void ValidateDataFile(object obj)
@@ -80,29 +83,32 @@ public class MainWindowModel : IMainWindowModel
     public ObservableCollection<SiteMeasurementUnit> SiteMeasurementDataUnits { get; } = [];
     public ObservableCollection<Telemetry> TelemetryData { get; } = [];
 
-    public ObservableCollection<data.models.settings.Language> Languages { get; } = [];
+    public ObservableCollection<Language> Languages { get; } = [];
     public ObservableCollection<Translatable> Translatables { get; } = [];
     public ObservableCollection<Translation> Translations { get; } = [];
 
     public ObservableCollection<Permission> Permissions { get; } = [];
     public ObservableCollection<Role> Roles { get; } = [];
-    public ObservableCollection<data.models.settings.User> Users { get; } = [];
+    public ObservableCollection<User> Users { get; } = [];
 
     private void PopulateDefaultData(object obj)
     {
-        if (DataParser.TryParseDataFile("setup-data\\language.json", out DefaultLanguageDataModel? languageEntities))
+        if (DataParser.TryParseDataFile<DefaultLanguageDataModel>("setup-data\\language.json", out var languageEntities))
             PopulateLanguageDefaults(languageEntities!);
 
         PopulateUserDefaults(); // Keep this one in c#
 
-        if (DataParser.TryParseDataFile("setup-data\\business.json", out DefaultTelephonyDataModel? businessEntities))
+        if (DataParser.TryParseDataFile<DefaultTelephonyDataModel>("setup-data\\business.json", out var businessEntities))
             PopulateTelephonyDefaults(businessEntities!);
 
-        if (DataParser.TryParseDataFile("setup-data\\configuration.json", out DefaultConfigurationDataModel? configurationEntities))
+        if (DataParser.TryParseDataFile<DefaultConfigurationDataModel>("setup-data\\configuration.json", out var configurationEntities))
             PopulateConfigurationDefaults(configurationEntities!);
 
-        if (DataParser.TryParseDataFile("setup-data\\offshore-ops.json", out CompanyDataModel? companyEntities))
+        if (DataParser.TryParseDataFile<JsonSiteModel>("setup-data\\offshore-ops.json", out var companyEntities))
             PopulateOffshoreOpsDefaults(companyEntities!);
+
+        //if (DataParser.TryParseDataFile("setup-data\\demo-data.json", out companyEntities))
+        //    PopulateOffshoreOpsDefaults(companyEntities!);
     }
 
     private void PopulateLanguageDefaults(in DefaultLanguageDataModel entities)
@@ -131,13 +137,17 @@ public class MainWindowModel : IMainWindowModel
         ConfigurationEntityLoader.PopulateDatabase(context, entities);
     }
 
-    private void PopulateOffshoreOpsDefaults(in CompanyDataModel companyEntities)
+    private void PopulateOffshoreOpsDefaults(in JsonSiteModel companyEntities)
     {
         using var context = SettingsContextFactory.Create();
         CompanyDetailsEntityLoader.PopulateDatabase(context, companyEntities);
     }
 
-    private void PopulateDemoData(object obj) => SetupDemoRecords();
+    private void PopulateDemoData(object obj) //=> SetupDemoRecords();
+    {
+        if (DataParser.TryParseDataFile<JsonSiteModel>("setup-data\\demo-data.json", out var companyEntities))
+            PopulateOffshoreOpsDefaults(companyEntities!);
+    }
 
     private void SetupDemoRecords()
     {
@@ -186,14 +196,14 @@ public class MainWindowModel : IMainWindowModel
     {
         using var context = SettingsContextFactory.Create();
 
-        context.DeleteAllRecords<data.models.settings.Address>()
-            .DeleteAllRecords<data.models.settings.Country>()
-            .DeleteAllRecords<data.models.settings.Location>()
-            .DeleteAllRecords<data.models.settings.Company>()
-            .DeleteAllRecords<data.models.settings.Contact>()
-            .DeleteAllRecords<data.models.settings.CountryCode>()
-            .DeleteAllRecords<data.models.settings.TelephoneNumber>()
-            .DeleteAllRecords<data.models.settings.TelephoneType>();
+        context.DeleteAllRecords<Address>()
+            .DeleteAllRecords<Country>()
+            .DeleteAllRecords<Location>()
+            .DeleteAllRecords<Company>()
+            .DeleteAllRecords<Contact>()
+            .DeleteAllRecords<CountryCode>()
+            .DeleteAllRecords<TelephoneNumber>()
+            .DeleteAllRecords<TelephoneType>();
 
         context.SaveChanges();
     }
@@ -201,9 +211,9 @@ public class MainWindowModel : IMainWindowModel
     private void DeleteLanguageData()
     {
         using var context = LanguageContextFactory.Create();
-        context.DeleteAllRecords<data.models.settings.Language>()
-            .DeleteAllRecords<data.models.settings.Translatable>()
-            .DeleteAllRecords<data.models.settings.Translation>();
+        context.DeleteAllRecords<Language>()
+            .DeleteAllRecords<Translatable>()
+            .DeleteAllRecords<Translation>();
 
         context.SaveChanges();
     }
@@ -224,6 +234,7 @@ public class MainWindowModel : IMainWindowModel
             .DeleteAllRecords<Receiver>()
             .DeleteAllRecords<Sensor>()
             .DeleteAllRecords<SinglePointMooring>()
+            .DeleteAllRecords<SiteUser>()
             .DeleteAllRecords<Site>()
             .DeleteAllRecords<SiteConfiguration>()
             .DeleteAllRecords<SiteMeasurementUnit>()
@@ -237,7 +248,7 @@ public class MainWindowModel : IMainWindowModel
         using var context = UsersContextFactory.Create();
         context.DeleteAllRecords<Permission>()
             .DeleteAllRecords<Role>()
-            .DeleteAllRecords<data.models.settings.User>();
+            .DeleteAllRecords<User>();
 
         context.SaveChanges();
     }

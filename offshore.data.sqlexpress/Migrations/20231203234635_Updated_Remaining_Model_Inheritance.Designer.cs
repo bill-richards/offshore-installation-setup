@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using offshore.data.models.settings.contexts;
 
@@ -11,9 +12,11 @@ using offshore.data.models.settings.contexts;
 namespace offshore.data.models.settings.Migrations
 {
     [DbContext(typeof(CompleteDataContext))]
-    partial class CompleteDataContextModelSnapshot : ModelSnapshot
+    [Migration("20231203234635_Updated_Remaining_Model_Inheritance")]
+    partial class Updated_Remaining_Model_Inheritance
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

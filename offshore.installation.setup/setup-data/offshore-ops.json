@@ -1,5 +1,5 @@
 {
-   "$schema": "JSON/schemata/offshore-operations-company-schema",
+   "$schema": "../JSON/schemata/offshore-operations-company-schema",
 
    "Names": [
       {

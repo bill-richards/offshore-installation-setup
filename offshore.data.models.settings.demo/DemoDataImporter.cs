@@ -1,4 +1,5 @@
 ﻿using offshore.data.models.settings.contexts;
+using System.Linq.Expressions;
 
 namespace offshore.data.models.settings.defaults;
 
@@ -101,7 +102,7 @@ public static class DemoDataImporter
         Company exampleCompany = new()
         {
             Name = companyName,
-            //Location = siteLocation,
+            Location = siteLocation,
             Sites = new Site[] { exampleSite }
         };
         if (settings.GetNamedRecord<Company>(exampleCompany.Name) is null)
@@ -154,18 +155,31 @@ public static class DemoDataImporter
             settings.SaveChanges();
         }
 
-        var site = settings.GetNamedRecordWithNavigationProperties<Site>(siteName);
+        var site = settings.GetNamedRecord<Site>(siteName);
+        var siteUsers = settings.GetDbSet<SiteUser>();
+        var user = settings.GetNamedRecord<User>(exampleUserName);
+        if (siteUsers!.GetRecord(u => u.Site == site && u.User == user) is null)
+            settings.AddToDbSet<SiteUser>(new() { Site = site, User = user });
 
-        if (!site.Users.Contains(settings.GetNamedRecord<User>(exampleUserName)))
-            site.Users.Add(settings.GetNamedRecord<User>(exampleUserName));
-        if (!site.Users.Contains(settings.GetNamedRecord<User>(exampleAdminName)))
-            site.Users.Add(settings.GetNamedRecord<User>(exampleAdminName));
-        if (!site.Users.Contains(settings.GetNamedRecord<User>(examplePilotName)))
-            site.Users.Add(settings.GetNamedRecord<User>(examplePilotName));
+        user = settings.GetNamedRecord<User>(exampleAdminName);
+        if (siteUsers.GetRecord(u => u.Site == site && u.User == user) is null)
+            settings.AddToDbSet<SiteUser>(new() { Site = site, User = user });
 
-        if (!site.Users.Contains(settings.GetNamedRecord<User>(paulWartnarby)))
-            site.Users.Add(settings.GetNamedRecord<User>(paulWartnarby));
+        user = settings.GetNamedRecord<User>(examplePilotName);
+        if (siteUsers.GetRecord(u => u.Site == site && u.User == user) is null)
+            settings.AddToDbSet<SiteUser>(new() { Site = site, User = user });
+
+        user = settings.GetNamedRecord<User>(paulWartnarby);
+        if (siteUsers.GetRecord(u => u.Site == site && u.User == user) is null)
+            settings.AddToDbSet<SiteUser>(new() { Site = site, User = user });
 
         settings.SaveChanges();
+    }
+}
+public static class DbSetExtensions
+{
+    public static TModel? GetRecord<TModel>(this IQueryable<TModel> records, Expression<Func<TModel, bool>> predicate) 
+    {
+        return records.FirstOrDefault(predicate);
     }
 }

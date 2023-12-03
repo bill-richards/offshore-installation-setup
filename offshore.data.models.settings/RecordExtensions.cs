@@ -92,6 +92,6 @@ public static class RecordExtensions
             context.Entry(record).Navigations.Load();
         };
 
-        return context.FirstOrDefault<TModel>(exp);
+        return context.FirstOrDefault(exp);
     }
 }

@@ -1,12 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
 
 namespace offshore.data.models.settings;
 
-public class Receiver : OffshoreDataModel
+public class Receiver : NamedOffshoreDataModel
 {
-    [Required]
-    public string Type { get; set; } = "";
     public override void OnModelCreating(ModelBuilder modelBuilder)
     {
         OnModelCreating<Receiver>(modelBuilder);

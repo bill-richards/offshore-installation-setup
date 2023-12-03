@@ -5,23 +5,19 @@ using System.ComponentModel.DataAnnotations.Schema;
 namespace offshore.data.models.settings;
 
 [Table("Sites", Schema = "config")]
-public class Site : OffshoreDataModel
+public class Site : NamedOffshoreDataModel
 {
-    [Required] public string Name { get; set; } = "";
-
     public Company? Company { get; set; }
 
     public Location? Location { get; set; }
 
-    public virtual ICollection<SinglePointMooring> SinglePointMoorings { get; init; } = [];
-    public virtual ICollection<SiteMeasurementUnit> SiteMeasurementUnits { get; init; } = [];
-    public virtual ICollection<Calibration> Calibrations { get; init; } = [];
-
-    public virtual ICollection<User> Users { get; init; } = [];
-
+    public ICollection<SinglePointMooring> SinglePointMoorings { get; init; } = [];
+    public ICollection<SiteMeasurementUnit> SiteMeasurementUnits { get; init; } = [];
+    
     public virtual SiteConfiguration? Configuration { get; set; }
 
     [Required] public bool IsEnabled { get; set; } = true;
+    public virtual ICollection<SiteUser> Users { get; init; } = [];
 
     public override void OnModelCreating(ModelBuilder modelBuilder)
     {

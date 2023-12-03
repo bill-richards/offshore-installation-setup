@@ -5,6 +5,10 @@ GO
 --- Default data
 ---
 --/*
+select top(10) * from biz.Locations
+select top(10) * from biz.Companies
+select top(10) * from biz.Addresses
+
 select top(50) * from biz.Countries
 select top(50) * from biz.TelephoneTypes
 select top(50) * from biz.CountryCodes
@@ -15,27 +19,22 @@ select top(50) * from lang.Translations
 select top(50) * from users.Permissions
 select top(50) * from users.Roles
 select top(50) * from biz.TelephoneNumbers
-select top(50) * from users.Users
 select top(50) * from config.LanguageUser
 select top(50) * from users.RoleUser
+select top(50) * from users.Users
 select top(50) * from config.Sites
-select top(50) * from config.Modules
+select top(50) * from config.SiteUsers
 select top(50) * from config.Receivers
 
 select top(50) * from config.MeasurementTypes
 select top(50) * from config.MeasurementUnits
+select top(50) * from config.Modules
 select top(50) * from config.Sensors
+select top(50) * from config.ModuleSensor
 select top(50) * from config.TelemetryData
+select top(50) * from config.SinglePointMoorings
+select top(50) * from config.ModuleSinglePointMooring
 
-
----
---- These guys are only pertinent if we setup Offshore Operations data
---- by default, which I'm not sure about at the moment but also think
---- that we probably should
----
-select top(10) * from biz.Locations
-select top(10) * from biz.Companies
-select top(10) * from biz.Addresses
 --*/
 
 ---

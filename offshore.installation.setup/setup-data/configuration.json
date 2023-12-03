@@ -1,16 +1,16 @@
 {
 	"MeasurementTypes": [
 		{ "Name": "Flow", 					"DefaultUnitRef": "Cubic metre per hour", "IsDefault": true },
-		{ "Name": "Distance", 				"DefaultUnitRef": "Metre", "IsDefault": true },
-		{ "Name": "Mass", 					"DefaultUnitRef": "Metric Tonne", "IsDefault": true },
-		{ "Name": "Speed", 					"DefaultUnitRef": "Metre per second", "IsDefault": true },
-		{ "Name": "Atmospheric Pressure","DefaultUnitRef": "Atmospheric Bar", "IsDefault": true },
-		{ "Name": "Temperature", 			"DefaultUnitRef": "Degree Celcius", "IsDefault": true },
-		{ "Name": "Product Pressure", 	"DefaultUnitRef": "Bar", "IsDefault": true },
-		{ "Name": "Power", 					"DefaultUnitRef": "Volts", "IsDefault": true },
-		{ "Name": "Percentage", 			"DefaultUnitRef": "Percentage", "IsDefault": true },
-		{ "Name": "Bearing", 				"DefaultUnitRef": "Degrees", "IsDefault": true },
-		{ "Name": "Time", 					"DefaultUnitRef": "Seconds", "IsDefault": true }
+		{ "Name": "Distance", 				"DefaultUnitRef": "Metre",                "IsDefault": true },
+		{ "Name": "Mass", 					"DefaultUnitRef": "Metric Tonne",         "IsDefault": true },
+		{ "Name": "Speed", 					"DefaultUnitRef": "Metre per second",     "IsDefault": true },
+		{ "Name": "Atmospheric Pressure","DefaultUnitRef": "Atmospheric Bar",      "IsDefault": true },
+		{ "Name": "Temperature", 			"DefaultUnitRef": "Degree Celcius",       "IsDefault": true },
+		{ "Name": "Product Pressure", 	"DefaultUnitRef": "Bar",                  "IsDefault": true },
+		{ "Name": "Power", 					"DefaultUnitRef": "Volts",                "IsDefault": true },
+		{ "Name": "Percentage", 			"DefaultUnitRef": "Percentage",           "IsDefault": true },
+		{ "Name": "Bearing", 				"DefaultUnitRef": "Degrees",              "IsDefault": true },
+		{ "Name": "Time", 					"DefaultUnitRef": "Seconds",              "IsDefault": true }
 	],
 	"MeasurementUnits": [
     {
@@ -272,9 +272,9 @@
     }
   ],
 	"Receivers": [
-		{ "Type": "USB",     "IsDefault": true },
-		{ "Type": "Serial",  "IsDefault": true },
-		{ "Type": "Tcp",     "IsDefault": true }
+		{ "Name": "USB",     "IsDefault": true },
+		{ "Name": "Serial",  "IsDefault": true },
+		{ "Name": "Tcp",     "IsDefault": true }
 	],
 	"Telemetries": [
 		{
@@ -330,43 +330,41 @@
 		"IsDefault": true
 		}
 	],
-	"Sensors": [
-		{
-		"Name": "Comms",
-		"MaximumValue": 100,
-		"DataArrayPosition": "0",
-		"AlarmInterval": 100,
-		"TelemetryRef": "$COMMS",
-		"IsDefault": true
-		},
-		{
-		"Name": "Load",
-		"MaximumValue": 250,
-		"DataArrayPosition": "2",
-		"AlarmInterval": 10,
-		"TelemetryRef": "$OSANA",
-		"IsDefault": true
-		},
-		{
-		"Name": "Flow",
-		"MaximumValue": 25,
-		"DataArrayPosition": "6",
-		"AlarmInterval": 10,
-		"TelemetryRef": "$OSANA",
-		"MinimumValue": -2,
-		"DecimalPlaces": 2,
-		"IsDefault": true
-		},
-		{
-		"Name": "WindSpeed",
-		"MaximumValue": 100,
-		"DataArrayPosition": "6",
-		"AlarmInterval": 10,
-		"TelemetryRef": "$OSSWO",
-		"DecimalPlaces": 2,
-		"IsDefault": true
-		}
-	],
+   "Sensors": [
+      {
+         "Name": "Comms",
+         "MaximumValue": 100,
+         "IsDefault": true
+      },
+      {
+         "Name": "GPS (1)",
+         "MaximumValue": 0,
+         "IsDefault": true
+      },
+      {
+         "Name": "GPS (2)",
+         "MaximumValue": 0,
+         "IsDefault": true
+      },
+      {
+         "Name": "Load",
+         "MaximumValue": 250,
+         "IsDefault": true
+      },
+      {
+         "Name": "Flow",
+         "MaximumValue": 25,
+         "MinimumValue": -2,
+         "DecimalPlaces": 2,
+         "IsDefault": true
+      },
+      {
+         "Name": "WindSpeed",
+         "MaximumValue": 100,
+         "DecimalPlaces": 2,
+         "IsDefault": true
+      }
+   ],
 	"Modules": [
     {
       "Name": "HAWSER TENSION",

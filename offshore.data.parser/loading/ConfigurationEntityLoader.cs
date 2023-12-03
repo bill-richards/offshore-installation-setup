@@ -14,15 +14,15 @@ public static class ConfigurationEntityLoader
         if (context.GetNamedRecord<Telemetry>(data.Telemetries![0].Name!) is null)
             context.AddRangeToDbSet(data.Telemetries).And.SaveChanges();
 
-        if (!context.GetDbSet<Receiver>().Any(r => r.Type == data.Receivers![0].Type!))
-            context.AddRangeToDbSet(data.Receivers!).And.SaveChanges();
+        if (!context.GetDbSet<Receiver>().Any(r => r.Name == data.Receivers![0].Name!))
+            context.AddRangeToDbSet<Receiver>(data.Receivers!).And.SaveChanges();
 
         if (context.GetNamedRecord<Sensor>(data.Sensors![0].Name!) is null)
         {
-            foreach (var sensor in data.Sensors)
-            {
-                sensor.Telemetry = context.GetNamedRecord<Telemetry>(sensor.TelemetryRef!);
-            }
+            //foreach (var sensor in data.Sensors)
+            //{
+            //    sensor.Telemetry = context.GetNamedRecord<Telemetry>(sensor.TelemetryRef!);
+            //}
             context.AddRangeToDbSet(data.Sensors).And.SaveChanges();
         }
 

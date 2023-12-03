@@ -23,15 +23,11 @@ public static class UserExtensions
         var permission = context.GetNamedRecord<Permission>(AllPermissionName);
         if (permission == null)
         {
-            //if (context.ChangeTracker.HasChanges())
-            //    throw new InvalidOperationException(string.Format(PermissionErrorMessage, AllPermissionName));
-
             var allPermissions = new Permission(AllPermissionName)
             {
                 IsDefault = true
             };
             context.AddToDbSet(allPermissions);
-            //context.SaveChanges();
             permission = context.GetDbSet<Permission>().Local.GetNamedRecord(AllPermissionName);
         }
         return permission;
@@ -42,9 +38,6 @@ public static class UserExtensions
         var permission = context.GetNamedRecord<Permission>(ConsignmentPermissionName);
         if (permission == null)
         {
-            //if (context.ChangeTracker.HasChanges())
-            //    throw new InvalidOperationException(string.Format(PermissionErrorMessage, ConsignmentPermissionName));
-
             permission = new Permission
             {
                 Name = ConsignmentPermissionName,
@@ -57,7 +50,6 @@ public static class UserExtensions
             }
 
             context.AddToDbSet(permission);
-            //context.SaveChanges();
             permission = context.GetDbSet<Permission>().Local.GetNamedRecord(ConsignmentPermissionName);
         }
         return permission;
@@ -68,9 +60,6 @@ public static class UserExtensions
         var permission = context.GetNamedRecord<Permission>(SitePermissionName);
         if (permission == null)
         {
-            //if (context.ChangeTracker.HasChanges())
-            //    throw new InvalidOperationException(string.Format(PermissionErrorMessage, SitePermissionName));
-
             permission = new Permission
             {
                 Name = SitePermissionName,
@@ -87,7 +76,6 @@ public static class UserExtensions
             }
 
             context.AddToDbSet(permission);
-            //context.SaveChanges();
             permission = context.GetDbSet<Permission>().Local.GetNamedRecord(SitePermissionName);
         }
         return permission;

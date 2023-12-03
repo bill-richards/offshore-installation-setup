@@ -1,5 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore.Migrations;
+﻿using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
@@ -109,6 +108,23 @@ namespace offshore.data.models.settings.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Modules",
+                schema: "config",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    GraphMinimum = table.Column<long>(type: "bigint", nullable: false),
+                    IsDefault = table.Column<bool>(type: "bit", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Modules", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Permissions",
                 schema: "users",
                 columns: table => new
@@ -152,6 +168,25 @@ namespace offshore.data.models.settings.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Receivers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Sensors",
+                schema: "config",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    MinimumValue = table.Column<double>(type: "float", nullable: false),
+                    MaximumValue = table.Column<double>(type: "float", nullable: false),
+                    DecimalPlaces = table.Column<long>(type: "bigint", nullable: false),
+                    IsDefault = table.Column<bool>(type: "bit", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Sensors", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -302,43 +337,6 @@ namespace offshore.data.models.settings.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Sensors",
-                schema: "config",
-                columns: table => new
-                {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    SerialNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    MinimumValue = table.Column<double>(type: "float", nullable: false),
-                    MaximumValue = table.Column<double>(type: "float", nullable: false),
-                    DecimalPlaces = table.Column<long>(type: "bigint", nullable: false),
-                    DataArrayPosition = table.Column<string>(type: "nvarchar(8)", nullable: false),
-                    IsActive = table.Column<bool>(type: "bit", nullable: false),
-                    MeasurementId = table.Column<long>(type: "bigint", nullable: true),
-                    TelemetryId = table.Column<long>(type: "bigint", nullable: false),
-                    IsDefault = table.Column<bool>(type: "bit", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Sensors", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Sensors_MeasurementTypes_MeasurementId",
-                        column: x => x.MeasurementId,
-                        principalSchema: "config",
-                        principalTable: "MeasurementTypes",
-                        principalColumn: "Id");
-                    table.ForeignKey(
-                        name: "FK_Sensors_TelemetryData_TelemetryId",
-                        column: x => x.TelemetryId,
-                        principalSchema: "config",
-                        principalTable: "TelemetryData",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Translations",
                 schema: "lang",
                 columns: table => new
@@ -367,6 +365,36 @@ namespace offshore.data.models.settings.Migrations
                         column: x => x.TranslatableId,
                         principalSchema: "lang",
                         principalTable: "Translatables",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Calibrations",
+                schema: "config",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CalibratedById = table.Column<long>(type: "bigint", nullable: false),
+                    DataPosition = table.Column<long>(type: "bigint", nullable: false),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    Raw = table.Column<long>(type: "bigint", nullable: false),
+                    Zero = table.Column<long>(type: "bigint", nullable: false),
+                    Value = table.Column<double>(type: "float", nullable: false),
+                    Data = table.Column<double>(type: "float", nullable: false),
+                    IsDefault = table.Column<bool>(type: "bit", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Calibrations", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Calibrations_Users_CalibratedById",
+                        column: x => x.CalibratedById,
+                        principalSchema: "users",
+                        principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -542,42 +570,60 @@ namespace offshore.data.models.settings.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Alarms",
+                name: "ModuleSensor",
                 schema: "config",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    AlarmBit = table.Column<bool>(type: "bit", nullable: false),
-                    Threshold = table.Column<double>(type: "float", nullable: false),
-                    MeasurementUnitId = table.Column<long>(type: "bigint", nullable: false),
-                    Message = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DisplayColour = table.Column<long>(type: "bigint", nullable: false),
-                    Interval = table.Column<long>(type: "bigint", nullable: false),
-                    RaiseSound = table.Column<bool>(type: "bit", nullable: false),
-                    SendSms = table.Column<bool>(type: "bit", nullable: false),
-                    SendEmail = table.Column<bool>(type: "bit", nullable: false),
+                    ModuleId = table.Column<long>(type: "bigint", nullable: false),
+                    SensorId = table.Column<long>(type: "bigint", nullable: false),
+                    SerialNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DataArrayPosition = table.Column<string>(type: "nvarchar(8)", nullable: false),
+                    TelemetryId = table.Column<long>(type: "bigint", nullable: false),
+                    MeasurementId = table.Column<long>(type: "bigint", nullable: false),
+                    CalibrationId = table.Column<long>(type: "bigint", nullable: true),
                     IsActive = table.Column<bool>(type: "bit", nullable: false),
-                    SensorId = table.Column<long>(type: "bigint", nullable: true),
                     IsDefault = table.Column<bool>(type: "bit", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Alarms", x => x.Id);
+                    table.PrimaryKey("PK_ModuleSensor", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Alarms_MeasurementUnits_MeasurementUnitId",
-                        column: x => x.MeasurementUnitId,
+                        name: "FK_ModuleSensor_Calibrations_CalibrationId",
+                        column: x => x.CalibrationId,
                         principalSchema: "config",
-                        principalTable: "MeasurementUnits",
+                        principalTable: "Calibrations",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_ModuleSensor_MeasurementTypes_MeasurementId",
+                        column: x => x.MeasurementId,
+                        principalSchema: "config",
+                        principalTable: "MeasurementTypes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Alarms_Sensors_SensorId",
+                        name: "FK_ModuleSensor_Modules_ModuleId",
+                        column: x => x.ModuleId,
+                        principalSchema: "config",
+                        principalTable: "Modules",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ModuleSensor_Sensors_SensorId",
                         column: x => x.SensorId,
                         principalSchema: "config",
                         principalTable: "Sensors",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ModuleSensor_TelemetryData_TelemetryId",
+                        column: x => x.TelemetryId,
+                        principalSchema: "config",
+                        principalTable: "TelemetryData",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -686,6 +732,45 @@ namespace offshore.data.models.settings.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Alarms",
+                schema: "config",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    AlarmBit = table.Column<bool>(type: "bit", nullable: false),
+                    Threshold = table.Column<double>(type: "float", nullable: false),
+                    MeasurementUnitId = table.Column<long>(type: "bigint", nullable: false),
+                    Message = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DisplayColour = table.Column<long>(type: "bigint", nullable: false),
+                    Interval = table.Column<long>(type: "bigint", nullable: false),
+                    RaiseSound = table.Column<bool>(type: "bit", nullable: false),
+                    SendSms = table.Column<bool>(type: "bit", nullable: false),
+                    SendEmail = table.Column<bool>(type: "bit", nullable: false),
+                    IsActive = table.Column<bool>(type: "bit", nullable: false),
+                    ModuleSensorId = table.Column<long>(type: "bigint", nullable: true),
+                    IsDefault = table.Column<bool>(type: "bit", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Alarms", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Alarms_MeasurementUnits_MeasurementUnitId",
+                        column: x => x.MeasurementUnitId,
+                        principalSchema: "config",
+                        principalTable: "MeasurementUnits",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Alarms_ModuleSensor_ModuleSensorId",
+                        column: x => x.ModuleSensorId,
+                        principalSchema: "config",
+                        principalTable: "ModuleSensor",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Sites",
                 schema: "config",
                 columns: table => new
@@ -721,77 +806,6 @@ namespace offshore.data.models.settings.Migrations
                         principalSchema: "config",
                         principalTable: "SiteConfigurations",
                         principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Calibrations",
-                schema: "config",
-                columns: table => new
-                {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CalibratedById = table.Column<long>(type: "bigint", nullable: false),
-                    SiteId = table.Column<long>(type: "bigint", nullable: false),
-                    DataPosition = table.Column<long>(type: "bigint", nullable: false),
-                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Raw = table.Column<long>(type: "bigint", nullable: false),
-                    Zero = table.Column<long>(type: "bigint", nullable: false),
-                    Value = table.Column<double>(type: "float", nullable: false),
-                    Data = table.Column<double>(type: "float", nullable: false),
-                    IsDefault = table.Column<bool>(type: "bit", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Calibrations", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Calibrations_Sites_SiteId",
-                        column: x => x.SiteId,
-                        principalSchema: "config",
-                        principalTable: "Sites",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_Calibrations_Users_CalibratedById",
-                        column: x => x.CalibratedById,
-                        principalSchema: "users",
-                        principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ChangeLogs",
-                schema: "config",
-                columns: table => new
-                {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UserId = table.Column<long>(type: "bigint", nullable: false),
-                    SiteId = table.Column<long>(type: "bigint", nullable: false),
-                    Detail = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    IsDefault = table.Column<bool>(type: "bit", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ChangeLogs", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_ChangeLogs_Sites_SiteId",
-                        column: x => x.SiteId,
-                        principalSchema: "config",
-                        principalTable: "Sites",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_ChangeLogs_Users_UserId",
-                        column: x => x.UserId,
-                        principalSchema: "users",
-                        principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -870,30 +884,32 @@ namespace offshore.data.models.settings.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "SiteUser",
+                name: "SiteUsers",
                 schema: "config",
                 columns: table => new
                 {
-                    SitesId = table.Column<long>(type: "bigint", nullable: false),
-                    UsersId = table.Column<long>(type: "bigint", nullable: false)
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    SiteId = table.Column<long>(type: "bigint", nullable: true),
+                    UserId = table.Column<long>(type: "bigint", nullable: true),
+                    IsDefault = table.Column<bool>(type: "bit", nullable: false),
+                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_SiteUser", x => new { x.SitesId, x.UsersId });
+                    table.PrimaryKey("PK_SiteUsers", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_SiteUser_Sites_SitesId",
-                        column: x => x.SitesId,
+                        name: "FK_SiteUsers_Sites_SiteId",
+                        column: x => x.SiteId,
                         principalSchema: "config",
                         principalTable: "Sites",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                     table.ForeignKey(
-                        name: "FK_SiteUser_Users_UsersId",
-                        column: x => x.UsersId,
+                        name: "FK_SiteUsers_Users_UserId",
+                        column: x => x.UserId,
                         principalSchema: "users",
                         principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -961,27 +977,30 @@ namespace offshore.data.models.settings.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Modules",
+                name: "ModuleSinglePointMooring",
                 schema: "config",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    GraphMinimum = table.Column<long>(type: "bigint", nullable: false),
-                    SinglePointMooringId = table.Column<long>(type: "bigint", nullable: true),
-                    IsDefault = table.Column<bool>(type: "bit", nullable: false),
-                    IsDeleted = table.Column<bool>(type: "bit", nullable: false)
+                    ModulesId = table.Column<long>(type: "bigint", nullable: false),
+                    SinglePointMooringsId = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Modules", x => x.Id);
+                    table.PrimaryKey("PK_ModuleSinglePointMooring", x => new { x.ModulesId, x.SinglePointMooringsId });
                     table.ForeignKey(
-                        name: "FK_Modules_SinglePointMoorings_SinglePointMooringId",
-                        column: x => x.SinglePointMooringId,
+                        name: "FK_ModuleSinglePointMooring_Modules_ModulesId",
+                        column: x => x.ModulesId,
+                        principalSchema: "config",
+                        principalTable: "Modules",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_ModuleSinglePointMooring_SinglePointMoorings_SinglePointMooringsId",
+                        column: x => x.SinglePointMooringsId,
                         principalSchema: "config",
                         principalTable: "SinglePointMoorings",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -1019,32 +1038,34 @@ namespace offshore.data.models.settings.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ModuleSensor",
+                name: "ChangeLogs",
                 schema: "config",
                 columns: table => new
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    ModuleId = table.Column<long>(type: "bigint", nullable: false),
-                    SensorId = table.Column<long>(type: "bigint", nullable: false),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    UserId = table.Column<long>(type: "bigint", nullable: false),
+                    SiteId = table.Column<long>(type: "bigint", nullable: false),
+                    Detail = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     IsDefault = table.Column<bool>(type: "bit", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ModuleSensor", x => x.Id);
+                    table.PrimaryKey("PK_ChangeLogs", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ModuleSensor_Modules_ModuleId",
-                        column: x => x.ModuleId,
+                        name: "FK_ChangeLogs_SiteUsers_UserId",
+                        column: x => x.UserId,
                         principalSchema: "config",
-                        principalTable: "Modules",
+                        principalTable: "SiteUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ModuleSensor_Sensors_SensorId",
-                        column: x => x.SensorId,
+                        name: "FK_ChangeLogs_Sites_SiteId",
+                        column: x => x.SiteId,
                         principalSchema: "config",
-                        principalTable: "Sensors",
+                        principalTable: "Sites",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -1062,22 +1083,16 @@ namespace offshore.data.models.settings.Migrations
                 column: "MeasurementUnitId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Alarms_SensorId",
+                name: "IX_Alarms_ModuleSensorId",
                 schema: "config",
                 table: "Alarms",
-                column: "SensorId");
+                column: "ModuleSensorId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Calibrations_CalibratedById",
                 schema: "config",
                 table: "Calibrations",
                 column: "CalibratedById");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Calibrations_SiteId",
-                schema: "config",
-                table: "Calibrations",
-                column: "SiteId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ChangeLogs_Date",
@@ -1158,10 +1173,16 @@ namespace offshore.data.models.settings.Migrations
                 column: "AddressId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Modules_SinglePointMooringId",
+                name: "IX_ModuleSensor_CalibrationId",
                 schema: "config",
-                table: "Modules",
-                column: "SinglePointMooringId");
+                table: "ModuleSensor",
+                column: "CalibrationId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ModuleSensor_MeasurementId",
+                schema: "config",
+                table: "ModuleSensor",
+                column: "MeasurementId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ModuleSensor_ModuleId",
@@ -1174,6 +1195,18 @@ namespace offshore.data.models.settings.Migrations
                 schema: "config",
                 table: "ModuleSensor",
                 column: "SensorId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ModuleSensor_TelemetryId",
+                schema: "config",
+                table: "ModuleSensor",
+                column: "TelemetryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_ModuleSinglePointMooring_SinglePointMooringsId",
+                schema: "config",
+                table: "ModuleSinglePointMooring",
+                column: "SinglePointMooringsId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_ReceivedData_SpmId",
@@ -1198,18 +1231,6 @@ namespace offshore.data.models.settings.Migrations
                 schema: "users",
                 table: "RoleUser",
                 column: "UsersId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Sensors_MeasurementId",
-                schema: "config",
-                table: "Sensors",
-                column: "MeasurementId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Sensors_TelemetryId",
-                schema: "config",
-                table: "Sensors",
-                column: "TelemetryId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_SinglePointMoorings_SiteId",
@@ -1278,10 +1299,16 @@ namespace offshore.data.models.settings.Migrations
                 column: "LocationId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_SiteUser_UsersId",
+                name: "IX_SiteUsers_SiteId",
                 schema: "config",
-                table: "SiteUser",
-                column: "UsersId");
+                table: "SiteUsers",
+                column: "SiteId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SiteUsers_UserId",
+                schema: "config",
+                table: "SiteUsers",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_TelephoneNumbers_CountryCodeId",
@@ -1335,10 +1362,6 @@ namespace offshore.data.models.settings.Migrations
                 schema: "config");
 
             migrationBuilder.DropTable(
-                name: "Calibrations",
-                schema: "config");
-
-            migrationBuilder.DropTable(
                 name: "ChangeLogs",
                 schema: "config");
 
@@ -1363,7 +1386,7 @@ namespace offshore.data.models.settings.Migrations
                 schema: "config");
 
             migrationBuilder.DropTable(
-                name: "ModuleSensor",
+                name: "ModuleSinglePointMooring",
                 schema: "config");
 
             migrationBuilder.DropTable(
@@ -1379,10 +1402,6 @@ namespace offshore.data.models.settings.Migrations
                 schema: "config");
 
             migrationBuilder.DropTable(
-                name: "SiteUser",
-                schema: "config");
-
-            migrationBuilder.DropTable(
                 name: "TelephoneNumberUser",
                 schema: "config");
 
@@ -1391,15 +1410,19 @@ namespace offshore.data.models.settings.Migrations
                 schema: "lang");
 
             migrationBuilder.DropTable(
+                name: "ModuleSensor",
+                schema: "config");
+
+            migrationBuilder.DropTable(
+                name: "SiteUsers",
+                schema: "config");
+
+            migrationBuilder.DropTable(
                 name: "Contacts",
                 schema: "biz");
 
             migrationBuilder.DropTable(
-                name: "Modules",
-                schema: "config");
-
-            migrationBuilder.DropTable(
-                name: "Sensors",
+                name: "SinglePointMoorings",
                 schema: "config");
 
             migrationBuilder.DropTable(
@@ -1423,7 +1446,7 @@ namespace offshore.data.models.settings.Migrations
                 schema: "lang");
 
             migrationBuilder.DropTable(
-                name: "SinglePointMoorings",
+                name: "Calibrations",
                 schema: "config");
 
             migrationBuilder.DropTable(
@@ -1431,7 +1454,19 @@ namespace offshore.data.models.settings.Migrations
                 schema: "config");
 
             migrationBuilder.DropTable(
+                name: "Modules",
+                schema: "config");
+
+            migrationBuilder.DropTable(
+                name: "Sensors",
+                schema: "config");
+
+            migrationBuilder.DropTable(
                 name: "TelemetryData",
+                schema: "config");
+
+            migrationBuilder.DropTable(
+                name: "Sites",
                 schema: "config");
 
             migrationBuilder.DropTable(
@@ -1445,10 +1480,6 @@ namespace offshore.data.models.settings.Migrations
             migrationBuilder.DropTable(
                 name: "TelephoneTypes",
                 schema: "biz");
-
-            migrationBuilder.DropTable(
-                name: "Sites",
-                schema: "config");
 
             migrationBuilder.DropTable(
                 name: "Companies",

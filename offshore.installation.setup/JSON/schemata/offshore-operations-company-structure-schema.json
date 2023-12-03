@@ -378,6 +378,40 @@
             },
             "required": [ "Ref", "LanguageRefs", "RoleRefs", "EmailRef", "TelephoneRefs" ]
          }
+      },
+
+      "Sites": {
+         "type": "array",
+         "uniqueItems": true,
+         "contains": { "type": "object" },
+         "description": "The Sites Associated with company",
+         "items": {
+            "type": "object",
+            "description": "The definition of a single Site",
+            "properties": {
+               "Ref": {
+                  "description": "The value used to reference this particular Site from other elements within the document which use SiteRef",
+                  "type": "string"
+               },
+               "SqlConnection": {
+                  "description": "Server http connection string",
+                  "type": "string"
+               },
+               "SyncUSer": {
+                  "description": "Database username",
+                  "type": "string"
+               },
+               "SynchronisationPassword": {
+                  "description": "Password for connecting user",
+                  "type": "string"
+               },
+               "SynchronisationLicence": {
+                  "description": "Site's licence number",
+                  "type": "integer"
+               }
+
+            }
+         }
       }
    },
    "required": [

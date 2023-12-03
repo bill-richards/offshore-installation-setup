@@ -22,6 +22,9 @@ BEGIN
   GOTO IterationStart
 END
 
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[config].[__EFMigrationsHistory]') AND type in (N'U'))
+DROP TABLE config.__EFMigrationsHistory
+GO
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[__EFMigrationsHistory]') AND type in (N'U'))
 DROP TABLE dbo.__EFMigrationsHistory
 GO
@@ -148,6 +151,9 @@ DROP TABLE config.SiteMeasurementUnits
 GO
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[config].[Sites]') AND type in (N'U'))
 DROP TABLE config.Sites
+GO
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[config].[SiteUsers]') AND type in (N'U'))
+DROP TABLE config.SiteUsers
 GO
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[config].[ModuleSinglePointMooring]') AND type in (N'U'))
 DROP TABLE config.ModuleSinglePointMooring

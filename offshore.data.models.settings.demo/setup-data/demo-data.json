@@ -1,0 +1,140 @@
+{
+   "$schema": "../JSON/schemata/offshore-operations-company-schema",
+
+   "Receivers": [ { "Ref": "rcv_1", "Name": "Tcp" } ],
+
+   "TelephoneTypes": [ { "Ref": "ttyp_1", "Name": "mobile" } ],
+
+   "Languages": [ { "Ref": "lang_1", "Name": "en" } ],
+
+   "Countries": [ { "Ref": "cntry_1", "Name": "PDO Country" } ],
+
+   "CountryCodes": [
+      {
+         "Ref": "dial_code_1",
+         "CountryRef": "cntry_1",
+         "DialingCode": "+96"
+      }
+   ],
+
+   "Names": [
+
+      { "Ref": "nme_0", "Value": "PDO Site One" },
+      { "Ref": "nme_1", "Value": "Qais Zadjali" },
+      { "Ref": "nme_2", "Value": "Moosa A Abri" },
+      { "Ref": "nme_3", "Value": "sa" },
+      { "Ref": "nme_4", "Value": "pdo-site-one-configuration" }
+   ],
+
+   "Emails": [
+      {
+         "Ref": "em_1",
+         "Value": "qais.zadjali@pdo.com"
+      },
+      {
+         "Ref": "em_2",
+         "Value": "moosa.a.abri@pdo.com"
+      }
+   ],
+
+   "TelephoneNumbers": [
+      {
+         "Ref": "tel_1",
+         "CountryCodeRef": "dial_code_1",
+         "Number": 895656666,
+         "TypeRef": "ttyp_1"
+      },
+      {
+         "Ref": "tel_2",
+         "CountryCodeRef": "dial_code_1",
+         "Number": 992200825,
+         "TypeRef": "ttyp_1"
+      }
+   ],
+
+   "Addresses": [
+      {
+         "Ref": "address_1",
+         "Line1": "Postal address",
+         "City": "Postal City",
+         "CountryRef": "cntry_1"
+      }
+   ],
+
+   "Contacts": [
+      {
+         "Ref": "contact_1",
+         "NameRef": "nme_1",
+         "JobTitle": "in Charge",
+         "TelephoneRefs": [ "tel_1" ]
+      }
+   ],
+
+   "Locations": [
+      {
+         "Ref": "loc_1",
+         "Name": "PDO Marine Office",
+         "AddressRef": "address_1",
+         "ContactRefs": [ "contact_1" ]
+      }
+   ],
+
+   "Companies": [
+      {
+         "Ref": "cmp_1",
+         "Name": "P.D.O. Marine",
+         "LocationRef": "loc_1"
+      }
+   ],
+
+   "Users": [
+      {
+         "Ref": "usr_sa",
+         "NameRef": "nme_3"
+      },
+      {
+         "Ref": "usr_1",
+         "NameRef": "nme_1",
+         "LanguageRefs": [ "lang_1" ],
+         "RoleRefs": [ "User" ],
+         "EmailRef": "em_1",
+         "TelephoneRefs": [ "tel_1" ],
+         "IsActive": true
+      },
+      {
+         "Ref": "usr_2",
+         "NameRef": "nme_2",
+         "LanguageRefs": [ "lang_1" ],
+         "RoleRefs": [ "User" ],
+         "EmailRef": "em_2",
+         "TelephoneRefs": [ "tel_2" ],
+         "IsActive": true
+      }
+
+   ],
+
+   "Sites": [
+      {
+         "Ref": "site_1",
+         "NameRef": "nme_0",
+         "CompanyRef": "cmp_1",
+         "LocationRef": "loc_1",
+         "ConfigurationRef": "cfg_1",
+         "IsEnabled": true,
+         "UserRefs": [ "usr_1", "usr_2" ]
+      }
+   ],
+
+   "SiteConfigurations": [
+      {
+         "Ref": "cfg_1",
+         "NameRef": "nme_4",
+         "SqlConnection": "pdomarine.dyndns.org\\PDOTELSVR\\OFFOPSSQL,2301",
+         "SyncUserRef": "usr_sa",
+         "SynchronisationPassword": "Offshore$$",
+         "SynchronisationLicence": "40",
+         "ReceiverTypeRef": "rcv_1"
+
+      }
+   ]
+}

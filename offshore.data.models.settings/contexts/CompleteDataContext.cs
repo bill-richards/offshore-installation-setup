@@ -30,6 +30,7 @@ public class CompleteDataContext : OffshoreDbContext, ICompleteDataContext
     public DbSet<SiteConfiguration> SiteConfigurations { get; set; }
     public DbSet<SiteMeasurementUnit> SiteMeasurementUnits { get; set; }
     public DbSet<Site> Sites { get; set; }
+    public DbSet<SiteUser> SiteUsers { get; set; }
     public DbSet<Telemetry> TelemetryData { get; set; }
 
     /* From the biz Schema */

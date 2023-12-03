@@ -21,6 +21,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "offshore.data.models.settin
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "offshore.data.parser", "offshore.data.parser\offshore.data.parser.csproj", "{1DB8E9B0-CFB1-45A4-96E8-5F803BE6BA1E}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "offshore.data.remote", "offshore.data.remote\offshore.data.remote.csproj", "{F766332B-51BC-4D10-845B-C34CE2B8DC99}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -63,6 +65,10 @@ Global
 		{1DB8E9B0-CFB1-45A4-96E8-5F803BE6BA1E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1DB8E9B0-CFB1-45A4-96E8-5F803BE6BA1E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1DB8E9B0-CFB1-45A4-96E8-5F803BE6BA1E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F766332B-51BC-4D10-845B-C34CE2B8DC99}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F766332B-51BC-4D10-845B-C34CE2B8DC99}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F766332B-51BC-4D10-845B-C34CE2B8DC99}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F766332B-51BC-4D10-845B-C34CE2B8DC99}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

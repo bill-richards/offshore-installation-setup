@@ -12,4 +12,10 @@
 	  <ProjectReference Include="..\offshore.services\offshore.services.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <None Update="setup-data\demo-data.json">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	</ItemGroup>
+
 </Project>

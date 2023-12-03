@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace offshore.data.models.settings;
 
-public class Alarm : OffshoreDataModel
+public class Alarm : NamedOffshoreDataModel
 {
     [Required] public bool AlarmBit { get; set; } = false;
     [Required] public double Threshold { get; set; }

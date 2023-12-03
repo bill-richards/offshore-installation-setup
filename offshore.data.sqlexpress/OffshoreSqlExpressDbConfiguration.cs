@@ -21,7 +21,8 @@ public class OffshoreSqlExpressDbConfiguration : IOffshoreDbConfiguration, ISett
             throw new FieldAccessException("ConnectionString cannot be empty or whitespace");
 
         optionsBuilder.UseSqlServer(_connectionString, //); 
-            o => o.MigrationsHistoryTable(tableName: HistoryRepository.DefaultTableName, schema: Schema).MigrationsAssembly("offshore.data.sqlexpress"));
+            o => o.MigrationsHistoryTable(tableName: HistoryRepository.DefaultTableName, schema: Schema)
+                  .MigrationsAssembly("offshore.data.sqlexpress"));
     }
 
     public void SetConnectionString(string connectionString) => _connectionString = connectionString;
